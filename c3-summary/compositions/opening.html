@@ -1,0 +1,125 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Montserrat", sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+    #root .scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(16, 10, 46, 0.85) 0%,
+        rgba(16, 10, 46, 0.55) 32%,
+        rgba(16, 10, 46, 0) 56%
+      );
+    }
+    #root .year {
+      position: absolute;
+      left: 120px;
+      top: 250px;
+      display: flex;
+      font-size: 250px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: #fcd400;
+    }
+    #root .digit {
+      display: inline-block;
+      overflow: hidden;
+      padding: 0 2px 10px;
+    }
+    #root .digit span {
+      display: inline-block;
+    }
+    #root .tag {
+      position: absolute;
+      left: 128px;
+      top: 540px;
+      width: 760px;
+      font-size: 58px;
+      font-weight: 700;
+      line-height: 1.12;
+    }
+    #root .tag .w {
+      display: inline-block;
+      margin-right: 0.24em;
+    }
+    #root .tag .gold {
+      color: #fcd400;
+    }
+    #root .every {
+      position: absolute;
+      left: 128px;
+      top: 300px;
+      width: 820px;
+    }
+    #root .every .line {
+      font-size: 70px;
+      font-weight: 800;
+      line-height: 1.14;
+      letter-spacing: -0.015em;
+    }
+    #root .every .line b {
+      color: #fcd400;
+      font-weight: 800;
+    }
+    #root .every .sub {
+      margin-top: 26px;
+      font-size: 34px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.88);
+    }
+  </style>
+  <div id="root" data-composition-id="opening" data-width="1920" data-height="1080">
+    <div class="scrim" id="op-scrim"></div>
+
+    <div class="year" id="op-year">
+      <span class="digit"><span id="op-d1">2</span></span>
+      <span class="digit"><span id="op-d2">0</span></span>
+      <span class="digit"><span id="op-d3">2</span></span>
+      <span class="digit"><span id="op-d4">6</span></span>
+    </div>
+    <div class="tag" id="op-tag">
+      <span class="w" id="op-w1">A</span><span class="w" id="op-w2">year</span><span class="w" id="op-w3">of</span><span class="w" id="op-w4">moving</span><span class="w" id="op-w5">forward,</span><span class="w gold" id="op-w6">together.</span>
+    </div>
+
+    <div class="every" id="op-every">
+      <div class="line" id="op-l1">Every <b>conversation.</b></div>
+      <div class="line" id="op-l2">Every <b>programme.</b></div>
+      <div class="line" id="op-l3">Every <b>person.</b></div>
+      <div class="sub" id="op-sub">Each played a part in the journey.</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const blurIn = (sel, t, d = 0.22) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(10px)" },
+          { opacity: 1, filter: "blur(0px)", duration: d, ease: "power2.out" }, t);
+
+      tl.fromTo("#op-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 0.1);
+      // "2026" lands with the first spoken word
+      tl.fromTo(["#op-d1", "#op-d2", "#op-d3", "#op-d4"], { yPercent: 110 },
+        { yPercent: 0, duration: 0.8, ease: "expo.out", stagger: 0.09 }, 0.3);
+      // "has been a year of moving forward together"
+      ["#op-w1", "#op-w2", "#op-w3", "#op-w4", "#op-w5"].forEach((s, i) => blurIn(s, 2.4 + i * 0.09));
+      tl.fromTo("#op-w6", { opacity: 0, filter: "blur(12px)", scale: 1.15 },
+        { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.45, ease: "expo.out" }, 5.8);
+      tl.to(["#op-year", "#op-tag"], { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power3.in" }, 7.05);
+
+      // "Across MENDAKI, every conversation, every programme and every person..."
+      blurIn("#op-l1", 8.15);
+      blurIn("#op-l2", 9.25);
+      blurIn("#op-l3", 10.32);
+      blurIn("#op-sub", 10.6, 0.3);
+      tl.to("#op-every", { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power3.in" }, 12.58);
+      tl.to("#op-scrim", { opacity: 0, duration: 0.15, ease: "power2.in" }, 12.58);
+      window.__timelines["opening"] = tl;
+    })();
+  </script>
+</template>
