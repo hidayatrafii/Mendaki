@@ -1,4 +1,4 @@
-// Generates one scene per dimension card from tools/dimension.template.html and
+// Generates one keyword scene per dimension (the dimension name itself is not shown) from tools/dimension.template.html and
 // writes their hosts into index.html between the cards markers.
 // Edit the table below (or a card's variables in Studio), then: node tools/build-cards.mjs
 import { readFileSync, writeFileSync } from "node:fs";
@@ -25,6 +25,10 @@ const cards = [
   ["Purpose & Mission", "Empowering Communities", "Meaningful Work", "Lasting Impact", 117.7, 122.2, "left"],
 ];
 
+// Keyword layouts, cycled card by card: slam (huge word, gold tag, outline fill),
+// sticker (tilted pills), marker (hand-drawn strokes), hero (giant word + chips).
+const LAYOUT_CYCLE = ["slam", "sticker", "marker", "hero"];
+
 const tpl = readFileSync(new URL("./dimension.template.html", import.meta.url), "utf8");
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const attr = (s) => s.replace(/&/g, "&amp;").replace(/'/g, "&#39;");
@@ -36,19 +40,16 @@ cards.forEach(([label, k1, k2, k3, start, end, side], i) => {
   const p = `d${n}`;
   const dur = +(end - start).toFixed(2);
   const vars = [
-    { id: "num", type: "string", label: "Sequence number", default: `${n} / ${cards.length}` },
-    { id: "label", type: "string", label: "Dimension", default: label },
     { id: "k1", type: "string", label: "Keyword 1", default: k1 },
     { id: "k2", type: "string", label: "Keyword 2", default: k2 },
     { id: "k3", type: "string", label: "Keyword 3", default: k3 },
   ];
+  const layout = LAYOUT_CYCLE[i % LAYOUT_CYCLE.length];
   let s = tpl
     .replaceAll("__ID__", id)
     .replaceAll("__P__", p)
-    .replace("__CFG__", JSON.stringify({ num: `${n} / ${cards.length}`, side, variant: String((i % 3) + 1), dur }))
+    .replace("__CFG__", JSON.stringify({ dimension: label, layout, side, dur }))
     .replace(/data-composition-variables='[\s\S]*?'/, `data-composition-variables='${attr(JSON.stringify(vars))}'`)
-    .replace(/(data-var-text="num">)[^<]*/, `$1${n} / ${cards.length}`)
-    .replace(/(data-var-text="label">)[^<]*/, `$1${esc(label)}`)
     .replace(/(data-var-text="k1">)[^<]*/, `$1${esc(k1)}`)
     .replace(/(data-var-text="k2">)[^<]*/, `$1${esc(k2)}`)
     .replace(/(data-var-text="k3">)[^<]*/, `$1${esc(k3)}`);
