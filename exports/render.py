@@ -5,8 +5,13 @@ LIMIT = float(sys.argv[4]) if len(sys.argv)>4 else 15.0
 W,H,FPS=1080,1920,30; NF=int(LIMIT*FPS)
 FD='/usr/share/fonts/opentype/inter/'; MONO='/usr/share/fonts/truetype/jetbrains-mono/JetBrainsMono-Bold.ttf'
 EMO='/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf'
-CY=(94,242,255); LIME=(200,255,90); WHITE=(255,255,255); INK=(10,14,40)
-def F(name,size): return ImageFont.truetype(FD+name,size)
+YEL=(254,213,2); CY=YEL; LIME=(255,255,255); WHITE=(255,255,255); INK=(58,58,60)
+import os; HERE=os.path.dirname(os.path.abspath(__file__)); POP=HERE+'/assets/fonts/Poppins-'
+IMG=HERE+'/assets/logos/'
+def logo(f,w):
+    im=Image.open(IMG+f).convert('RGBA'); im=im.crop(im.getbbox()); return im.resize((w,int(w*im.height/im.width)),Image.LANCZOS)
+PMAP={'InterDisplay-Black.otf':'800','InterDisplay-ExtraBold.otf':'700','InterDisplay-Bold.otf':'600'}
+def F(name,size): return ImageFont.truetype(POP+PMAP[name]+'.ttf',int(size*0.92))
 def clamp(x,a=0,b=1): return max(a,min(b,x))
 def ease_out(x): x=clamp(x); return 1-(1-x)**3
 def back_out(x):
@@ -49,7 +54,7 @@ B.append((3.0,5.9,layout([[('Ever wondered what',fQ,WHITE,None)],[('Earth',fQb,I
 B.append((6.0,8.9,layout([[('hands-on with',fs,WHITE,None)],[('DIGITAL MAPS',fS,INK,CY),('emoji','🗺️',100)]],1330,gap=14,lgap=12),0.12,'pop'))
 B.append((9.0,11.9,layout([[('& real',fs,WHITE,None)],[('SATELLITE',fS,INK,LIME)],[('IMAGERY',fS,INK,LIME),('emoji','🛰️',100)]],1290,gap=14,lgap=10),0.12,'pop'))
 B.append((12.05,13.45,layout([[('our young',fs,WHITE,None)],[('SPACE EXPLORERS',F('InterDisplay-Black.otf',96),WHITE,None),('emoji','🚀',96)]],1360,gap=14,lgap=8),0.1,'pop'))
-B.append((13.55,15.2,layout([[('a whole new way',fQ,WHITE,None)],[('to see',fQ,WHITE,None),('our world',fQb,INK,CY),('emoji','🌍',92)]],1240,gap=14,lgap=10),0.1,'pop'))
+B.append((13.55,14.9,layout([[('a whole new way',fQ,WHITE,None)],[('to see',fQ,WHITE,None),('our world',fQb,INK,CY),('emoji','🌍',92)]],1240,gap=14,lgap=10),0.1,'pop'))
 
 def draw_block(frame,t,blk):
     s,e,items,stag,style=blk
@@ -118,6 +123,22 @@ def orbit(frame,t):  # intro orbit around title
         rr=11-k; d.ellipse((qx-rr,qy-rr,qx+rr,qy+rr),fill=WHITE+(int(a*(230-20*k)),))
     frame.alpha_composite(ov)
 
+_lw=logo('mendaki_logo_white.webp',250); LOGO_W=Image.new('RGBA',(_lw.width+40,_lw.height+40)); _sh=Image.new('RGBA',LOGO_W.size); _sh.paste((0,0,0,200),(20,22),_lw)
+LOGO_W.alpha_composite(_sh.filter(ImageFilter.GaussianBlur(9))); LOGO_W.alpha_composite(_lw,(20,20)); LOGO_Y=logo('mendaki_logo_yellow.webp',700)
+fe=F('InterDisplay-Bold.otf',40); END=[None]
+def endcard(img,t):
+    if END[0] is None:
+        b=img.filter(ImageFilter.GaussianBlur(40)).convert('RGBA')
+        b=Image.blend(b,Image.new('RGBA',(W,H),INK+(255,)),0.72); b.alpha_composite(vig); END[0]=b
+    fr=END[0].copy(); lt=t-15.0
+    sc=back_out(lt/0.5); lg=LOGO_Y.resize((max(1,int(LOGO_Y.width*sc)),max(1,int(LOGO_Y.height*sc))),Image.BILINEAR)
+    fr.alpha_composite(fade(lg,clamp(lt/0.25)),((W-lg.width)//2,860-lg.height//2))
+    a=clamp((lt-0.35)/0.3)
+    for k,(txt,col) in enumerate([('SPACE DATA FOUNDATIONS WORKSHOP',WHITE),('IGS 1',YEL)]):
+        im=word_img((txt,fe,col,None)); fr.alpha_composite(fade(im,a),((W-im.width)//2,1250+k*62+int((1-a)*30)))
+    d=ImageDraw.Draw(fr); d.line([(W//2-60,1235),(W//2+60,1235)],fill=YEL+(int(255*a),),width=4)
+    return fr
+
 # ---------- I/O
 dec=subprocess.Popen(['ffmpeg','-v','error','-i',SRC,'-t',str(LIMIT),'-vf',
   'fps=30,scale=1080:1920:flags=lanczos,unsharp=5:5:0.9:5:5:0.0,eq=contrast=1.08:saturation=1.18:brightness=0.01,colorbalance=bs=0.05:bm=0.02:rh=0.03',
@@ -149,7 +170,10 @@ for i in range(NF):
     reticle(frame,t,6.05,7.4,440,1060); reticle(frame,t,9.05,10.4,585,960)
     orbit(frame,t)
     for blk in B: draw_block(frame,t,blk)
-    if t>14.4:  # fade to black
-        frame=Image.blend(frame,Image.new('RGBA',(W,H),(0,0,0,255)),clamp((t-14.4)/0.6))
+    if t>=15.0: frame=endcard(img,t)
+    elif t>0.4:
+        la=clamp((t-0.4)/0.4)*clamp((14.9-t)/0.3); frame.alpha_composite(fade(LOGO_W,la),((W-LOGO_W.width)//2,250))
+    if t>16.0:
+        frame=Image.blend(frame,Image.new('RGBA',(W,H),(0,0,0,255)),clamp((t-16.0)/0.5))
     enc.stdin.write(frame.convert('RGB').tobytes())
 enc.stdin.close(); enc.wait(); dec.kill()

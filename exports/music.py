@@ -1,6 +1,6 @@
 # Original synthesized track: 160 BPM half-time pop/trap, 1 bar = 1.5s = one clip.
 import numpy as np, wave, sys
-SR=44100; BPM=160; B=60/BPM; BAR=4*B; DUR=15.0
+SR=44100; BPM=160; B=60/BPM; BAR=4*B; DUR=16.5
 N=int(SR*DUR); rng=np.random.default_rng(7)
 mixL=np.zeros(N); mixR=np.zeros(N)
 def t_(n): return np.arange(n)/SR
@@ -63,15 +63,16 @@ hook=[  # (beat offset in 8ths, midi, len in 8ths) -- one bar each, 2-bar phrase
 E8=B/2
 sc=np.ones(N)  # sidechain envelope
 for bar in range(10):
+    if bar==10: break
     T=bar*BAR; ci=bar%4
-    full = 1<=bar<=8
+    full = 1<=bar<=9
     # pad everywhere
     add(pad([n+12 for n in chords[ci]] if bar==0 else chords[ci],BAR+0.05),T,0.9 if bar>0 else 0.6,0)
     # hook
     for (o,m,l) in hook[ci]:
         g=0.55 if bar==0 else 1.0
         add(pluck(m,l*E8),T+o*E8,g,-0.25); add(pluck(m+12,l*E8),T+o*E8+0.1875,0.18*g,0.5)  # echo
-    if full and bar!=8:
+    if full and bar!=9:
         for k in (0,2.5): add(kick(),T+k*B,1.0); sc[int((T+k*B)*SR):int((T+k*B+0.25)*SR)]=np.minimum(sc[int((T+k*B)*SR):int((T+k*B+0.25)*SR)],np.linspace(0.35,1,int(0.25*SR))[:len(sc[int((T+k*B)*SR):int((T+k*B+0.25)*SR)])])
         add(clap(),T+2*B,0.9)
         for h in range(8):
@@ -83,27 +84,28 @@ for bar in range(10):
         prev = roots[(ci-1)%4]
         add(b808(roots[ci],2.4*B,glide_from=prev+12 if bar%2 else None),T,1.0)
         add(b808(roots[ci]+(12 if bar%2 else 7),1.4*B),T+2.5*B,0.8)
-    if bar==8:  # build: snare roll + riser
+    if bar==9:  # build: snare roll + riser
         for r in range(16): add(clap(),T+r*B/4,0.25+0.5*r/16)
 # intro riser (bar 0) and bar 8 riser
 def riser(length):
     n=int(length*SR); t=t_(n); x=rng.standard_normal(n)
     x=lp(x,300+8000*(t/length)**2)*(t/length)**2; return x*0.35
-add(riser(BAR),0,1,0); add(riser(BAR),8*BAR,1,0)
+add(riser(BAR),0,1,0); add(riser(BAR),9*BAR,1,0)
 def impact():
     n=int(1.5*SR); t=t_(n); f=60+80*np.exp(-t/0.1)
     s=np.sin(2*np.pi*np.cumsum(f)/SR)*np.exp(-t/0.6)
     s+=lp(rng.standard_normal(n),3000)*np.exp(-t/0.25)*0.4
     return s*0.7
-add(impact(),BAR,0.9); add(impact(),9*BAR,1.1)
+add(impact(),BAR,0.9); add(impact(),10*BAR,1.2)
 # final bar: big chord + kick + 808 sustain
-add(kick(),9*BAR,1.1); add(b808(33,1.5),9*BAR,1.0)
-add(pad([57,60,64,69],1.5),9*BAR,1.0)
+add(kick(),10*BAR,1.1); add(b808(33,1.5),10*BAR,1.0)
+add(pad([57,60,64,69],1.5),10*BAR,1.0)
+for j,mm in enumerate([69,72,76,81]): add(pluck(mm,0.6),10*BAR+0.08*j,0.7,(-0.3+0.2*j))
 # whoosh on every cut
 def whoosh():
     n=int(0.4*SR); t=t_(n); x=rng.standard_normal(n)
     e=np.sin(np.pi*t/0.4)**2; return lp(x,1500+3000*e)*e*0.12
-for bar in range(2,9): add(whoosh(),bar*BAR-0.2,1,(-1)**bar*0.6)
+for bar in range(2,10): add(whoosh(),bar*BAR-0.2,1,(-1)**bar*0.6)
 # apply sidechain to pad/hook approx (whole mix gentle duck excluding transient by mild amount)
 duck=0.55+0.45*sc
 mixL*=duck; mixR*=duck
@@ -112,7 +114,7 @@ ir_n=int(1.8*SR); ir=rng.standard_normal(ir_n)*np.exp(-t_(ir_n)/0.5); ir=lp(ir,4
 def conv(x): L=len(x)+ir_n; F=np.fft.rfft(x,L)*np.fft.rfft(ir,L); return np.fft.irfft(F,L)[:len(x)]
 mixL+=0.18*conv(mixL); mixR+=0.18*conv(np.roll(mixR,300))
 # master: fade, soft clip, normalize
-fade=np.clip((DUR-t_(N))/0.6,0,1); fadein=np.clip(t_(N)/0.05,0,1)
+fade=np.clip((DUR-t_(N))/0.9,0,1); fadein=np.clip(t_(N)/0.05,0,1)
 out=np.stack([mixL,mixR],1)*(fade*fadein)[:,None]
 out/=np.abs(out).max(); out=np.tanh(out*1.6)/np.tanh(1.6)*0.95
 w=wave.open(sys.argv[1],'wb'); w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
