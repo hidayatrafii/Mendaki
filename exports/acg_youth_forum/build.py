@@ -243,17 +243,23 @@ for k, (o, p) in enumerate(parts):
     inputs += ['-i', p]
     flt.append(f'[{k}]adelay={int(round(o*1000))}|{int(round(o*1000))}[d{k}]')
 flt.append(''.join(f'[d{k}]' for k in range(len(parts))) + f'amix=inputs={len(parts)}:normalize=0,apad=whole_dur={TOTAL:.3f}[raw]')
-enh = ('highpass=f=85,lowpass=f=14000,'
-       'afftdn=nr=14:nf=-42:tn=1,'
-       'agate=threshold=0.03:ratio=2.5:range=0.25:attack=4:release=180:knee=3,'
-       'equalizer=f=220:t=q:w=1.0:g=-3,equalizer=f=450:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.2:g=3.5,equalizer=f=8000:t=h:w=0.7:g=1.5,'
-       'deesser=i=0.35,'
-       'acompressor=threshold=-22dB:ratio=3:attack=6:release=120:makeup=3,'
-       'loudnorm=I=-15:TP=-2:LRA=8')
-run(['ffmpeg', '-v', 'error', '-y', *inputs, '-filter_complex', ';'.join(flt), '-map', '[raw]', '-ar', '48000', '-t', f'{TOTAL:.3f}', f'{WORK}/speech_raw.wav'])
+# AI enhancement (Resemble Enhance) removes room echo/noise and restores close-mic tone;
+# afterwards only a light "lav mic" finish: gentle EQ, de-ess, compression, loudness.
+enh = ('highpass=f=80,'
+       'equalizer=f=200:t=q:w=1.0:g=-1.5,equalizer=f=3000:t=q:w=1.5:g=1.5,'
+       'deesser=i=0.25,'
+       'acompressor=threshold=-20dB:ratio=2.5:attack=8:release=150:makeup=2,'
+       'loudnorm=I=-15:TP=-2:LRA=7')
 run(['python3', f'{WORK}/declick.py', f'{WORK}/speech_raw.wav', f'{WORK}/speech_dc.wav'])
-run(['python3', f'{WORK}/dereverb.py', f'{WORK}/speech_dc.wav', f'{WORK}/speech_wpe.wav'])
-run(['ffmpeg', '-v', 'error', '-y', '-i', f'{WORK}/speech_wpe.wav', '-af', enh, '-ar', '48000', f'{WORK}/speech_enh.wav'])
+import hashlib
+_h = hashlib.md5(open(f'{WORK}/speech_dc.wav', 'rb').read()).hexdigest()[:10]
+_ai = f'{WORK}/speech_ai_{_h}.wav'
+if not os.path.exists(_ai):
+    env = dict(os.environ, PYTHONPATH=f'{WORK}/stubs', HF_HUB_DISABLE_XET='1')
+    r = subprocess.run(['python3', f'{WORK}/enhance.py', f'{WORK}/speech_dc.wav', _ai], capture_output=True, text=True, env=env)
+    if r.returncode:
+        print(r.stderr[-2000:]); sys.exit(1)
+run(['ffmpeg', '-v', 'error', '-y', '-i', _ai, '-af', enh, '-ar', '48000', f'{WORK}/speech_enh.wav'])
 
 
 # ---------------- music bed ----------------
@@ -496,7 +502,7 @@ fc = (
     f"[v0][l1]overlay=x='(W-w)/2':y='560-h/2':enable='between(t,{li:.3f},{lo:.3f})':eval=frame[v1];"
     f"[v1][l2]overlay=x='(W-w)/2':y='860-h/2':enable='gte(t,{ei:.3f})':eval=frame[v2];"
     f"[v2]ass={WORK}/gfx.ass:fontsdir={FONTDIR}[v];"
-    f"[1:a][3:a]amix=inputs=2:normalize=0,volume=2.3dB,alimiter=limit=0.89:level=false[a]"
+    f"[1:a][3:a]amix=inputs=2:normalize=0,volume=2.3dB,alimiter=limit=0.82:level=false[a]"
 )
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 run(['ffmpeg', '-v', 'error', '-y', '-i', f'{WORK}/video_nogfx.mp4', '-i', f'{WORK}/speech_enh.wav',

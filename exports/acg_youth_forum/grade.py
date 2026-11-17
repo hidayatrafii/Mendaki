@@ -6,7 +6,12 @@ TARGET_RG, TARGET_BG = 1.02, 0.97
 LOOK = None
 
 
+IPHONE_SOFT = 'eq=contrast=0.88:saturation=0.85:gamma=1.04,colorchannelmixer=rr=0.97:gg=1.0:bb=1.02'
+
+
 def grade(key, strength=0.7):
+    if key.startswith('IMG_'):   # iPhone HLG clips: soft, neutral, lower contrast
+        return IPHONE_SOFT
     s = STATS[key]
     r, g, b = s['rgb']
     rg, bg = r / g, b / g
