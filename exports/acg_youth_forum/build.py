@@ -49,15 +49,23 @@ FORCE_BROLL_SRC = [(42.80, 49.85)]
 
 # b-roll pool per section: (clip, source in-point)
 POOL = {
-    'ai':      [('DJI_20261117103321_0067_D', 1.0), ('DJI_20261117103613_0070_D', 2.0), ('DJI_20261117105416_0084_D', 2.5), ('IMG_0565', 6.0)],
-    'stat':    [('IMG_0569', 9.5), ('DJI_20261117103206_0063_D', 3.0), ('DJI_20261117103243_0065_D', 2.0)],
-    'youth':   [('DJI_20261117103226_0064_D', 4.5), ('DJI_20261117103151_0062_D', 2.5), ('IMG_0566', 0.3)],
-    'actions': [('DJI_20261117104328_0071_D', 2.0), ('DJI_20261117103300_0066_D', 1.0), ('DJI_20261117114451_0102_D', 3.0), ('DJI_20261117115911_0104_D', 1.6),
-                ('DJI_20261117120054_0108_D', 0.5), ('DJI_20261117115923_0105_D', 4.0), ('DJI_20261117104719_0082_D', 1.0)],
-    'respond': [('DJI_20261117103331_0068_D', 0.5), ('DJI_20261117115954_0106_D', 1.0), ('DJI_20261117103206_0063_D', 0.2)],
-    'belong':  [('DJI_20261117112817_0087_D', 5.5), ('DJI_20261117103331_0068_D', 6.5), ('DJI_20261117104328_0071_D', 5.5), ('IMG_0571', 4.5), ('DJI_20261117103243_0065_D', 4.0)],
-    'close':   [('DJI_20261117130115_0111_D', 3.6), ('DJI_20261117130127_0112_D', 3.0), ('DJI_20261117125954_0109_D', 3.5), ('DJI_20261117130030_0110_D', 4.0)],
+    'ai':      [('DJI_20261117103321_0067_D', 1.0), ('DJI_20261117103613_0070_D', 2.0), ('DJI_20261117105416_0084_D', 2.5),
+                ('DJI_20261117104636_0081_D', 1.0), ('IMG_0571', 0.3)],
+    'stat':    [('IMG_0569', 9.5), ('IMG_0566', 0.3), ('IMG_0565', 1.0)],
+    'youth':   [('DJI_20261117103226_0064_D', 4.5), ('DJI_20261117103206_0063_D', 3.0), ('DJI_20261117103243_0065_D', 4.0)],
+    'actions': [('DJI_20261117104328_0071_D', 2.0), ('DJI_20261117103300_0066_D', 1.0), ('DJI_20261117120054_0108_D', 0.5),
+                ('IMG_0567', 0.4), ('DJI_20261117114451_0102_D', 3.0)],
+    'respond': [('DJI_20261117104719_0082_D', 1.0), ('DJI_20261117112843_0089_D', 3.0), ('DJI_20261117115954_0106_D', 1.0)],
+    'belong':  [('DJI_20261117112817_0087_D', 5.5), ('DJI_20261117112837_0088_D', 0.0), ('DJI_20261117115923_0105_D', 4.0),
+                ('IMG_0565', 11.0), ('DJI_20261117104719_0082_D', 8.0)],
+    'close':   [('DJI_20261117130030_0110_D', 4.0), ('DJI_20261117125954_0109_D', 3.5), ('DJI_20261117130127_0112_D', 3.0)],
 }
+# used when a section runs out: still unused moments, never repeating one already on screen
+FALLBACK = [('IMG_0649', 4.0), ('DJI_20261117112843_0089_D', 7.5), ('DJI_20261117103226_0064_D', 8.0),
+            ('DJI_20261117130030_0110_D', 12.0), ('IMG_0565', 14.0), ('DJI_20261117103206_0063_D', 0.2),
+            ('DJI_20261117104328_0071_D', 5.5), ('DJI_20261117104719_0082_D', 11.0)]
+# splices shown as a wide<->close cut on the speaker instead of b-roll (breaks up long b-roll runs)
+PUNCH_IN_SRC = [514.80, 668.75]
 # intro: logo over two clean wide shots (no faces behind it), then engagement montage
 LOGO_SHOTS = [('IMG_0570', 0.2, 1.1), ('DJI_20261117114451_0102_D', 6.5, 1.1)]
 MONTAGE = [
@@ -124,7 +132,7 @@ def sec_at(o):
 wins = []
 for i in range(1, len(segs)):
     o = segs[i]['o']
-    if abs(o - INTRO_END) < 1e-6:
+    if abs(o - INTRO_END) < 1e-6 or any(abs(segs[i]['a'] - x) < 1e-3 for x in PUNCH_IN_SRC):
         continue
     a, b = o - 1.3, o + 1.7
     a = max(a, BODY_START + 5.6) if o > BODY_START else max(a, 1.2)
@@ -142,15 +150,26 @@ for w in merged:
     lim = BODY_END - 1.5 if w[0] > BODY_START else HOOK_END
     w[1] = lim if lim - w[1] < 1.0 else min(w[1], lim)
 
-pool_idx = {k: 0 for k in POOL}
+used = set()
+last_clip = None
+
+
+def pick(sec):
+    global last_clip
+    for c in POOL.get(sec, []) + FALLBACK:
+        if c not in used and c[0] != last_clip:
+            used.add(c); last_clip = c[0]; return c
+    raise SystemExit(f'ran out of b-roll for section {sec}')
+
+
 broll_windows = []
 for w in merged:
-    sec = sec_at((w[0] + w[1]) / 2)
-    n = max(1, math.ceil((w[1] - w[0]) / 3.2))
+    n = max(1, math.ceil((w[1] - w[0]) / 3.0))
     step = (w[1] - w[0]) / n
     for k in range(n):
-        clip, cin = POOL[sec][pool_idx[sec] % len(POOL[sec])]; pool_idx[sec] += 1
-        broll_windows.append((w[0] + k * step, w[0] + (k + 1) * step, clip, cin))
+        x0, x1 = w[0] + k * step, w[0] + (k + 1) * step
+        clip, cin = pick(sec_at((x0 + x1) / 2))
+        broll_windows.append((x0, x1, clip, cin))
 
 timeline = []
 
@@ -185,6 +204,10 @@ if END_LEN > 0:
     timeline.append((BODY_END, TOTAL, 'end', END_SHOT))
 
 
+if '--plan' in sys.argv:
+    for (o0, o1, kind, p) in timeline:
+        print(f'{o0:7.2f}-{o1:7.2f} {kind:5s} {p[0] if p else "":28s} {p[1] if p else ""}')
+    sys.exit(0)
 # ---------------- render pieces ----------------
 def frames(x):
     return round(x * FPS)
