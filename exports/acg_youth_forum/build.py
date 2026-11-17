@@ -18,7 +18,8 @@ OUT = f'{ROOT}/exports/ACG_Youth_Forum_2026_Speech.mp4'
 PIECES = f'{WORK}/pieces'
 os.makedirs(PIECES, exist_ok=True)
 
-END_LEN = 2.0
+END_LEN = 0.0
+FADE_OUT = 0.6   # quick fade to black at the end
 
 # ---- speech selections: (src_in, src_out, caption text, section)
 HOOK = []
@@ -41,7 +42,7 @@ BODY = [
     (665.02, 666.10, "You matter.", 'belong'),
     (666.80, 668.12, "You belong here.", 'belong'),
     (668.75, 673.30, "And there are people out there who care enough to help.", 'belong'),
-    (726.35, 734.55, "So take control of your feed, look out for your friends, and never underestimate the impact you can make on someone's life.", 'close'),
+    (726.35, 735.05, "So take control of your feed, look out for your friends, and never underestimate the impact you can make on someone's life.", 'close'),
 ]
 # a-roll ranges where the camera moves: always covered with b-roll
 FORCE_BROLL_SRC = [(42.80, 49.85)]
@@ -180,7 +181,8 @@ c = INTRO_START
 for clip, cin, d in INTRO_SHOTS:
     timeline.append((c, c + d, 'broll', (clip, cin))); c += d
 fill(BODY_START, BODY_END)
-timeline.append((BODY_END, TOTAL, 'end', END_SHOT))
+if END_LEN > 0:
+    timeline.append((BODY_END, TOTAL, 'end', END_SHOT))
 
 
 # ---------------- render pieces ----------------
@@ -237,13 +239,8 @@ for k, (o, p) in enumerate(parts):
     inputs += ['-i', p]
     flt.append(f'[{k}]adelay={int(round(o*1000))}|{int(round(o*1000))}[d{k}]')
 flt.append(''.join(f'[d{k}]' for k in range(len(parts))) + f'amix=inputs={len(parts)}:normalize=0,apad=whole_dur={TOTAL:.3f}[raw]')
-# AI enhancement (Resemble Enhance) removes room echo/noise and restores close-mic tone;
-# afterwards only a light "lav mic" finish: gentle EQ, de-ess, compression, loudness.
-enh = ('highpass=f=80,'
-       'equalizer=f=200:t=q:w=1.0:g=-1.5,equalizer=f=3000:t=q:w=1.5:g=1.5,'
-       'deesser=i=0.25,'
-       'acompressor=threshold=-20dB:ratio=2.5:attack=8:release=150:makeup=2,'
-       'loudnorm=I=-15:TP=-2:LRA=7')
+run(['ffmpeg', '-v', 'error', '-y', *inputs, '-filter_complex', ';'.join(flt), '-map', '[raw]', '-ar', '48000', '-t', f'{TOTAL:.3f}', f'{WORK}/speech_raw.wav'])
+assert abs(dur_of(f'{WORK}/speech_raw.wav') - TOTAL) < 0.05, 'speech track length mismatch'
 # original speech audio: no denoise/EQ/AI, just one linear gain so it sits at -16 LUFS
 _m = run(['ffmpeg', '-hide_banner', '-i', f'{WORK}/speech_raw.wav', '-af', 'ebur128', '-f', 'null', '-'])
 _I = float([l for l in _m.stderr.splitlines() if l.strip().startswith('I:')][-1].split()[1])
@@ -261,7 +258,7 @@ def vol_expr():
 
 
 run(['ffmpeg', '-v', 'error', '-y', '-i', MUSIC, '-t', f'{TOTAL:.3f}',
-     '-af', f"loudnorm=I=-16:TP=-2,volume='{vol_expr()}':eval=frame,afade=t=in:d=0.6,afade=t=out:st={TOTAL-1.6:.3f}:d=1.6",
+     '-af', f"loudnorm=I=-16:TP=-2,volume='{vol_expr()}':eval=frame,afade=t=in:d=0.6,afade=t=out:st={TOTAL-1.2:.3f}:d=1.2",
      '-ar', '48000', '-ac', '2', f'{WORK}/music_bed.wav'])
 
 # ---------------- captions ----------------
@@ -336,20 +333,36 @@ def split_sentence(ws):
     return out[::-1]
 
 
-# word-level timeline in output time
+# word-level timeline in output time: align caption words to a fresh transcription of the
+# assembled speech track itself, so captions follow the words actually heard at each moment.
+import hashlib, difflib, re as _re
+_h = hashlib.md5(open(f'{WORK}/speech_raw.wav', 'rb').read()).hexdigest()[:10]
+_aj = f'{WORK}/align_{_h}.json'
+if not os.path.exists(_aj):
+    run(['python3', f'{WORK}/align.py', f'{WORK}/speech_raw.wav', _aj])
+AW = json.load(open(_aj))
+norm = lambda w: _re.sub(r"[^a-z0-9]", "", w.lower())
 wl = []
 for s in segs:
-    sw = [w for w in WORDS if s['a'] - 0.05 <= w['s'] <= s['b'] - 0.05]
+    o0, o1 = s['o'], seg_end(s)
+    aw = [w for w in AW if o0 - 0.15 <= w['s'] < o1 - 0.02]
     cw = s['text'].split()
-    for i, w in enumerate(cw):
-        if sw:
-            j = min(int(i * len(sw) / len(cw)), len(sw) - 1)
-            st = src2out(min(max(sw[j]['s'], s['a']), s['b']))
-            jn = min(int((i + 1) * len(sw) / len(cw)) - 1, len(sw) - 1)
-            en = src2out(min(max(sw[max(jn, j)]['e'], s['a']), s['b']))
-        else:
-            st = s['o'] + (s['b'] - s['a']) * i / len(cw)
-            en = s['o'] + (s['b'] - s['a']) * (i + 1) / len(cw)
+    times = [None] * len(cw)
+    sm = difflib.SequenceMatcher(a=[norm(w) for w in cw], b=[norm(w['w']) for w in aw], autojunk=False)
+    for blk in sm.get_matching_blocks():
+        for k in range(blk.size):
+            times[blk.a + k] = (max(aw[blk.b + k]['s'], o0), min(aw[blk.b + k]['e'], o1))
+    # fill unmatched words by interpolating between matched neighbours
+    for i in range(len(cw)):
+        if times[i] is None:
+            pi = next((j for j in range(i - 1, -1, -1) if times[j]), None)
+            ni = next((j for j in range(i + 1, len(cw)) if times[j]), None)
+            t0 = times[pi][1] if pi is not None else o0
+            t1 = times[ni][0] if ni is not None else o1
+            gap = [j for j in range((pi + 1) if pi is not None else 0, ni if ni is not None else len(cw))]
+            k = gap.index(i); step = (t1 - t0) / len(gap)
+            times[i] = (t0 + k * step, t0 + (k + 1) * step)
+    for w, (st, en) in zip(cw, times):
         wl.append(dict(w=w, s=st, e=max(en, st + 0.1)))
 
 sentences, cur = [], []
@@ -433,7 +446,6 @@ chip('RECOGNISE', '01', seg_span(442.85)[0] + 0.1, seg_span(449.25)[1] - 0.1)
 chip('REFLECT', '02', seg_span(480.85)[0] + 0.1, seg_span(492.25)[1] - 0.1)
 chip('RESPOND', '03', seg_span(514.80)[0] + 0.1, seg_span(550.50)[1] - 0.1)
 
-gfx.append(('EndTag', BODY_END + 0.5, TOTAL, r'{\an5\pos(540,1200)\fad(300,0)\fsp4}RECOGNISE  ·  REFLECT  ·  RESPOND'))
 
 CREAM = '&H00A4DCEC'
 header = f"""[Script Info]
@@ -475,15 +487,12 @@ li, lo = INTRO_START + 0.2, INTRO_START + LOGO_SEG - 0.05
 ei = BODY_END + 0.15
 fc = (
     f"[0:v]eq=brightness=-0.10:contrast=0.95:enable='between(t,{INTRO_START:.3f},{INTRO_START+LOGO_SEG:.3f})'[v0];"
-    f"[2:v]format=rgba,split[lg1][lg2];"
+    f"[2:v]format=rgba[lg1];"
     f"[lg1]scale=w='{LOGO_W}*(0.9+0.1*min(1,max(0,(t-{li:.3f})/0.45)))':h=-1:eval=frame,"
     f"fade=t=in:st={li:.3f}:d=0.3:alpha=1,fade=t=out:st={lo-0.25:.3f}:d=0.25:alpha=1[l1];"
-    f"[lg2]scale=w='{int(LOGO_W*0.85)}*(0.9+0.1*min(1,max(0,(t-{ei:.3f})/0.45)))':h=-1:eval=frame,"
-    f"fade=t=in:st={ei:.3f}:d=0.35:alpha=1[l2];"
     f"[v0][l1]overlay=x='(W-w)/2':y='560-h/2':enable='between(t,{li:.3f},{lo:.3f})':eval=frame[v1];"
-    f"[v1][l2]overlay=x='(W-w)/2':y='860-h/2':enable='gte(t,{ei:.3f})':eval=frame[v2];"
-    f"[v2]ass={WORK}/gfx.ass:fontsdir={FONTDIR}[v];"
-    f"[1:a][3:a]amix=inputs=2:normalize=0,volume=2.3dB,alimiter=limit=0.82:level=false[a]"
+    f"[v1]ass={WORK}/gfx.ass:fontsdir={FONTDIR},fade=t=out:st={TOTAL-FADE_OUT:.3f}:d={FADE_OUT}[v];"
+    f"[1:a][3:a]amix=inputs=2:normalize=0,volume=2.3dB,alimiter=limit=0.82:level=false,afade=t=out:st={TOTAL-FADE_OUT:.3f}:d={FADE_OUT}[a]"
 )
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 run(['ffmpeg', '-v', 'error', '-y', '-i', f'{WORK}/video_nogfx.mp4', '-i', f'{WORK}/speech_enh.wav',
@@ -492,3 +501,13 @@ run(['ffmpeg', '-v', 'error', '-y', '-i', f'{WORK}/video_nogfx.mp4', '-i', f'{WO
      '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-maxrate', '6M', '-bufsize', '12M', '-profile:v', 'high', '-pix_fmt', 'yuv420p',
      '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', OUT])
 print('done', OUT, dur_of(OUT))
+
+# ---------------- extra deliverables: video without music + the music bed on its own ----------------
+NOMUSIC = OUT.replace('.mp4', '_NoMusic.mp4')
+run(['ffmpeg', '-v', 'error', '-y', '-i', OUT, '-i', f'{WORK}/speech_enh.wav', '-map', '0:v', '-map', '1:a',
+     '-af', f'volume=2.3dB,alimiter=limit=0.82:level=false,afade=t=out:st={TOTAL-FADE_OUT:.3f}:d={FADE_OUT}',
+     '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-t', f'{TOTAL:.3f}', '-movflags', '+faststart', NOMUSIC])
+run(['ffmpeg', '-v', 'error', '-y', '-i', f'{WORK}/music_bed.wav', '-af', f'volume=2.3dB,afade=t=out:st={TOTAL-FADE_OUT:.3f}:d={FADE_OUT}',
+     '-t', f'{TOTAL:.3f}', '-c:a', 'pcm_s16le', OUT.replace('_Speech.mp4', '_Music_Bed.wav')])
+print('extras done')
+
