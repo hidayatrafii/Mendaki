@@ -2,11 +2,11 @@
 import json, math
 
 STATS = json.load(open('/home/user/Mendaki/work/colorstats.json'))
-TARGET_RG, TARGET_BG = 1.10, 0.90
-LOOK = "curves=master='0/0 0.25/0.23 0.75/0.77 1/1'"
+TARGET_RG, TARGET_BG = 1.02, 0.97
+LOOK = None
 
 
-def grade(key, strength=0.6):
+def grade(key, strength=0.7):
     s = STATS[key]
     r, g, b = s['rgb']
     rg, bg = r / g, b / g
@@ -18,11 +18,10 @@ def grade(key, strength=0.6):
     p50 = s['p50'] / 255
     tgt = (0.35 * 128 + 0.65 * s["p50"]) / 255
     gamma = min(max(math.log(p50) / math.log(tgt), 0.85), 1.25)
-    sat = min(max((40 / s['sat']) ** 0.6, 0.85, ), 1.5)
+    sat = min(max((30 / s['sat']) ** 0.4, 0.9), 1.12)
     parts = []
     if blk > 0:
         parts.append(f'colorlevels=rimin={blk:.3f}:gimin={blk:.3f}:bimin={blk:.3f}')
     parts.append(f'colorchannelmixer=rr={gR:.4f}:gg={gG:.4f}:bb={gB:.4f}')
-    parts.append(f'eq=gamma={gamma:.3f}:saturation={sat:.3f}:contrast=1.05')
-    parts.append(LOOK)
+    parts.append(f'eq=gamma={gamma:.3f}:saturation={sat:.3f}:contrast=0.97')
     return ','.join(parts)
