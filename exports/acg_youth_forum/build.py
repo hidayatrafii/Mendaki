@@ -21,14 +21,12 @@ os.makedirs(PIECES, exist_ok=True)
 END_LEN = 2.2
 
 # ---- speech selections: (src_in, src_out, caption text, section)
-HOOK = [
-    (283.85, 292.30, "In the past year alone, six out of eight new cases dealt with the Internal Security Act, or ISA, involved youth", 'hook'),
-    (292.72, 294.45, "aged 20 and below.", 'hook'),
-]
+HOOK = []
 BODY = [
     (27.55, 34.95, "Every day, artificial intelligence and algorithms help decide what appears and displays on our screens.", 'ai'),
     (42.80, 49.85, "But they must never decide what we believe in, who we trust, or how we treat another person.", 'ai'),
-    (50.85, 54.35, "That responsibility ultimately rests on us.", 'ai'),
+    (283.85, 292.30, "In the past year alone, six out of eight new cases dealt with the Internal Security Act, or ISA, involved youth", 'stat'),
+    (292.72, 294.45, "aged 20 and below.", 'stat'),
     (339.55, 345.58, "These figures are serious, but I do not want us to see young people as being vulnerable", 'youth'),
     (349.42, 350.75, "to online extremism.", 'youth'),
     (351.30, 355.40, "I believe we can also be among our strongest defences against it.", 'youth'),
@@ -54,23 +52,24 @@ FORCE_BROLL_SRC = [(42.80, 49.85)]
 
 # b-roll pool per section: (clip, source in-point)
 POOL = {
-    'hook':    [('IMG_0569', 1.0)],
-    'ai':      [('DJI_20261117114338_0101_D', 0.5), ('DJI_20261117103613_0070_D', 2.0), ('IMG_0566', 0.3), ('DJI_20261117105416_0084_D', 2.5), ('IMG_0565', 6.0)],
-    'youth':   [('DJI_20261117103206_0063_D', 3.0), ('IMG_0569', 9.5), ('DJI_20261117103151_0062_D', 2.5)],
-    'actions': [('DJI_20261117114451_0102_D', 3.0), ('DJI_20261117103321_0067_D', 1.0), ('IMG_0568', 1.0), ('DJI_20261117104719_0082_D', 8.5), ('IMG_0566', 3.8), ('DJI_20261117103243_0065_D', 2.0), ('IMG_0571', 4.5)],
-    'respond': [('DJI_20261117115954_0106_D', 1.0), ('DJI_20261117103331_0068_D', 0.5), ('DJI_20261117115911_0104_D', 1.6)],
-    'belong':  [('DJI_20261117112817_0087_D', 5.5), ('DJI_20261117103331_0068_D', 6.5), ('DJI_20261117112843_0089_D', 2.0), ('DJI_20261117112837_0088_D', 0.0), ('IMG_0565', 11.0)],
+    'ai':      [('DJI_20261117103321_0067_D', 1.0), ('DJI_20261117103613_0070_D', 2.0), ('DJI_20261117105416_0084_D', 2.5), ('IMG_0565', 6.0)],
+    'stat':    [('IMG_0569', 9.5), ('DJI_20261117103206_0063_D', 3.0), ('DJI_20261117103243_0065_D', 2.0)],
+    'youth':   [('DJI_20261117103226_0064_D', 4.5), ('DJI_20261117103151_0062_D', 2.5), ('IMG_0566', 0.3)],
+    'actions': [('DJI_20261117104328_0071_D', 2.0), ('DJI_20261117103300_0066_D', 1.0), ('DJI_20261117114451_0102_D', 3.0), ('DJI_20261117115911_0104_D', 1.6),
+                ('DJI_20261117120054_0108_D', 0.5), ('DJI_20261117115923_0105_D', 4.0), ('DJI_20261117104719_0082_D', 1.0)],
+    'respond': [('DJI_20261117103331_0068_D', 0.5), ('DJI_20261117115954_0106_D', 1.0), ('DJI_20261117103206_0063_D', 0.2)],
+    'belong':  [('DJI_20261117112817_0087_D', 5.5), ('DJI_20261117103331_0068_D', 6.5), ('DJI_20261117104328_0071_D', 5.5), ('IMG_0571', 4.5), ('DJI_20261117103243_0065_D', 4.0)],
     'close':   [('DJI_20261117130115_0111_D', 3.6), ('DJI_20261117130127_0112_D', 3.0), ('DJI_20261117125954_0109_D', 3.5), ('DJI_20261117130030_0110_D', 4.0)],
 }
 # intro: logo over two clean wide shots (no faces behind it), then engagement montage
 LOGO_SHOTS = [('IMG_0570', 0.2, 1.3), ('DJI_20261117114451_0102_D', 6.5, 1.3)]
 MONTAGE = [
     ('DJI_20261117103151_0062_D', 0.5, 0.9),   # teams at tables, challenge in progress
-    ('DJI_20261117103206_0063_D', 1.5, 0.9),   # youths discussing at a table
+    ('DJI_20261117103243_0065_D', 1.0, 0.9),   # team presenting their work
     ('DJI_20261117103331_0068_D', 4.5, 0.9),   # team huddle, laughing
     ('DJI_20261117105416_0084_D', 1.0, 0.9),   # participants on their phones
     ('DJI_20261117112817_0087_D', 1.2, 1.0),   # Zaqy shakes hands with youths at their table
-    ('DJI_20261117112817_0087_D', 9.0, 0.9),   # Zaqy sits and chats with the youths
+    ('DJI_20261117103226_0064_D', 2.5, 0.9),   # youths presenting
     ('DJI_20261117115911_0104_D', 0.4, 0.9),   # youth asks a question on the mic
     ('DJI_20261117130115_0111_D', 2.5, 0.9),   # Zaqy presents a prize to a team
     ('DJI_20261117130127_0112_D', 10.8, 1.0),  # team photo with Zaqy
@@ -252,7 +251,8 @@ enh = ('highpass=f=85,lowpass=f=14000,'
        'acompressor=threshold=-22dB:ratio=3:attack=6:release=120:makeup=3,'
        'loudnorm=I=-15:TP=-2:LRA=8')
 run(['ffmpeg', '-v', 'error', '-y', *inputs, '-filter_complex', ';'.join(flt), '-map', '[raw]', '-ar', '48000', '-t', f'{TOTAL:.3f}', f'{WORK}/speech_raw.wav'])
-run(['python3', f'{WORK}/dereverb.py', f'{WORK}/speech_raw.wav', f'{WORK}/speech_wpe.wav'])
+run(['python3', f'{WORK}/declick.py', f'{WORK}/speech_raw.wav', f'{WORK}/speech_dc.wav'])
+run(['python3', f'{WORK}/dereverb.py', f'{WORK}/speech_dc.wav', f'{WORK}/speech_wpe.wav'])
 run(['ffmpeg', '-v', 'error', '-y', '-i', f'{WORK}/speech_wpe.wav', '-af', enh, '-ar', '48000', f'{WORK}/speech_enh.wav'])
 
 
@@ -356,7 +356,6 @@ for s in segs:
             st = s['o'] + (s['b'] - s['a']) * i / len(cw)
             en = s['o'] + (s['b'] - s['a']) * (i + 1) / len(cw)
         wl.append(dict(w=w, s=st, e=max(en, st + 0.1)))
-wl[0]['s'] = 0.02
 
 sentences, cur = [], []
 for w in wl:
@@ -405,11 +404,12 @@ def find_word(word, after, before=None):
 gfx = []
 # --- hook stat card
 st6 = src2out(find_word('six', 284, 286))
-card = (r'{\an7\pos(140,250)\bord0\shad0\1c&HFFFFFF&\1a&H08&\p1}'
-        r'm 30 0 l 770 0 b 800 0 800 0 800 30 l 800 370 b 800 400 800 400 770 400 l 30 400 b 0 400 0 400 0 370 l 0 30 b 0 0 0 0 30 0{\p0}')
-gfx.append(('Card', st6 - 0.1, HOOK_END - 0.05, r'{\fad(200,150)}' + card))
-gfx.append(('Stat', st6, HOOK_END - 0.05, r'{\an5\pos(540,385)\fad(200,150)\fscx85\fscy85\t(0,250,\fscx100\fscy100)}6 OUT OF 8'))
-gfx.append(('StatSub', st6 + 0.35, HOOK_END - 0.05, r'{\an5\pos(540,540)\fad(250,150)}new ISA cases involved youths' + r'\N' + 'aged 20 and below'))
+stat_end = seg_end(next(x for x in segs if abs(x['a'] - 292.72) < 1e-3)) - 0.05
+card = (r'{\an7\pos(140,100)\bord0\shad0\1c&HFFFFFF&\1a&H08&\p1}'
+        r'm 30 0 l 770 0 b 800 0 800 0 800 30 l 800 300 b 800 330 800 330 770 330 l 30 330 b 0 330 0 330 0 300 l 0 30 b 0 0 0 0 30 0{\p0}')
+gfx.append(('Card', st6 - 0.1, stat_end, r'{\fad(200,150)}' + card))
+gfx.append(('Stat', st6, stat_end, r'{\an5\pos(540,205)\fad(200,150)\fscx85\fscy85\t(0,250,\fscx100\fscy100)}6 OUT OF 8'))
+gfx.append(('StatSub', st6 + 0.35, stat_end, r'{\an5\pos(540,350)\fad(250,150)}new ISA cases involved youths' + r'\N' + 'aged 20 and below'))
 
 # --- lower third (minister): sits above the subtitles
 lt0, lt1 = BODY_START + 0.4, BODY_START + 5.4
@@ -423,7 +423,7 @@ gfx.append(('LTTitle', lt0 + 0.35, lt1, rf'{{\an4\pos(90,{LY+170})\fad(250,200)}
 
 
 # --- three actions chips
-def chip(label, num, t0, t1, y=330):
+def chip(label, num, t0, t1, y=200):
     w = 42 * len(label) + 210
     x0 = 540 - w // 2
     shape = (rf'{{\an7\pos({x0},{y})\bord0\shad0\1c&HE0904A&\p1}}'
@@ -439,9 +439,9 @@ def seg_span(a):
 
 r1 = src2out(find_word('Recognize', 439, 440)); r2 = src2out(find_word('reflect', 440, 441)); r3 = src2out(find_word('respond', 441, 442))
 s7_end = seg_span(436.53)[1]
-chip('RECOGNISE', '01', r1, s7_end, 280)
-chip('REFLECT', '02', r2, s7_end, 410)
-chip('RESPOND', '03', r3, s7_end, 540)
+chip('RECOGNISE', '01', r1, s7_end, 180)
+chip('REFLECT', '02', r2, s7_end, 300)
+chip('RESPOND', '03', r3, s7_end, 420)
 chip('RECOGNISE', '01', seg_span(442.85)[0] + 0.1, seg_span(445.85)[1] - 0.1)
 chip('REFLECT', '02', seg_span(480.85)[0] + 0.1, seg_span(492.25)[1] - 0.1)
 chip('RESPOND', '03', seg_span(514.80)[0] + 0.1, seg_span(584.72)[1] - 0.1)
