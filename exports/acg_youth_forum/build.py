@@ -18,7 +18,7 @@ OUT = f'{ROOT}/exports/ACG_Youth_Forum_2026_Speech.mp4'
 PIECES = f'{WORK}/pieces'
 os.makedirs(PIECES, exist_ok=True)
 
-END_LEN = 2.2
+END_LEN = 2.0
 
 # ---- speech selections: (src_in, src_out, caption text, section)
 HOOK = []
@@ -30,22 +30,18 @@ BODY = [
     (339.55, 345.58, "These figures are serious, but I do not want us to see young people as being vulnerable", 'youth'),
     (349.42, 350.75, "to online extremism.", 'youth'),
     (351.30, 355.40, "I believe we can also be among our strongest defences against it.", 'youth'),
-    (436.53, 441.95, "Let me share three simple actions. Recognise, reflect, and respond.", 'actions'),
+    (438.90, 441.95, "Recognise, reflect, and respond.", 'actions'),
     (442.85, 445.20, "First, recognise manipulation and warning signs.", 'actions'),
-    (445.85, 456.50, "When you encounter content that makes you angry or fearful, ask yourself, who created this? Why am I seeing it? Who benefits if I share this?", 'actions'),
+    (449.25, 456.50, "Ask yourself, who created this? Why am I seeing it? Who benefits if I share this?", 'actions'),
     (480.85, 483.60, "Second, reflect before reacting.", 'actions'),
     (492.25, 496.00, "Do not outsource your judgement to the machine.", 'actions'),
     (514.80, 517.50, "Third, respond with care.", 'respond'),
     (550.50, 552.90, "Speaking up is not betraying a friend.", 'respond'),
-    (584.72, 591.95, "I'm only asking you to look out for one another and to help someone get support early.", 'respond'),
-    (657.85, 661.60, "To every young person who feels isolated or unheard,", 'belong'),
-    (662.60, 664.40, "our message must be clear.", 'belong'),
+    (657.85, 661.60, "To every young person who feels isolated or unheard:", 'belong'),
     (665.02, 666.10, "You matter.", 'belong'),
     (666.80, 668.12, "You belong here.", 'belong'),
     (668.75, 673.30, "And there are people out there who care enough to help.", 'belong'),
     (726.35, 734.55, "So take control of your feed, look out for your friends, and never underestimate the impact you can make on someone's life.", 'close'),
-    (735.30, 738.45, "So recognise, reflect, respond.", 'close'),
-    (739.45, 744.50, "Together we can keep Singapore safe, cohesive, and full of hope.", 'close'),
 ]
 # a-roll ranges where the camera moves: always covered with b-roll
 FORCE_BROLL_SRC = [(42.80, 49.85)]
@@ -62,17 +58,15 @@ POOL = {
     'close':   [('DJI_20261117130115_0111_D', 3.6), ('DJI_20261117130127_0112_D', 3.0), ('DJI_20261117125954_0109_D', 3.5), ('DJI_20261117130030_0110_D', 4.0)],
 }
 # intro: logo over two clean wide shots (no faces behind it), then engagement montage
-LOGO_SHOTS = [('IMG_0570', 0.2, 1.3), ('DJI_20261117114451_0102_D', 6.5, 1.3)]
+LOGO_SHOTS = [('IMG_0570', 0.2, 1.1), ('DJI_20261117114451_0102_D', 6.5, 1.1)]
 MONTAGE = [
-    ('DJI_20261117103151_0062_D', 0.5, 0.9),   # teams at tables, challenge in progress
-    ('DJI_20261117103243_0065_D', 1.0, 0.9),   # team presenting their work
-    ('DJI_20261117103331_0068_D', 4.5, 0.9),   # team huddle, laughing
-    ('DJI_20261117105416_0084_D', 1.0, 0.9),   # participants on their phones
-    ('DJI_20261117112817_0087_D', 1.2, 1.0),   # Zaqy shakes hands with youths at their table
-    ('DJI_20261117103226_0064_D', 2.5, 0.9),   # youths presenting
-    ('DJI_20261117115911_0104_D', 0.4, 0.9),   # youth asks a question on the mic
-    ('DJI_20261117130115_0111_D', 2.5, 0.9),   # Zaqy presents a prize to a team
-    ('DJI_20261117130127_0112_D', 10.8, 1.0),  # team photo with Zaqy
+    ('DJI_20261117103151_0062_D', 0.5, 0.85),   # teams at tables, challenge in progress
+    ('DJI_20261117103243_0065_D', 1.0, 0.85),   # team presenting their work
+    ('DJI_20261117103331_0068_D', 4.5, 0.85),   # team huddle, laughing
+    ('DJI_20261117112817_0087_D', 1.2, 0.95),   # Zaqy shakes hands with youths at their table
+    ('DJI_20261117115911_0104_D', 0.4, 0.85),   # youth asks a question on the mic
+    ('DJI_20261117130115_0111_D', 2.5, 0.85),   # Zaqy presents a prize to a team
+    ('DJI_20261117130127_0112_D', 10.8, 0.9),   # team photo with Zaqy
 ]
 INTRO_SHOTS = LOGO_SHOTS + MONTAGE
 LOGO_SEG = sum(d for *_, d in LOGO_SHOTS)
@@ -250,16 +244,11 @@ enh = ('highpass=f=80,'
        'deesser=i=0.25,'
        'acompressor=threshold=-20dB:ratio=2.5:attack=8:release=150:makeup=2,'
        'loudnorm=I=-15:TP=-2:LRA=7')
-run(['python3', f'{WORK}/declick.py', f'{WORK}/speech_raw.wav', f'{WORK}/speech_dc.wav'])
-import hashlib
-_h = hashlib.md5(open(f'{WORK}/speech_dc.wav', 'rb').read()).hexdigest()[:10]
-_ai = f'{WORK}/speech_ai_{_h}.wav'
-if not os.path.exists(_ai):
-    env = dict(os.environ, PYTHONPATH=f'{WORK}/stubs', HF_HUB_DISABLE_XET='1')
-    r = subprocess.run(['python3', f'{WORK}/enhance.py', f'{WORK}/speech_dc.wav', _ai], capture_output=True, text=True, env=env)
-    if r.returncode:
-        print(r.stderr[-2000:]); sys.exit(1)
-run(['ffmpeg', '-v', 'error', '-y', '-i', _ai, '-af', enh, '-ar', '48000', f'{WORK}/speech_enh.wav'])
+# original speech audio: no denoise/EQ/AI, just one linear gain so it sits at -16 LUFS
+_m = run(['ffmpeg', '-hide_banner', '-i', f'{WORK}/speech_raw.wav', '-af', 'ebur128', '-f', 'null', '-'])
+_I = float([l for l in _m.stderr.splitlines() if l.strip().startswith('I:')][-1].split()[1])
+run(['ffmpeg', '-v', 'error', '-y', '-i', f'{WORK}/speech_raw.wav', '-af', f'volume={-16 - _I:.2f}dB', '-ar', '48000', f'{WORK}/speech_enh.wav'])
+print(f'speech gain {-16 - _I:+.1f} dB')
 
 
 # ---------------- music bed ----------------
@@ -409,14 +398,6 @@ def find_word(word, after, before=None):
 
 gfx = []
 # --- hook stat card
-st6 = src2out(find_word('six', 284, 286))
-stat_end = seg_end(next(x for x in segs if abs(x['a'] - 292.72) < 1e-3)) - 0.05
-card = (r'{\an7\pos(140,100)\bord0\shad0\1c&HFFFFFF&\1a&H08&\p1}'
-        r'm 30 0 l 770 0 b 800 0 800 0 800 30 l 800 300 b 800 330 800 330 770 330 l 30 330 b 0 330 0 330 0 300 l 0 30 b 0 0 0 0 30 0{\p0}')
-gfx.append(('Card', st6 - 0.1, stat_end, r'{\fad(200,150)}' + card))
-gfx.append(('Stat', st6, stat_end, r'{\an5\pos(540,205)\fad(200,150)\fscx85\fscy85\t(0,250,\fscx100\fscy100)}6 OUT OF 8'))
-gfx.append(('StatSub', st6 + 0.35, stat_end, r'{\an5\pos(540,350)\fad(250,150)}new ISA cases involved youths' + r'\N' + 'aged 20 and below'))
-
 # --- lower third (minister): sits above the subtitles
 lt0, lt1 = BODY_START + 0.4, BODY_START + 5.4
 LY = 980
@@ -444,13 +425,13 @@ def seg_span(a):
 
 
 r1 = src2out(find_word('Recognize', 439, 440)); r2 = src2out(find_word('reflect', 440, 441)); r3 = src2out(find_word('respond', 441, 442))
-s7_end = seg_span(436.53)[1]
+s7_end = seg_span(438.90)[1]
 chip('RECOGNISE', '01', r1, s7_end, 180)
 chip('REFLECT', '02', r2, s7_end, 300)
 chip('RESPOND', '03', r3, s7_end, 420)
-chip('RECOGNISE', '01', seg_span(442.85)[0] + 0.1, seg_span(445.85)[1] - 0.1)
+chip('RECOGNISE', '01', seg_span(442.85)[0] + 0.1, seg_span(449.25)[1] - 0.1)
 chip('REFLECT', '02', seg_span(480.85)[0] + 0.1, seg_span(492.25)[1] - 0.1)
-chip('RESPOND', '03', seg_span(514.80)[0] + 0.1, seg_span(584.72)[1] - 0.1)
+chip('RESPOND', '03', seg_span(514.80)[0] + 0.1, seg_span(550.50)[1] - 0.1)
 
 gfx.append(('EndTag', BODY_END + 0.5, TOTAL, r'{\an5\pos(540,1200)\fad(300,0)\fsp4}RECOGNISE  ·  REFLECT  ·  RESPOND'))
 
