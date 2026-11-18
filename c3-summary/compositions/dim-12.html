@@ -7,17 +7,20 @@
       color: #fff;
       overflow: hidden;
     }
+    /* the glow darkens only the empty side of the frame and fades out before it
+       reaches the presenter, so it always sits behind him */
     #root .glow {
       position: absolute;
-      top: -120px;
-      left: -260px;
-      width: 1500px;
-      height: 1150px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.78), rgba(16, 10, 46, 0.45) 55%, rgba(16, 10, 46, 0));
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 900px;
+      background: linear-gradient(to right, rgba(16, 10, 46, 0.8) 0%, rgba(16, 10, 46, 0.55) 55%, rgba(16, 10, 46, 0) 100%);
     }
     #root.right .glow {
       left: auto;
-      right: -260px;
+      right: 0;
+      background: linear-gradient(to left, rgba(16, 10, 46, 0.8) 0%, rgba(16, 10, 46, 0.55) 55%, rgba(16, 10, 46, 0) 100%);
     }
     #root .stage {
       position: absolute;
@@ -93,7 +96,7 @@
   <script>
     (function () {
       // layout, side and card length are written by tools/build-cards.mjs
-      const v = {"dimension":"Safety","layout":"hero","side":"left","dur":6.9};
+      const v = {"dimension":"Safety","layout":"hero","side":"left","width":860,"glow":1100,"edge":120,"dur":6.9,"cont":false,"last":true};
       const root = document.getElementById("d12-stage").parentElement;
       const $ = (s) => root.querySelector(s);
       const right = v.side === "right";
@@ -101,6 +104,12 @@
       const dur = Number(v.dur) || 5;
       const ws = [$("#d12-w1"), $("#d12-w2"), $("#d12-w3")];
       const ts = [$("#d12-k1"), $("#d12-k2"), $("#d12-k3")];
+      // free width beside the presenter for this card (from assets/character-track.json)
+      const W = Math.max(380, Math.min(860, Number(v.width) || 860));
+      const k = W / 860;
+      $("#d12-stage").style.width = W + "px";
+      $("#d12-stage").style[right ? "right" : "left"] = (Number(v.edge) || 120) + "px";
+      $("#d12-glow").style.width = (Number(v.glow) || 900) + "px";
 
       // per layout: style, base size (px), indent from the outer edge, gap above, resting tilt, marker
       const LAYOUTS = {
@@ -149,12 +158,14 @@
       L.forEach((c, i) => {
         const w = ws[i];
         w.classList.add(c.cls);
-        w.style[right ? "marginRight" : "marginLeft"] = c.indent + "px";
+        const indent = Math.round(c.indent * k);
+        w.style[right ? "marginRight" : "marginLeft"] = indent + "px";
+        w.style.maxWidth = W + "px";
         w.style.marginTop = c.gap + "px";
         const pad = /pill|tag|chip/.test(c.cls) ? 0.82 : 1; // pills spend width on padding
         const oneLine = !/solid|hero|outline/.test(c.cls);
         if (oneLine) ts[i].style.whiteSpace = "nowrap";
-        ts[i].style.fontSize = fit(ts[i].textContent, c.size, (840 - c.indent) * pad, oneLine) + "px";
+        ts[i].style.fontSize = fit(ts[i].textContent, c.size, (W - 20 - indent) * pad, oneLine) + "px";
         if (c.mark) {
           const NS = "http://www.w3.org/2000/svg";
           const svg = document.createElementNS(NS, "svg");
@@ -171,9 +182,18 @@
 
       const gap = Math.min(1.0, Math.max(0.4, (dur - 2.0) / 3.2));
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#d12-glow", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0);
+      tl.fromTo("#d12-glow", { opacity: 0 }, { opacity: 1, duration: v.cont ? 0.12 : 0.6, ease: "power2.out" }, 0);
 
-      L.forEach((c, i) => {
+      if (v.cont) {
+        // second half of a card split at a camera cut: everything is already in place
+        tl.fromTo("#d12-stage", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 0);
+        L.forEach((c, i) => {
+          tl.set(ws[i], { rotation: c.rot }, 0);
+          if (c.cls === "outline") tl.set(ts[i], { color: "rgba(252,212,0,1)" }, 0);
+          if (c.mark) tl.set("#d12-m" + (i + 1), { clipPath: "inset(-20% -20% -20% -20%)" }, 0);
+        });
+      }
+      if (!v.cont) L.forEach((c, i) => {
         const t = 0.25 + i * gap;
         const w = ws[i];
         const el = ts[i];
@@ -212,10 +232,10 @@
         }
       });
 
-      const out = Math.max(0.25 + 2 * gap + 0.9, dur - 0.4);
-      tl.to("#d12-stage", { opacity: 0, scale: 0.94, filter: "blur(8px)", duration: 0.3, ease: "power3.in",
+      const out = v.cont ? dur - 0.4 : Math.max(0.25 + 2 * gap + 0.9, dur - 0.4);
+      if (v.last !== false) tl.to("#d12-stage", { opacity: 0, scale: 0.94, filter: "blur(8px)", duration: 0.3, ease: "power3.in",
         transformOrigin: right ? "right center" : "left center" }, out);
-      tl.to("#d12-glow", { opacity: 0, duration: 0.35, ease: "power2.in" }, out);
+      if (v.last !== false) tl.to("#d12-glow", { opacity: 0, duration: 0.35, ease: "power2.in" }, out);
       window.__timelines["dim-12"] = tl;
     })();
   </script>

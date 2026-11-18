@@ -7,17 +7,20 @@
       color: #fff;
       overflow: hidden;
     }
+    /* the glow darkens only the empty side of the frame and fades out before it
+       reaches the presenter, so it always sits behind him */
     #root .glow {
       position: absolute;
-      top: -120px;
-      left: -260px;
-      width: 1500px;
-      height: 1150px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.78), rgba(16, 10, 46, 0.45) 55%, rgba(16, 10, 46, 0));
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 900px;
+      background: linear-gradient(to right, rgba(16, 10, 46, 0.8) 0%, rgba(16, 10, 46, 0.55) 55%, rgba(16, 10, 46, 0) 100%);
     }
     #root.right .glow {
       left: auto;
-      right: -260px;
+      right: 0;
+      background: linear-gradient(to left, rgba(16, 10, 46, 0.8) 0%, rgba(16, 10, 46, 0.55) 55%, rgba(16, 10, 46, 0) 100%);
     }
     #root .stage {
       position: absolute;
@@ -81,26 +84,32 @@
     #root .mk.underline { left: -2%; top: 86%; width: 104%; height: 30px; }
     #root .mk.underline path { stroke-width: 8px; }
   </style>
-  <div id="root" data-composition-id="dim-14" data-width="1920" data-height="1080"
-    data-composition-variables='[{"id":"k1","type":"string","label":"Keyword 1","default":"Innovation"},{"id":"k2","type":"string","label":"Keyword 2","default":"Digitalisation"},{"id":"k3","type":"string","label":"Keyword 3","default":"Continuous Improvement"}]'>
-    <div class="glow" id="d14-glow" data-layout-ignore></div>
-    <div class="stage" id="d14-stage">
-      <div class="w" id="d14-w1"><span class="t" id="d14-k1" data-var-text="k1">Innovation</span></div>
-      <div class="w" id="d14-w2"><span class="t" id="d14-k2" data-var-text="k2">Digitalisation</span></div>
-      <div class="w" id="d14-w3"><span class="t" id="d14-k3" data-var-text="k3">Continuous Improvement</span></div>
+  <div id="root" data-composition-id="dim-15b" data-width="1920" data-height="1080"
+    data-composition-variables='[{"id":"k1","type":"string","label":"Keyword 1","default":"Serving Communities"},{"id":"k2","type":"string","label":"Keyword 2","default":"Making a Difference"},{"id":"k3","type":"string","label":"Keyword 3","default":"Shared Commitment"}]'>
+    <div class="glow" id="d15b-glow" data-layout-ignore></div>
+    <div class="stage" id="d15b-stage">
+      <div class="w" id="d15b-w1"><span class="t" id="d15b-k1" data-var-text="k1">Serving Communities</span></div>
+      <div class="w" id="d15b-w2"><span class="t" id="d15b-k2" data-var-text="k2">Making a Difference</span></div>
+      <div class="w" id="d15b-w3"><span class="t" id="d15b-k3" data-var-text="k3">Shared Commitment</span></div>
     </div>
   </div>
   <script>
     (function () {
       // layout, side and card length are written by tools/build-cards.mjs
-      const v = {"dimension":"Agility & Innovation","layout":"sticker","side":"right","dur":9.3};
-      const root = document.getElementById("d14-stage").parentElement;
+      const v = {"dimension":"Commitment to Sector","layout":"marker","side":"left","width":860,"glow":1100,"edge":120,"dur":8.64,"cont":true,"last":true};
+      const root = document.getElementById("d15b-stage").parentElement;
       const $ = (s) => root.querySelector(s);
       const right = v.side === "right";
       if (right) root.classList.add("right");
       const dur = Number(v.dur) || 5;
-      const ws = [$("#d14-w1"), $("#d14-w2"), $("#d14-w3")];
-      const ts = [$("#d14-k1"), $("#d14-k2"), $("#d14-k3")];
+      const ws = [$("#d15b-w1"), $("#d15b-w2"), $("#d15b-w3")];
+      const ts = [$("#d15b-k1"), $("#d15b-k2"), $("#d15b-k3")];
+      // free width beside the presenter for this card (from assets/character-track.json)
+      const W = Math.max(380, Math.min(860, Number(v.width) || 860));
+      const k = W / 860;
+      $("#d15b-stage").style.width = W + "px";
+      $("#d15b-stage").style[right ? "right" : "left"] = (Number(v.edge) || 120) + "px";
+      $("#d15b-glow").style.width = (Number(v.glow) || 900) + "px";
 
       // per layout: style, base size (px), indent from the outer edge, gap above, resting tilt, marker
       const LAYOUTS = {
@@ -149,12 +158,14 @@
       L.forEach((c, i) => {
         const w = ws[i];
         w.classList.add(c.cls);
-        w.style[right ? "marginRight" : "marginLeft"] = c.indent + "px";
+        const indent = Math.round(c.indent * k);
+        w.style[right ? "marginRight" : "marginLeft"] = indent + "px";
+        w.style.maxWidth = W + "px";
         w.style.marginTop = c.gap + "px";
         const pad = /pill|tag|chip/.test(c.cls) ? 0.82 : 1; // pills spend width on padding
         const oneLine = !/solid|hero|outline/.test(c.cls);
         if (oneLine) ts[i].style.whiteSpace = "nowrap";
-        ts[i].style.fontSize = fit(ts[i].textContent, c.size, (840 - c.indent) * pad, oneLine) + "px";
+        ts[i].style.fontSize = fit(ts[i].textContent, c.size, (W - 20 - indent) * pad, oneLine) + "px";
         if (c.mark) {
           const NS = "http://www.w3.org/2000/svg";
           const svg = document.createElementNS(NS, "svg");
@@ -163,7 +174,7 @@
           svg.setAttribute("preserveAspectRatio", "none");
           const p = document.createElementNS(NS, "path");
           p.setAttribute("d", PATHS[c.mark]);
-          svg.setAttribute("id", "d14-m" + (i + 1));
+          svg.setAttribute("id", "d15b-m" + (i + 1));
           svg.appendChild(p);
           w.insertBefore(svg, w.firstChild);
         }
@@ -171,9 +182,18 @@
 
       const gap = Math.min(1.0, Math.max(0.4, (dur - 2.0) / 3.2));
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#d14-glow", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0);
+      tl.fromTo("#d15b-glow", { opacity: 0 }, { opacity: 1, duration: v.cont ? 0.12 : 0.6, ease: "power2.out" }, 0);
 
-      L.forEach((c, i) => {
+      if (v.cont) {
+        // second half of a card split at a camera cut: everything is already in place
+        tl.fromTo("#d15b-stage", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 0);
+        L.forEach((c, i) => {
+          tl.set(ws[i], { rotation: c.rot }, 0);
+          if (c.cls === "outline") tl.set(ts[i], { color: "rgba(252,212,0,1)" }, 0);
+          if (c.mark) tl.set("#d15b-m" + (i + 1), { clipPath: "inset(-20% -20% -20% -20%)" }, 0);
+        });
+      }
+      if (!v.cont) L.forEach((c, i) => {
         const t = 0.25 + i * gap;
         const w = ws[i];
         const el = ts[i];
@@ -207,16 +227,16 @@
         }
         if (c.mark) {
           // the stroke draws on left to right (the circle as a sweep)
-          tl.fromTo("#d14-m" + (i + 1), { clipPath: "inset(-20% 100% -20% -20%)" },
+          tl.fromTo("#d15b-m" + (i + 1), { clipPath: "inset(-20% 100% -20% -20%)" },
             { clipPath: "inset(-20% -20% -20% -20%)", duration: c.mark === "swipe" ? 0.4 : 0.55, ease: "power2.inOut" }, t + 0.2);
         }
       });
 
-      const out = Math.max(0.25 + 2 * gap + 0.9, dur - 0.4);
-      tl.to("#d14-stage", { opacity: 0, scale: 0.94, filter: "blur(8px)", duration: 0.3, ease: "power3.in",
+      const out = v.cont ? dur - 0.4 : Math.max(0.25 + 2 * gap + 0.9, dur - 0.4);
+      if (v.last !== false) tl.to("#d15b-stage", { opacity: 0, scale: 0.94, filter: "blur(8px)", duration: 0.3, ease: "power3.in",
         transformOrigin: right ? "right center" : "left center" }, out);
-      tl.to("#d14-glow", { opacity: 0, duration: 0.35, ease: "power2.in" }, out);
-      window.__timelines["dim-14"] = tl;
+      if (v.last !== false) tl.to("#d15b-glow", { opacity: 0, duration: 0.35, ease: "power2.in" }, out);
+      window.__timelines["dim-15b"] = tl;
     })();
   </script>
 </template>

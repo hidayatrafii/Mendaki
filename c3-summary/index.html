@@ -44,11 +44,11 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="131"
+      data-duration="132.5"
       data-width="1920"
       data-height="1080"
     >
-      <!-- C3 Nov 2026 Summary Video: the edited footage with its voiceover and music -->
+      <!-- C3 Nov 2026 Summary Video: the edited footage (picture only; its sound is replaced below) -->
       <video
         id="footage"
         class="clip"
@@ -57,11 +57,37 @@
         data-duration="129.1"
         data-media-start="0"
         data-track-index="0"
-        data-has-audio="true"
-        data-volume="1"
+        muted
         playsinline
         style="z-index: 1"
       ></video>
+
+      <!-- Narration, separated from the original edit's music (Demucs) -->
+      <audio
+        id="voice"
+        class="clip"
+        src="assets/voice.m4a"
+        data-start="0"
+        data-duration="129.1"
+        data-media-start="0"
+        data-track-index="5"
+        data-volume="1"
+      ></audio>
+
+      <!-- New music: "Trip Around The World" by ANtarcticbreeze, CC BY 3.0 (jamendo.com/track/1210830).
+           A bed under the voice, lifting for the logo ending and fading out. -->
+      <audio
+        id="music"
+        class="clip"
+        src="assets/music/trip-around-the-world.m4a"
+        data-start="0"
+        data-duration="132.5"
+        data-media-start="0"
+        data-track-index="6"
+        data-timeline-role="music"
+        data-volume="1"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.3},{"t":126.6,"v":0.3},{"t":127.6,"v":0.85},{"t":130.4,"v":0.85},{"t":132.5,"v":0}]}]}'
+      ></audio>
 
       <!-- Photo slots where the footage is still black (HR photos go here) -->
       <div id="gap-a" data-composition-id="gap-a" data-composition-src="compositions/gap-a.html"
@@ -104,26 +130,28 @@
         data-start="0" data-duration="12.75" data-track-index="3" data-track-kind="graphics"
         data-width="1920" data-height="1080" style="z-index: 6"></div>
       <!-- cards:start -->
-      <div id="dim-01" data-composition-id="dim-01" data-composition-src="compositions/dim-01.html" data-start="12.8" data-duration="5.3" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-01" data-composition-id="dim-01" data-composition-src="compositions/dim-01.html" data-start="12.8" data-duration="5.1" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-02" data-composition-id="dim-02" data-composition-src="compositions/dim-02.html" data-start="18.15" data-duration="5.95" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-03" data-composition-id="dim-03" data-composition-src="compositions/dim-03.html" data-start="24.3" data-duration="6.45" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
-      <div id="dim-04" data-composition-id="dim-04" data-composition-src="compositions/dim-04.html" data-start="30.8" data-duration="3.05" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-04" data-composition-id="dim-04" data-composition-src="compositions/dim-04.html" data-start="30.833" data-duration="3.02" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-05" data-composition-id="dim-05" data-composition-src="compositions/dim-05.html" data-start="34" data-duration="6" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
-      <div id="dim-06" data-composition-id="dim-06" data-composition-src="compositions/dim-06.html" data-start="40.1" data-duration="4.35" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-06" data-composition-id="dim-06" data-composition-src="compositions/dim-06.html" data-start="40.1" data-duration="4.14" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-07" data-composition-id="dim-07" data-composition-src="compositions/dim-07.html" data-start="44.5" data-duration="4.05" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
-      <div id="dim-08" data-composition-id="dim-08" data-composition-src="compositions/dim-08.html" data-start="49.1" data-duration="4.45" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-08" data-composition-id="dim-08" data-composition-src="compositions/dim-08.html" data-start="49.1" data-duration="4.07" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-09" data-composition-id="dim-09" data-composition-src="compositions/dim-09.html" data-start="53.6" data-duration="6.65" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-10" data-composition-id="dim-10" data-composition-src="compositions/dim-10.html" data-start="60.4" data-duration="9.55" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-11" data-composition-id="dim-11" data-composition-src="compositions/dim-11.html" data-start="70" data-duration="4.5" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-12" data-composition-id="dim-12" data-composition-src="compositions/dim-12.html" data-start="74.55" data-duration="6.9" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-13" data-composition-id="dim-13" data-composition-src="compositions/dim-13.html" data-start="81.5" data-duration="10.4" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
-      <div id="dim-14" data-composition-id="dim-14" data-composition-src="compositions/dim-14.html" data-start="92.1" data-duration="9.3" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
-      <div id="dim-15" data-composition-id="dim-15" data-composition-src="compositions/dim-15.html" data-start="101.5" data-duration="11.85" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-14a" data-composition-id="dim-14a" data-composition-src="compositions/dim-14a.html" data-start="92.1" data-duration="3.33" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-14b" data-composition-id="dim-14b" data-composition-src="compositions/dim-14b.html" data-start="95.433" data-duration="5.97" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-15a" data-composition-id="dim-15a" data-composition-src="compositions/dim-15a.html" data-start="101.5" data-duration="3" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-15b" data-composition-id="dim-15b" data-composition-src="compositions/dim-15b.html" data-start="104.5" data-duration="8.64" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <div id="dim-16" data-composition-id="dim-16" data-composition-src="compositions/dim-16.html" data-start="113.4" data-duration="4.2" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
-      <div id="dim-17" data-composition-id="dim-17" data-composition-src="compositions/dim-17.html" data-start="117.7" data-duration="4.5" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="dim-17" data-composition-id="dim-17" data-composition-src="compositions/dim-17.html" data-start="117.8" data-duration="4.14" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
       <!-- cards:end -->
       <div id="outro" data-composition-id="outro" data-composition-src="compositions/outro.html"
-        data-start="122.3" data-duration="8.7" data-track-index="3" data-track-kind="graphics"
+        data-start="122.3" data-duration="10.2" data-track-index="3" data-track-kind="graphics"
         data-width="1920" data-height="1080" style="z-index: 6"></div>
 
       <!-- Subtitles from the voiceover transcript (tools/build-captions.mjs) -->

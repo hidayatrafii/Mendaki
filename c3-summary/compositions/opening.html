@@ -7,22 +7,21 @@
       color: #fff;
       overflow: hidden;
     }
+    /* the presenter stands from x = 506 px in these shots: everything stays left of him */
     #root .scrim {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to right,
-        rgba(16, 10, 46, 0.85) 0%,
-        rgba(16, 10, 46, 0.55) 32%,
-        rgba(16, 10, 46, 0) 56%
-      );
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 490px;
+      background: linear-gradient(to right, rgba(16, 10, 46, 0.85) 0%, rgba(16, 10, 46, 0.6) 55%, rgba(16, 10, 46, 0) 100%);
     }
     #root .year {
       position: absolute;
-      left: 120px;
-      top: 250px;
+      left: 96px;
+      top: 300px;
       display: flex;
-      font-size: 250px;
+      font-size: 138px;
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.03em;
@@ -38,10 +37,10 @@
     }
     #root .tag {
       position: absolute;
-      left: 128px;
-      top: 540px;
-      width: 760px;
-      font-size: 58px;
+      left: 100px;
+      top: 470px;
+      width: 350px;
+      font-size: 40px;
       font-weight: 700;
       line-height: 1.12;
     }
@@ -54,23 +53,32 @@
     }
     #root .every {
       position: absolute;
-      left: 128px;
-      top: 300px;
-      width: 820px;
+      left: 100px;
+      top: 230px;
+      width: 350px;
     }
     #root .every .line {
-      font-size: 70px;
+      margin-bottom: 14px;
       font-weight: 800;
-      line-height: 1.14;
       letter-spacing: -0.015em;
     }
+    #root .every .line i {
+      display: block;
+      font-style: normal;
+      font-size: 30px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+    }
     #root .every .line b {
+      display: block;
+      font-size: 44px;
+      line-height: 1.05;
       color: #fcd400;
-      font-weight: 800;
+      font-weight: 900;
     }
     #root .every .sub {
-      margin-top: 26px;
-      font-size: 34px;
+      margin-top: 22px;
+      font-size: 28px;
       font-weight: 500;
       color: rgba(255, 255, 255, 0.88);
     }
@@ -89,9 +97,9 @@
     </div>
 
     <div class="every" id="op-every">
-      <div class="line" id="op-l1">Every <b>conversation.</b></div>
-      <div class="line" id="op-l2">Every <b>programme.</b></div>
-      <div class="line" id="op-l3">Every <b>person.</b></div>
+      <div class="line" id="op-l1"><i>Every</i><b>conversation.</b></div>
+      <div class="line" id="op-l2"><i>Every</i><b>programme.</b></div>
+      <div class="line" id="op-l3"><i>Every</i><b>person.</b></div>
       <div class="sub" id="op-sub">Each played a part in the journey.</div>
     </div>
   </div>

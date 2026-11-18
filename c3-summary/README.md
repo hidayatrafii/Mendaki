@@ -27,6 +27,22 @@ The keywords, the timings and which side each card sits on are in the table at t
 `tools/build-cards.mjs`. After editing it, run `node tools/build-cards.mjs`. The card
 design is in `tools/dimension.template.html`.
 
+## The presenter is never covered
+
+`assets/character-track.json` records where the cartoon presenter stands in every camera
+shot (found by face tracking). The keyword cards, the dark glow behind them and the
+subtitles are all laid out in the free space beside him (`tools/presenter.mjs`); a card
+that spans a cut where he moves switches side at the cut. If the edit changes, re-run the
+tracking or correct the boxes in that file, then rebuild with `node tools/build-cards.mjs`
+and `node tools/build-captions.mjs`.
+
+## Sound
+
+- `assets/voice.m4a`: the narration, separated from the original edit's music with Demucs.
+- `assets/music/trip-around-the-world.m4a`: "Trip Around The World" by ANtarcticbreeze,
+  CC BY 3.0 (https://www.jamendo.com/track/1210830). Credited on the end card, as the
+  licence requires.
+
 ## Media
 
 `assets/footage.mp4` and `assets/presenter-*.webm` are too large for git. Rebuild them
