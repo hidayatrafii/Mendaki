@@ -1,0 +1,35 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #100a2e; }
+    #root .photo { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+    #root .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="photos-wellbeing" data-width="1920" data-height="1080">
+    <div id="pwellb-p01" class="clip photo" data-start="0" data-duration="2.84" data-track-index="0">
+      <img id="pwellb-i01" src="assets/photos/06-coffee-with-management-team.jpg" alt="" />
+    </div>
+    <div id="pwellb-p02" class="clip photo" data-start="2.84" data-duration="1.06" data-track-index="1">
+      <img id="pwellb-i02" src="assets/photos/07-health-screening-bp-1.jpg" alt="" />
+    </div>
+    <div id="pwellb-p03" class="clip photo" data-start="3.9" data-duration="1.06" data-track-index="0">
+      <img id="pwellb-i03" src="assets/photos/08-health-screening-bp-2.jpg" alt="" />
+    </div>
+    <div id="pwellb-p04" class="clip photo" data-start="4.96" data-duration="1.84" data-track-index="1">
+      <img id="pwellb-i04" src="assets/photos/09-health-screening-blood-test.jpg" alt="" />
+    </div>
+    <div id="pwellb-p05" class="clip photo" data-start="6.8" data-duration="1.77" data-track-index="0">
+      <img id="pwellb-i05" src="assets/photos/10-health-screening-briefing.jpg" alt="" />
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#pwellb-i01", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 2.84, ease: "none" }, 0);
+      tl.fromTo("#pwellb-i02", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.06, ease: "none" }, 2.84);
+      tl.fromTo("#pwellb-i03", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.06, ease: "none" }, 3.9);
+      tl.fromTo("#pwellb-i04", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.84, ease: "none" }, 4.96);
+      tl.fromTo("#pwellb-i05", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.77, ease: "none" }, 6.8);
+      window.__timelines["photos-wellbeing"] = tl;
+    })();
+  </script>
+</template>
