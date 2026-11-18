@@ -27,7 +27,7 @@ const scenes = [
     ["13-satellite-centre-genogram.jpg", 81.55], // "the everyday work that keeps MENDAKI moving"
     ["14-satellite-centre-discussion.jpg", 83.4],
     ["15-cliftonstrengths-wall.jpg", 85.5], // "better ways of working, stronger processes"
-    ["16-wsl-workshop-table.jpg", 87.4],
+    ["16-wsl-workshop-discussion.jpg", 87.4],
     ["17-wsl-mendaki-2030-group.jpg", 89.6], // "help our teams focus on what matters most"
   ]],
   ["photos-community", 99.2, 101.5, [
