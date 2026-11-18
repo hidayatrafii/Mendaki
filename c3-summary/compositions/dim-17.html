@@ -7,39 +7,24 @@
       color: #fff;
       overflow: hidden;
     }
-    /* the glow darkens only the empty side of the frame and fades out before it
-       reaches the presenter, so it always sits behind him */
+    /* soft dark pools behind each keyword only, placed with it (never over a face or the presenter) */
     #root .glow {
       position: absolute;
-      top: 0;
-      bottom: 0;
       left: 0;
-      width: 900px;
-      background: linear-gradient(to right, rgba(16, 10, 46, 0.8) 0%, rgba(16, 10, 46, 0.55) 55%, rgba(16, 10, 46, 0) 100%);
-    }
-    #root.right .glow {
-      left: auto;
-      right: 0;
-      background: linear-gradient(to left, rgba(16, 10, 46, 0.8) 0%, rgba(16, 10, 46, 0.55) 55%, rgba(16, 10, 46, 0) 100%);
+      top: 0;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.6), rgba(16, 10, 46, 0.36) 62%, rgba(16, 10, 46, 0));
     }
     #root .stage {
       position: absolute;
-      top: 140px;
-      left: 120px;
-      width: 860px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    #root.right .stage {
-      left: auto;
-      right: 120px;
-      align-items: flex-end;
-      text-align: right;
+      inset: 0;
     }
     #root .w {
-      position: relative;
-      max-width: 860px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
     }
     #root .t {
       position: relative;
@@ -86,7 +71,9 @@
   </style>
   <div id="root" data-composition-id="dim-17" data-width="1920" data-height="1080"
     data-composition-variables='[{"id":"k1","type":"string","label":"Keyword 1","default":"Empowering Communities"},{"id":"k2","type":"string","label":"Keyword 2","default":"Meaningful Work"},{"id":"k3","type":"string","label":"Keyword 3","default":"Lasting Impact"}]'>
-    <div class="glow" id="d17-glow" data-layout-ignore></div>
+    <div class="glow" id="d17-g1" data-layout-ignore></div>
+    <div class="glow" id="d17-g2" data-layout-ignore></div>
+    <div class="glow" id="d17-g3" data-layout-ignore></div>
     <div class="stage" id="d17-stage">
       <div class="w" id="d17-w1"><span class="t" id="d17-k1" data-var-text="k1">Empowering Communities</span></div>
       <div class="w" id="d17-w2"><span class="t" id="d17-k2" data-var-text="k2">Meaningful Work</span></div>
@@ -95,21 +82,121 @@
   </div>
   <script>
     (function () {
-      // layout, side and card length are written by tools/build-cards.mjs
-      const v = {"dimension":"Purpose & Mission","layout":"slam","side":"left","width":427,"glow":573,"edge":96,"dur":4.14,"cont":false,"last":true};
+      // layout, side, room beside the presenter, his box, the faces on screen and the card
+      // length are written by tools/build-cards.mjs
+      const v = {"dimension":"Purpose & Mission","layout":"slam","side":"left","width":860,"edge":120,"dur":2.93,"cont":false,"last":true,"pres":[1276,366,1960,1080],"faces":[[270,298,414,394],[799,320,862,415],[1249,334,1366,438],[522,407,645,502],[892,468,959,558],[97,275,248,371],[464,318,577,402],[962,407,1008,483],[1319,403,1423,485],[168,424,369,594],[863,291,910,375],[774,387,838,469],[1020,457,1097,555],[550,304,638,415],[898,335,943,417],[849,391,905,492],[1151,329,1247,432],[713,294,787,410],[1509,431,1754,698],[617,539,707,628],[930,295,974,380],[523,531,623,627],[1627,337,1797,436],[1334,342,1419,424],[832,450,886,521],[623,302,705,389],[303,534,421,603],[1061,319,1136,441],[417,309,499,386],[1124,398,1192,480],[661,370,750,461],[721,278,772,349],[616,347,694,422],[321,330,449,431],[1225,482,1351,603],[1438,339,1579,434],[1001,324,1048,402],[228,317,348,431],[181,302,265,415],[546,295,598,360],[1334,474,1456,594],[745,552,818,630],[78,323,219,411],[1128,502,1239,607],[1076,304,1126,377],[1755,345,1841,429],[1492,335,1547,407],[1699,522,1749,599],[975,300,1015,376],[1102,333,1145,402],[33,326,113,399],[1216,397,1304,491],[1268,316,1333,390],[246,308,310,373],[1173,314,1225,388],[61,513,206,594],[1423,364,1492,423],[754,446,827,542],[1496,471,1563,592],[0,427,18,460],[11,428,33,460],[129,424,187,493],[1568,859,1644,987],[1405,383,1433,428],[24,429,47,462],[27,462,94,540],[1357,660,1409,735],[422,476,465,531],[303,638,362,714],[1032,620,1080,691],[1235,657,1284,729],[960,457,997,514],[1473,584,1530,656],[122,423,173,493],[667,455,711,512],[418,612,476,687],[1127,628,1174,699],[920,628,966,699],[1325,574,1372,636],[601,489,643,544],[519,615,572,687],[295,425,335,480],[1204,500,1242,558],[386,442,432,501],[1083,535,1122,593],[801,627,848,699],[720,647,770,729],[638,626,685,697],[307,474,347,538],[52,671,124,766],[1829,538,1888,606],[1456,674,1517,755],[1783,534,1846,607],[180,656,247,741],[692,490,732,546],[996,487,1033,544],[163,454,213,526],[1420,597,1469,663],[486,463,530,521],[189,429,227,487],[409,520,456,582],[534,476,578,537],[1440,497,1485,550],[1151,475,1190,528],[1421,537,1465,597],[1764,583,1825,657],[1706,584,1766,657],[1831,583,1898,662],[486,541,533,600],[0,451,29,522],[1888,604,1920,679],[1886,774,1920,866]]};
+      // Inlined into the keyword and subtitle scenes by the build scripts.
+      // Finds where a block of text can sit without touching any face or the presenter.
+      function __hit(a, b) {
+        return Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
+      }
+      // o: { measure(scale) -> {w, h}, faces, pres, side: "left"|"right"|"center",
+      //      xMin, xMax, yMin, yMax, prefY, pad, scales, step }
+      // Returns { x, y, s, cost, W, H }: the padded rectangle's top-left, the scale used, and
+      // how much face area it still covers (0 = clear). Prefers the largest scale that is clear.
+      function __placeBlock(o) {
+        const scales = o.scales || [1, 0.88, 0.77, 0.67, 0.58];
+        const step = o.step || 12;
+        let best = null;
+        for (const s of scales) {
+          const m = o.measure(s);
+          const W = m.w + 2 * o.pad, H = m.h + 2 * o.pad;
+          let found = null;
+          for (let y = o.yMin; y + H <= o.yMax; y += step) {
+            const xs = [];
+            if (o.side === "center") xs.push((o.xMin + o.xMax) / 2 - W / 2);
+            else for (let k = 0; ; k++) {
+              const x = o.side === "left" ? o.xMin + k * 24 : o.xMax - W - k * 24;
+              if (x < o.xMin - 0.5 || x + W > o.xMax + 0.5) break;
+              xs.push(x);
+            }
+            xs.forEach((x, k) => {
+              if (x < o.xMin - 0.5 || x + W > o.xMax + 0.5) return;
+              const r = [x, y, x + W, y + H];
+              if (o.pres && __hit(r, o.pres) > 0) return;
+              let cost = 0;
+              for (const f of o.faces) cost += __hit(r, f);
+              const pen = cost * 1000 + Math.abs(y - o.prefY) * 0.5 + k * 7 + (1 - s) * 4000;
+              if (!found || pen < found.pen) found = { x, y, s, cost, pen, W, H };
+            });
+          }
+          if (found && (!best || found.pen < best.pen)) best = found;
+          if (found && found.cost === 0) break;
+        }
+        return best;
+      }
+      function __fontsReady() {
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        return Promise.all(loads).then(() => document.fonts.ready);
+      }
+      // Text measured with the real font on a canvas: works even while a scene is hidden.
+      const __ctx = document.createElement("canvas").getContext("2d");
+      function __textW(text, weight, size, ls) {
+        __ctx.font = weight + " " + size + "px Montserrat";
+        return __ctx.measureText(text).width + (ls || 0) * size * text.length;
+      }
+      function __wrap(text, weight, size, maxW, ls) {
+        const lines = [];
+        let cur = "";
+        for (const w of text.split(/\s+/)) {
+          const t = cur ? cur + " " + w : w;
+          if (cur && __textW(t, weight, size, ls) > maxW) { lines.push(cur); cur = w; } else cur = t;
+        }
+        if (cur) lines.push(cur);
+        return { lines: lines.length, w: Math.max(...lines.map((l) => __textW(l, weight, size, ls))) };
+      }
+      // Places each keyword on its own: they stack like a block when there is room and spread
+      // into the gaps between faces when there isn't. Never over the presenter or each other.
+      // o: { sizes(s) -> [{ w, h, indent, gap }], faces, pres, side, xMin, xMax, yMin, yMax, prefY, pad, scales }
+      // Returns { s, cost, items: [{ x, y, W, H }] } (padded rectangles), the largest clear scale.
+      function __placeItems(o) {
+        const scales = o.scales || [1, 0.88, 0.77, 0.67, 0.58, 0.5, 0.43];
+        let best = null;
+        for (const s of scales) {
+          const items = o.sizes(s);
+          const placed = [];
+          let cost = 0, pen = 0, ok = true;
+          for (let i = 0; i < items.length; i++) {
+            const it = items[i];
+            const W = it.w + 2 * o.pad, H = it.h + 2 * o.pad;
+            // the preferred spot hugs this side's edge; any spot in the safe area is allowed
+            const idealX = o.side === "right" ? o.xMax - it.indent - W : o.xMin + it.indent;
+            const xLo = o.areaMin != null ? o.areaMin : o.xMin, xHi = o.areaMax != null ? o.areaMax : o.xMax;
+            const idealY = i === 0 ? o.prefY : placed[i - 1].y + placed[i - 1].H - 2 * o.pad + it.gap;
+            let f = null;
+            for (let y = o.yMin; y + H <= o.yMax; y += 12) {
+              for (let x = xLo; x + W <= xHi + 0.5; x += 24) {
+                const r = [x, y, x + W, y + H];
+                if (o.pres && __hit(r, o.pres) > 0) continue;
+                if (placed.some((p) => __hit(r, [p.x + 10, p.y + 10, p.x + p.W - 10, p.y + p.H - 10]) > 0)) continue;
+                let c = 0;
+                for (const fc of o.faces) c += __hit(r, fc);
+                const p2 = c * 1000 + Math.abs(y - idealY) * 0.6 + Math.abs(x - idealX) * 0.4;
+                if (!f || p2 < f.p) f = { x, y, W, H, c, p: p2 };
+              }
+            }
+            if (!f) { ok = false; break; }
+            placed.push(f);
+            cost += f.c;
+            pen += f.p;
+          }
+          if (!ok) continue;
+          const cand = { s, cost, items: placed, pen: pen + (1 - s) * 4000 };
+          if (!best || cand.cost < best.cost || (cand.cost === best.cost && cand.pen < best.pen)) best = cand;
+          if (cost === 0) break;
+        }
+        return best;
+      }
+      
       const root = document.getElementById("d17-stage").parentElement;
       const $ = (s) => root.querySelector(s);
       const right = v.side === "right";
-      if (right) root.classList.add("right");
       const dur = Number(v.dur) || 5;
       const ws = [$("#d17-w1"), $("#d17-w2"), $("#d17-w3")];
       const ts = [$("#d17-k1"), $("#d17-k2"), $("#d17-k3")];
-      // free width beside the presenter for this card (from assets/character-track.json)
+      const gs = [$("#d17-g1"), $("#d17-g2"), $("#d17-g3")];
       const W = Math.max(380, Math.min(860, Number(v.width) || 860));
       const k = W / 860;
-      $("#d17-stage").style.width = W + "px";
-      $("#d17-stage").style[right ? "right" : "left"] = (Number(v.edge) || 120) + "px";
-      $("#d17-glow").style.width = (Number(v.glow) || 900) + "px";
 
       // per layout: style, base size (px), indent from the outer edge, gap above, resting tilt, marker
       const LAYOUTS = {
@@ -139,33 +226,17 @@
         circle: "M52 6 C 82 3, 99 26, 97 50 C 95 80, 64 97, 38 95 C 12 93, 1 72, 3 48 C 5 22, 26 5, 60 9",
         underline: "M2 50 C 20 20, 38 80, 56 46 S 84 30, 98 52",
       };
-      const L = LAYOUTS[v.layout] || LAYOUTS.slam;
-
-      const fit = (text, size, maxW, oneLine) => {
-        // largest size (<= base) that fits: the whole phrase on one line for pills and
-        // marker words, or its longest word for the big styles (those may wrap)
-        const probe = oneLine ? text : text.split(/\s+/).reduce((a, b) => (b.length > a.length ? b : a), "");
-        const hf = window.__hyperframes;
-        if (hf && typeof hf.fitTextFontSize === "function") {
-          try {
-            const r = hf.fitTextFontSize(probe, { fontFamily: "Montserrat", fontWeight: 900, maxWidth: maxW, baseFontSize: size, minFontSize: 40, step: 2 });
-            if (r && r.fontSize) return Math.min(size, r.fontSize);
-          } catch (e) {}
-        }
-        return Math.max(40, Math.min(size, Math.floor(maxW / (probe.length * 0.7))));
+      // each style's weight, letter-spacing (em), horizontal + vertical padding (em) and border (px)
+      const STY = {
+        solid: [900, -0.02, 0, 0, 0], hero: [900, -0.035, 0, 0, 0], plain: [800, -0.02, 0, 0, 0], outline: [900, -0.02, 0, 0, 0],
+        tag: [800, -0.02, 0.84, 0.24, 0], "pill-gold": [800, -0.02, 1.24, 0.34, 0], "pill-white": [800, -0.02, 1.24, 0.34, 0],
+        "pill-ink": [800, -0.02, 1.24, 0.34, 8], chip: [800, -0.02, 1.2, 0.28, 6],
       };
+      const L = LAYOUTS[v.layout] || LAYOUTS.slam;
+      const texts = ts.map((t) => t.textContent);
 
       L.forEach((c, i) => {
-        const w = ws[i];
-        w.classList.add(c.cls);
-        const indent = Math.round(c.indent * k);
-        w.style[right ? "marginRight" : "marginLeft"] = indent + "px";
-        w.style.maxWidth = W + "px";
-        w.style.marginTop = c.gap + "px";
-        const pad = /pill|tag|chip/.test(c.cls) ? 0.82 : 1; // pills spend width on padding
-        const oneLine = !/solid|hero|outline/.test(c.cls);
-        if (oneLine) ts[i].style.whiteSpace = "nowrap";
-        ts[i].style.fontSize = fit(ts[i].textContent, c.size, (W - 20 - indent) * pad, oneLine) + "px";
+        ws[i].classList.add(c.cls);
         if (c.mark) {
           const NS = "http://www.w3.org/2000/svg";
           const svg = document.createElementNS(NS, "svg");
@@ -176,67 +247,112 @@
           p.setAttribute("d", PATHS[c.mark]);
           svg.setAttribute("id", "d17-m" + (i + 1));
           svg.appendChild(p);
-          w.insertBefore(svg, w.firstChild);
+          ws[i].insertBefore(svg, ws[i].firstChild);
         }
       });
 
-      const gap = Math.min(1.0, Math.max(0.4, (dur - 2.0) / 3.2));
-      const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#d17-glow", { opacity: 0 }, { opacity: 1, duration: v.cont ? 0.12 : 0.6, ease: "power2.out" }, 0);
-
-      if (v.cont) {
-        // second half of a card split at a camera cut: everything is already in place
-        tl.fromTo("#d17-stage", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 0);
-        L.forEach((c, i) => {
-          tl.set(ws[i], { rotation: c.rot }, 0);
-          if (c.cls === "outline") tl.set(ts[i], { color: "rgba(252,212,0,1)" }, 0);
-          if (c.mark) tl.set("#d17-m" + (i + 1), { clipPath: "inset(-20% -20% -20% -20%)" }, 0);
+      __fontsReady().then(() => {
+        // base sizes: the largest that fits the room (whole phrase on one line for pills and
+        // marker words; the longest word for the big styles, which may wrap)
+        const base = L.map((c, i) => {
+          const [wt, ls, ph, , bd] = STY[c.cls];
+          const oneLine = !/solid|hero|outline/.test(c.cls);
+          const room = Math.max(W, 640) - 20 - c.indent * k;
+          const probe = oneLine ? texts[i] : texts[i].split(/\s+/).reduce((a, b) => (b.length > a.length ? b : a), "");
+          let fs = c.size;
+          while (fs > 40 && __textW(probe, wt, fs, ls) + ph * fs + bd > room) fs -= 2;
+          return fs;
         });
-      }
-      if (!v.cont) L.forEach((c, i) => {
-        const t = 0.25 + i * gap;
-        const w = ws[i];
-        const el = ts[i];
-        const sx = right ? 1 : -1;
-        switch (c.cls) {
-          case "solid":
-          case "hero":
-            tl.fromTo(w, { opacity: 0, scale: 1.45, rotation: c.rot, filter: "blur(14px)", transformOrigin: right ? "right center" : "left center" },
-              { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, t);
-            break;
-          case "tag":
-            tl.fromTo(w, { opacity: 0, scale: 0.3, rotation: c.rot - 14 },
-              { opacity: 1, scale: 1, rotation: c.rot, duration: 0.6, ease: "back.out(1.9)" }, t);
-            break;
-          case "outline":
-            tl.fromTo(el, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power3.out" }, t);
-            tl.fromTo(el, { color: "rgba(252,212,0,0)" }, { color: "rgba(252,212,0,1)", duration: 0.45, ease: "power2.inOut" }, t + 0.55);
-            break;
-          case "pill-gold":
-          case "pill-white":
-          case "pill-ink":
-            tl.fromTo(w, { opacity: 0, scale: 0.4, rotation: c.rot + sx * 16, y: 40 },
-              { opacity: 1, scale: 1, rotation: c.rot, y: 0, duration: 0.6, ease: "back.out(1.7)" }, t);
-            break;
-          case "chip":
-            tl.fromTo(w, { opacity: 0, x: sx * -60, filter: "blur(8px)" },
-              { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, t);
-            break;
-          default: // plain + marker
-            tl.fromTo(el, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power2.out" }, t);
-        }
-        if (c.mark) {
-          // the stroke draws on left to right (the circle as a sweep)
-          tl.fromTo("#d17-m" + (i + 1), { clipPath: "inset(-20% 100% -20% -20%)" },
-            { clipPath: "inset(-20% -20% -20% -20%)", duration: c.mark === "swipe" ? 0.4 : 0.55, ease: "power2.inOut" }, t + 0.2);
-        }
-      });
+        let FLOOR = 34;
+        // each keyword's size at a given scale, from the font itself (no on-screen layout needed)
+        const sizes = (s) => L.map((c, i) => {
+          const [wt, ls, ph, pv, bd] = STY[c.cls];
+          const fs = Math.max(FLOOR, base[i] * s), indent = c.indent * k * s; // small tags stay readable
+          const oneLine = !/solid|hero|outline/.test(c.cls);
+          const m = oneLine ? { lines: 1, w: __textW(texts[i], wt, fs, ls) } : __wrap(texts[i], wt, fs, Math.max(W, 640) - indent, ls);
+          return { w: m.w + ph * fs + bd, h: m.lines * 1.02 * fs + pv * fs + bd + 0.12 * fs, indent, gap: i ? c.gap * s : 0, lines: m.lines, mw: m.w };
+        });
+        const edge = Number(v.edge) || 120;
+        const xMin = right ? 1920 - edge - W : edge, xMax = right ? 1920 - edge : edge + W;
+        const PAD = 26;
+        const opts = { sizes, faces: v.faces || [], pres: v.pres || null, side: right ? "right" : "left",
+          xMin, xMax, areaMin: 70, areaMax: 1850, yMin: 50, yMax: 890, prefY: 140, pad: PAD };
+        // small words stay at 34 px or more; only where that can't clear every face do they go to 28 px
+        let P = __placeItems(opts);
+        if (!P || P.cost !== 0) { FLOOR = 28; P = __placeItems(opts); }
+        P = P || { s: 0.67, cost: -1, items: L.map((c, i) => ({ x: xMin, y: 140 + i * 120, W: 400, H: 100 })) };
+        const sz = sizes(P.s);
+        L.forEach((c, i) => {
+          const r = P.items[i];
+          ts[i].style.fontSize = Math.max(FLOOR, base[i] * P.s) + "px";
+          if (sz[i].lines > 1) { ts[i].style.whiteSpace = "normal"; ts[i].style.width = Math.ceil(sz[i].mw) + 4 + "px"; }
+          Object.assign(ws[i].style, { left: r.x + PAD + "px", top: r.y + PAD + "px" });
+          let g = [r.x - 30, r.y - 30, r.x + r.W + 30, r.y + r.H + 30];
+          if (v.pres) { if (right) g[0] = Math.max(g[0], v.pres[2]); else g[2] = Math.min(g[2], v.pres[0]); }
+          g = [Math.max(0, g[0]), Math.max(0, g[1]), Math.min(1920, g[2]), Math.min(1080, g[3])];
+          Object.assign(gs[i].style, { left: g[0] + "px", top: g[1] + "px", width: g[2] - g[0] + "px", height: g[3] - g[1] + "px" });
+        });
+        // safety net: if no spot clears every face, the keywords sit this one out rather than cover anyone
+        if (P.cost !== 0) root.style.display = "none";
+        root.setAttribute("data-placed", JSON.stringify({ s: P.s, cost: P.cost, items: P.items.map((r) => [r.x, r.y, r.W, r.H].map(Math.round)) }));
 
-      const out = v.cont ? dur - 0.4 : Math.max(0.25 + 2 * gap + 0.9, dur - 0.4);
-      if (v.last !== false) tl.to("#d17-stage", { opacity: 0, scale: 0.94, filter: "blur(8px)", duration: 0.3, ease: "power3.in",
-        transformOrigin: right ? "right center" : "left center" }, out);
-      if (v.last !== false) tl.to("#d17-glow", { opacity: 0, duration: 0.35, ease: "power2.in" }, out);
-      window.__timelines["dim-17"] = tl;
+        const gap = Math.min(1.0, Math.max(0.4, (dur - 2.0) / 3.2));
+        const tl = gsap.timeline({ paused: true });
+        if (v.cont) {
+          // a card continuing past a cut: everything is already in place at its new spot
+          tl.fromTo(["#d17-stage", ...gs], { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 0);
+          L.forEach((c, i) => {
+            tl.set(ws[i], { rotation: c.rot }, 0);
+            if (c.cls === "outline") tl.set(ts[i], { color: "rgba(252,212,0,1)" }, 0);
+            if (c.mark) tl.set("#d17-m" + (i + 1), { clipPath: "inset(-20% -20% -20% -20%)" }, 0);
+          });
+        } else L.forEach((c, i) => {
+          const t = 0.25 + i * gap;
+          const w = ws[i];
+          const el = ts[i];
+          const sx = right ? 1 : -1;
+          tl.fromTo(gs[i], { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, Math.max(0, t - 0.15));
+          switch (c.cls) {
+            case "solid":
+            case "hero":
+              tl.fromTo(w, { opacity: 0, scale: 1.45, rotation: c.rot, filter: "blur(14px)", transformOrigin: right ? "right center" : "left center" },
+                { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, t);
+              break;
+            case "tag":
+              tl.fromTo(w, { opacity: 0, scale: 0.3, rotation: c.rot - 14 },
+                { opacity: 1, scale: 1, rotation: c.rot, duration: 0.6, ease: "back.out(1.9)" }, t);
+              break;
+            case "outline":
+              tl.fromTo(el, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power3.out" }, t);
+              tl.fromTo(el, { color: "rgba(252,212,0,0)" }, { color: "rgba(252,212,0,1)", duration: 0.45, ease: "power2.inOut" }, t + 0.55);
+              break;
+            case "pill-gold":
+            case "pill-white":
+            case "pill-ink":
+              tl.fromTo(w, { opacity: 0, scale: 0.4, rotation: c.rot + sx * 16, y: 40 },
+                { opacity: 1, scale: 1, rotation: c.rot, y: 0, duration: 0.6, ease: "back.out(1.7)" }, t);
+              break;
+            case "chip":
+              tl.fromTo(w, { opacity: 0, x: sx * -60, filter: "blur(8px)" },
+                { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, t);
+              break;
+            default: // plain + marker
+              tl.fromTo(el, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power2.out" }, t);
+          }
+          if (c.mark) {
+            // the stroke draws on left to right (the circle as a sweep)
+            tl.fromTo("#d17-m" + (i + 1), { clipPath: "inset(-20% 100% -20% -20%)" },
+              { clipPath: "inset(-20% -20% -20% -20%)", duration: c.mark === "swipe" ? 0.4 : 0.55, ease: "power2.inOut" }, t + 0.2);
+          }
+        });
+
+        const out = v.cont ? dur - 0.4 : Math.max(0.25 + 2 * gap + 0.9, dur - 0.4);
+        if (v.last !== false) {
+          tl.to("#d17-stage", { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, out);
+          tl.to(gs, { opacity: 0, duration: 0.35, ease: "power2.in" }, out);
+        }
+        window.__timelines["dim-17"] = tl;
+      });
     })();
   </script>
 </template>

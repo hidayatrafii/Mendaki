@@ -17,7 +17,13 @@ The keywords, the timings and which side each card sits on are in the table at t
 `tools/build-cards.mjs`. After editing it, run `node tools/build-cards.mjs`. The card
 design is in `tools/dimension.template.html`.
 
-## The presenter is never covered
+## Nothing covers a face or the presenter
+
+Every face on screen (footage and photos, found with the YuNet face detector) is recorded in
+`assets/faces.json`. Keywords, subtitles, titles and the dark pools behind them are placed
+around those faces and the presenter; a keyword set that can't fit anywhere face-free in a
+shot sits that shot out instead of covering anyone. Subtitles are centred on one line inside
+the 80% title-safe area and rise only when a face is at the bottom of the frame.
 
 `assets/character-track.json` records where the cartoon presenter stands in every camera
 shot (found by face tracking). The keyword cards, the dark glow behind them and the
@@ -29,10 +35,9 @@ and `node tools/build-captions.mjs`.
 ## Sound
 
 - `assets/voice.m4a`: the narration, separated from the original edit's music with Demucs.
-- `assets/music/positive-background.m4a`: "Positive Background" by Soundrider/Dope (about
-  118 BPM, upbeat corporate: piano, strings, light percussion), Creative Commons Attribution
-  (CC BY), https://www.jamendo.com/track/1671032. Credited on the end card, as the licence
-  requires.
+- `assets/music/upbeat-background.m4a`: the upbeat background track supplied by MENDAKI
+  (the first song of "10 Minutes Upbeat Background Music"), loudness-matched. Photo
+  changes snap to its beats (`assets/music/beats.json`).
 
 ## Media
 

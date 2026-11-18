@@ -35,6 +35,14 @@ const scenes = [
 ];
 
 const r = (x) => Math.round(x * 1000) / 1000;
+// Photo changes land on the music's beat: each change moves to the nearest beat within
+// 0.2 s (the first photo of a scene stays where the footage goes black).
+const BEATS = JSON.parse(readFileSync(new URL("../assets/music/beats.json", import.meta.url), "utf8")).beats;
+const onBeat = (t) => {
+  const b = BEATS.reduce((a, x) => (Math.abs(x - t) < Math.abs(a - t) ? x : a), Infinity);
+  return Math.abs(b - t) <= 0.2 ? b : t;
+};
+for (const scene of scenes) scene[3].forEach((ph, i) => { if (i > 0) ph[1] = r(onBeat(ph[1])); });
 const hosts = [];
 for (const [id, start, end, photos] of scenes) {
   const pre = id.replace("photos-", "p").slice(0, 6);

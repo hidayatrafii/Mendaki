@@ -1,22 +1,16 @@
 // Builds compositions/captions.html (the subtitles) from assets/transcript.json.
+// Subtitles are centred on one line inside the 80% title-safe area. Each one sits at the
+// usual height unless a face is there, in which case it rises just enough to clear it.
 // Fix a misheard word by editing the transcript or FIXES below, then: node tools/build-captions.mjs
 import { readFileSync, writeFileSync } from "node:fs";
-import { presenterBox, track } from "./presenter.mjs";
+import { facesIn } from "./faces.mjs";
+import { placeBlock } from "./layout-estimate.mjs";
 
-// Each caption sits in the widest free stretch of the bottom band beside the presenter.
-function placeCaption(start, end) {
-  const b = presenterBox(start, end);
-  if (!b) return { left: 160, width: 1600 };
-  const spans = [
-    [96, b[0] - 30],
-    [b[2] + 30, 1920 - 96],
-  ].map(([a, z]) => [a, Math.max(0, z - a)]);
-  const [left, width] = spans.sort((x, y) => y[1] - x[1])[0];
-  return { left: Math.round(left), width: Math.round(Math.min(width, 1600)) };
-}
-
-const MAX_WORDS = 5;
-const PAUSE = 0.15; // a pause this long (s) starts a new caption
+const RUNTIME = readFileSync(new URL("./place-runtime.js", import.meta.url), "utf8");
+const SAFE = [192, 1728]; // 80% title-safe, horizontally
+const MAX_WORDS = 6;
+const MAX_CHARS = 44; // keeps every subtitle comfortably on one line
+const PAUSE = 0.15; // a pause this long (s) starts a new subtitle
 const FIXES = { mendaki: "MENDAKI", "mendaki,": "MENDAKI,", "mendaki.": "MENDAKI.", program: "programme", "program,": "programme," };
 
 const words = JSON.parse(readFileSync(new URL("../assets/transcript.json", import.meta.url), "utf8"))
@@ -25,9 +19,11 @@ const words = JSON.parse(readFileSync(new URL("../assets/transcript.json", impor
 
 const groups = [];
 let cur = [];
+const len = (g) => g.map((w) => w.text).join(" ").length;
 words.forEach((w, i) => {
-  cur.push(w);
   const next = words[i + 1];
+  if (cur.length && len([...cur, w]) > MAX_CHARS) { groups.push(cur); cur = []; }
+  cur.push(w);
   const sentenceEnd = /[.!?]$/.test(w.text);
   const comma = /,$/.test(w.text) && cur.length >= 3;
   const pause = next && next.start - w.end >= PAUSE;
@@ -36,6 +32,25 @@ words.forEach((w, i) => {
     cur = [];
   }
 });
+
+// A subtitle that can't sit centred anywhere without crossing a face (tight close-ups)
+// is split into shorter halves, which fit between faces. Estimated here; exact at runtime.
+const windowOf = (g, next) => [Math.max(0.15, g[0].start - 0.05), Math.min(g[g.length - 1].end + 0.3, next ? next[0].start - 0.07 : Infinity)];
+const blocked = (g, next) => {
+  const [s, e] = windowOf(g, next);
+  const w = g.map((x) => x.text).join(" ").length * 0.6 * 42 + 64;
+  const P = placeBlock({ measure: (k) => ({ w: w * k, h: 77 * k }), faces: facesIn(s, e), pres: null, side: "center",
+    xMin: 0, xMax: 1920, yMin: 48, yMax: 1032, prefY: 906, pad: 6, scales: [1, 0.9, 0.8], step: 8 });
+  return !P || P.cost > 0;
+};
+for (let i = 0; i < groups.length; i++) {
+  const g = groups[i];
+  if (g.length >= 2 && blocked(g, groups[i + 1])) {
+    const half = Math.ceil(g.length / 2);
+    groups.splice(i, 1, g.slice(0, half), g.slice(half));
+    i--; // re-check the first half
+  }
+}
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const r = (x) => Math.round(x * 1000) / 1000;
@@ -46,25 +61,12 @@ groups.forEach((g, gi) => {
   const start = Math.max(0.15, g[0].start - 0.05);
   const nextStart = groups[gi + 1] ? Math.max(0.15, groups[gi + 1][0].start - 0.05) : Infinity;
   const end = Math.min(g[g.length - 1].end + 0.3, nextStart - 0.02);
-  // a caption that straddles a camera cut where the presenter moves hops to the free side at the cut
-  let parts = [[start, end]];
-  if (placeCaption(start, end).width < 600) {
-    const cuts = track.map((t) => t.start).filter((c) => c > start + 0.05 && c < end - 0.05);
-    const edges = [start, ...cuts, end];
-    parts = edges.slice(1).map((e, k) => [edges[k], e]);
-  }
-  const words = g.map((w, wi) => `<span class="cw" id="${id}-PART-${wi}">${esc(w.text)}</span>`).join(" ");
-  parts.forEach(([ps, pe], k) => {
-    const pid = parts.length > 1 ? `${id}${"abcd"[k]}` : id;
-    const pos = placeCaption(ps, pe);
-    const narrow = pos.width < 760 ? " narrow" : "";
-    html.push(
-      `      <div class="cg${narrow}" id="${pid}" style="left: ${pos.left}px; width: ${pos.width}px"><span class="pill">` +
-        words.replaceAll(`${id}-PART-`, `${pid}-`) +
-        `</span></div>`,
-    );
-    data.push([pid, r(ps), r(pe), g.map((w) => [r(w.start), r(w.end)]), k > 0 ? 1 : 0]);
-  });
+  html.push(
+    `      <div class="cg" id="${id}"><span class="pill" id="${id}-pill">` +
+      g.map((w, wi) => `<span class="cw" id="${id}-${wi}">${esc(w.text)}</span>`).join(" ") +
+      `</span></div>`,
+  );
+  data.push([id, r(start), r(end), g.map((w) => [r(w.start), r(w.end)]), facesIn(start, end)]);
 });
 const last = Math.max(...data.map((d) => d[2]));
 
@@ -78,28 +80,25 @@ const out = `<template>
     }
     #root .cg {
       position: absolute;
-      bottom: 92px;
+      left: ${SAFE[0]}px;
+      width: ${SAFE[1] - SAFE[0]}px;
+      top: 912px;
       text-align: center;
       opacity: 0;
       visibility: hidden;
     }
     #root .pill {
       display: inline-block;
-      max-width: 100%;
-      padding: 12px 30px 15px;
+      white-space: nowrap;
+      padding: 12px 32px 15px;
       border-radius: 999px;
-      background: rgba(16, 10, 46, 0.74);
+      background: rgba(16, 10, 46, 0.76);
       box-shadow: 0 10px 30px rgba(10, 6, 30, 0.3);
       font-size: 42px;
       font-weight: 700;
       line-height: 1.2;
       letter-spacing: -0.005em;
       color: #fff;
-    }
-    #root .cg.narrow .pill {
-      font-size: 36px;
-      padding: 10px 24px 13px;
-      border-radius: 30px;
     }
     #root .cw {
       display: inline-block;
@@ -110,29 +109,52 @@ ${html.join("\n")}
   </div>
   <script>
     (function () {
-      // [group id, show, hide, [[word start, word end], ...], continues-at-a-cut] from tools/build-captions.mjs
+      ${RUNTIME.replace(/\n/g, "\n      ")}
+      // [group id, show, hide, [[word start, word end], ...], faces on screen meanwhile]
       const G = ${JSON.stringify(data)};
-      const tl = gsap.timeline({ paused: true });
-      G.forEach(([id, start, end, ws, cont]) => {
-        const g = "#" + id;
-        tl.set(g, { visibility: "visible" }, start);
-        if (cont) tl.set(g, { opacity: 1, y: 0 }, start);
-        else tl.fromTo(g, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, start);
-        ws.forEach(([s, e], i) => {
-          if (e <= start || s >= end) return;
-          // the spoken word lights up gold
-          tl.fromTo(g + "-" + i, { color: "#ffffff" }, { color: "#fcd400", duration: 0.08, ease: "none" }, s);
-          const back = Math.min(e, end - 0.14);
-          if (back >= s + 0.09) tl.to(g + "-" + i, { color: "#ffffff", duration: 0.12, ease: "none" }, back);
+      __fontsReady().then(() => {
+        const maxW = ${SAFE[1] - SAFE[0]};
+        G.forEach(([id, start, end, ws, faces]) => {
+          const cg = document.getElementById(id);
+          const pill = document.getElementById(id + "-pill");
+          // one line, always: shrink the type if a line would leave the title-safe area
+          // (sized from the font, so it works even while hidden)
+          const text = pill.textContent.replace(/\s+/g, " ").trim();
+          let fs = 42;
+          while (fs > 30 && __textW(text, 700, fs, -0.005) + 64 > maxW) fs -= 1;
+          if (fs !== 42) pill.style.fontSize = fs + "px";
+          const pw = __textW(text, 700, fs, -0.005) + 64, ph = fs * 1.2 + 27;
+          // centred; at the usual height unless a face is there, then the nearest clear height
+          const P = __placeBlock({
+            measure: (s) => ({ w: pw * s, h: ph * s }),
+            faces, pres: null, side: "center", xMin: 0, xMax: 1920,
+            yMin: 54 - 6, yMax: 1080 - 54 + 6, prefY: 912 - 6, pad: 6, scales: [1, 0.9, 0.8, 0.72], step: 8,
+          });
+          if (P) {
+            cg.style.top = P.y + 6 + "px";
+            if (P.s !== 1) pill.style.fontSize = Math.round(fs * P.s) + "px";
+          }
+          cg.setAttribute("data-cost", P ? Math.round(P.cost) : -1);
         });
-        if (!G.some((o) => o[4] && Math.abs(o[1] - end) < 0.001 && o[0].slice(0, 7) === id.slice(0, 7)))
+        const tl = gsap.timeline({ paused: true });
+        G.forEach(([id, start, end, ws]) => {
+          const g = "#" + id;
+          tl.set(g, { visibility: "visible" }, start);
+          tl.fromTo(g, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, start);
+          ws.forEach(([s, e], i) => {
+            // the spoken word lights up gold
+            tl.fromTo(g + "-" + i, { color: "#ffffff" }, { color: "#fcd400", duration: 0.08, ease: "none" }, s);
+            const back = Math.min(e, end - 0.14);
+            if (back >= s + 0.09) tl.to(g + "-" + i, { color: "#ffffff", duration: 0.12, ease: "none" }, back);
+          });
           tl.to(g, { opacity: 0, duration: 0.12, ease: "power2.in" }, end - 0.12);
-        tl.set(g, { opacity: 0, visibility: "hidden" }, end);
+          tl.set(g, { opacity: 0, visibility: "hidden" }, end);
+        });
+        window.__timelines["captions"] = tl;
       });
-      window.__timelines["captions"] = tl;
     })();
   </script>
 </template>
 `;
 writeFileSync(new URL("../compositions/captions.html", import.meta.url), out);
-console.log(`wrote ${groups.length} caption groups, last ends ${last}s`);
+console.log(`wrote ${groups.length} subtitles, last ends ${last}s`);

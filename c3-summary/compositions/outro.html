@@ -7,20 +7,20 @@
       color: #fff;
       overflow: hidden;
     }
-    /* the presenter stands from x = 1316 px in the last shot: the scrim and text stay left of him */
+    /* a soft dark pool behind "One MENDAKI." only, placed with it (tools/build-titles.mjs) */
     #root .scrim {
       position: absolute;
-      top: 0;
-      bottom: 0;
       left: 0;
-      width: 1290px;
-      background: linear-gradient(to right, rgba(16, 10, 46, 0.85) 0%, rgba(16, 10, 46, 0.55) 55%, rgba(16, 10, 46, 0) 100%);
+      top: 0;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.62), rgba(16, 10, 46, 0.38) 62%, rgba(16, 10, 46, 0));
     }
     #root .lines {
       position: absolute;
       left: 128px;
       top: 250px;
-      width: 1000px;
+      width: max-content;
     }
     #root .l1 {
       font-size: 60px;
@@ -85,19 +85,9 @@
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.9);
     }
-    #root .credit {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 70px;
-      text-align: center;
-      font-size: 28px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.6);
-    }
   </style>
   <div id="root" data-composition-id="outro" data-width="1920" data-height="1080">
-    <div class="scrim" id="ou-scrim"></div>
+    <div class="scrim" id="ou-scrim" data-layout-ignore></div>
     <div class="lines" id="ou-lines">
       <div class="l2" id="ou-l2"><span class="gold">One</span> MENDAKI.</div>
     </div>
@@ -109,27 +99,152 @@
       <div class="rule" id="ou-rule"></div>
       <div class="tagline" id="ou-tag">Moving Forward Together · 2026</div>
     </div>
-    <div class="credit" id="ou-credit">Music: “Positive Background” by Soundrider/Dope (CC BY)</div>
   </div>
   <script>
     (function () {
+      /*@runtime*/
+      // Inlined into the keyword and subtitle scenes by the build scripts.
+      // Finds where a block of text can sit without touching any face or the presenter.
+      function __hit(a, b) {
+        return Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
+      }
+      // o: { measure(scale) -> {w, h}, faces, pres, side: "left"|"right"|"center",
+      //      xMin, xMax, yMin, yMax, prefY, pad, scales, step }
+      // Returns { x, y, s, cost, W, H }: the padded rectangle's top-left, the scale used, and
+      // how much face area it still covers (0 = clear). Prefers the largest scale that is clear.
+      function __placeBlock(o) {
+        const scales = o.scales || [1, 0.88, 0.77, 0.67, 0.58];
+        const step = o.step || 12;
+        let best = null;
+        for (const s of scales) {
+          const m = o.measure(s);
+          const W = m.w + 2 * o.pad, H = m.h + 2 * o.pad;
+          let found = null;
+          for (let y = o.yMin; y + H <= o.yMax; y += step) {
+            const xs = [];
+            if (o.side === "center") xs.push((o.xMin + o.xMax) / 2 - W / 2);
+            else for (let k = 0; ; k++) {
+              const x = o.side === "left" ? o.xMin + k * 24 : o.xMax - W - k * 24;
+              if (x < o.xMin - 0.5 || x + W > o.xMax + 0.5) break;
+              xs.push(x);
+            }
+            xs.forEach((x, k) => {
+              if (x < o.xMin - 0.5 || x + W > o.xMax + 0.5) return;
+              const r = [x, y, x + W, y + H];
+              if (o.pres && __hit(r, o.pres) > 0) return;
+              let cost = 0;
+              for (const f of o.faces) cost += __hit(r, f);
+              const pen = cost * 1000 + Math.abs(y - o.prefY) * 0.5 + k * 7 + (1 - s) * 4000;
+              if (!found || pen < found.pen) found = { x, y, s, cost, pen, W, H };
+            });
+          }
+          if (found && (!best || found.pen < best.pen)) best = found;
+          if (found && found.cost === 0) break;
+        }
+        return best;
+      }
+      function __fontsReady() {
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        return Promise.all(loads).then(() => document.fonts.ready);
+      }
+      // Text measured with the real font on a canvas: works even while a scene is hidden.
+      const __ctx = document.createElement("canvas").getContext("2d");
+      function __textW(text, weight, size, ls) {
+        __ctx.font = weight + " " + size + "px Montserrat";
+        return __ctx.measureText(text).width + (ls || 0) * size * text.length;
+      }
+      function __wrap(text, weight, size, maxW, ls) {
+        const lines = [];
+        let cur = "";
+        for (const w of text.split(/\s+/)) {
+          const t = cur ? cur + " " + w : w;
+          if (cur && __textW(t, weight, size, ls) > maxW) { lines.push(cur); cur = w; } else cur = t;
+        }
+        if (cur) lines.push(cur);
+        return { lines: lines.length, w: Math.max(...lines.map((l) => __textW(l, weight, size, ls))) };
+      }
+      // Places each keyword on its own: they stack like a block when there is room and spread
+      // into the gaps between faces when there isn't. Never over the presenter or each other.
+      // o: { sizes(s) -> [{ w, h, indent, gap }], faces, pres, side, xMin, xMax, yMin, yMax, prefY, pad, scales }
+      // Returns { s, cost, items: [{ x, y, W, H }] } (padded rectangles), the largest clear scale.
+      function __placeItems(o) {
+        const scales = o.scales || [1, 0.88, 0.77, 0.67, 0.58, 0.5, 0.43];
+        let best = null;
+        for (const s of scales) {
+          const items = o.sizes(s);
+          const placed = [];
+          let cost = 0, pen = 0, ok = true;
+          for (let i = 0; i < items.length; i++) {
+            const it = items[i];
+            const W = it.w + 2 * o.pad, H = it.h + 2 * o.pad;
+            // the preferred spot hugs this side's edge; any spot in the safe area is allowed
+            const idealX = o.side === "right" ? o.xMax - it.indent - W : o.xMin + it.indent;
+            const xLo = o.areaMin != null ? o.areaMin : o.xMin, xHi = o.areaMax != null ? o.areaMax : o.xMax;
+            const idealY = i === 0 ? o.prefY : placed[i - 1].y + placed[i - 1].H - 2 * o.pad + it.gap;
+            let f = null;
+            for (let y = o.yMin; y + H <= o.yMax; y += 12) {
+              for (let x = xLo; x + W <= xHi + 0.5; x += 24) {
+                const r = [x, y, x + W, y + H];
+                if (o.pres && __hit(r, o.pres) > 0) continue;
+                if (placed.some((p) => __hit(r, [p.x + 10, p.y + 10, p.x + p.W - 10, p.y + p.H - 10]) > 0)) continue;
+                let c = 0;
+                for (const fc of o.faces) c += __hit(r, fc);
+                const p2 = c * 1000 + Math.abs(y - idealY) * 0.6 + Math.abs(x - idealX) * 0.4;
+                if (!f || p2 < f.p) f = { x, y, W, H, c, p: p2 };
+              }
+            }
+            if (!f) { ok = false; break; }
+            placed.push(f);
+            cost += f.c;
+            pen += f.p;
+          }
+          if (!ok) continue;
+          const cand = { s, cost, items: placed, pen: pen + (1 - s) * 4000 };
+          if (!best || cand.cost < best.cost || (cand.cost === best.cost && cand.pen < best.pen)) best = cand;
+          if (cost === 0) break;
+        }
+        return best;
+      }
+      /*@end-runtime*/
+      // faces on screen while "One MENDAKI." shows, and the presenter's box (tools/build-titles.mjs)
+      const PLACE = /*@place*/ {"a":{"faces":[[1027,615,1078,687],[896,469,937,530],[860,436,900,496],[434,605,516,682],[321,628,412,708],[536,425,601,488],[1322,652,1398,730],[438,477,507,531],[994,490,1031,543],[806,622,858,693],[958,459,996,519],[791,462,838,524],[1179,487,1248,558],[1212,645,1276,723],[313,426,393,487],[533,608,606,681],[1114,621,1169,696],[201,648,303,734],[1295,570,1358,633],[403,444,476,503],[28,456,163,564],[300,470,406,541],[675,456,730,515],[1072,534,1118,593],[728,640,785,723],[1115,502,1164,558],[1811,596,1920,682],[1434,584,1515,652],[1415,663,1501,750],[337,531,416,591],[1756,537,1861,604],[145,424,248,496],[77,663,194,758],[499,466,565,522],[612,488,669,543],[922,621,966,693],[0,452,76,523],[646,619,708,693],[1370,473,1441,548],[258,477,332,541],[1244,511,1319,567],[424,522,496,580],[1383,594,1453,657],[1809,752,1920,867],[1715,532,1820,606],[1050,459,1090,510],[1697,577,1817,654],[87,519,193,592],[188,439,298,528],[1318,517,1379,570],[546,479,610,535],[1289,509,1340,562],[760,446,807,506],[534,541,610,623],[1050,501,1093,554],[1149,544,1200,606],[1508,439,1756,692],[700,491,751,546],[1413,497,1469,548],[285,467,347,527],[1380,536,1449,594],[1220,482,1272,559],[1460,472,1532,531],[209,431,290,497],[1691,581,1744,653],[612,447,670,503],[1134,476,1182,532],[1308,480,1368,533],[1451,521,1542,595],[1775,579,1868,655],[502,540,567,595],[1228,510,1263,560],[1204,544,1261,601],[1507,534,1567,598],[0,558,82,641],[0,493,70,566],[1520,694,1603,784],[245,539,299,599],[492,683,523,728],[1635,738,1685,806]],"pres":[1276,366,1960,1080],"prefY":250}} /*@end-place*/;
+      __fontsReady().then(() => {
+      const p = PLACE.a;
+      if (p) {
+        const el = document.getElementById("ou-lines");
+        const P = __placeBlock({
+          // sized from the font (works even while the scene is hidden)
+          measure: (s) => ({ w: __textW("One MENDAKI.", 800, 128, -0.02) * s, h: 128 * 1.02 * s }),
+          faces: p.faces, pres: p.pres, side: "left", xMin: 128, xMax: p.pres ? p.pres[0] : 1792,
+          yMin: 60, yMax: 880, prefY: p.prefY, pad: 24,
+        });
+        el.style.transformOrigin = "0 0";
+        el.style.transform = "scale(" + P.s + ")";
+        el.style.left = P.x + 24 + "px";
+        el.style.top = P.y + 24 + "px";
+          el.setAttribute("data-cost", Math.round(P.cost) + "@" + P.s);
+        let g = [P.x - 50, P.y - 50, P.x + P.W + 50, P.y + P.H + 50];
+        if (p.pres) g[2] = Math.min(g[2], p.pres[0]);
+        g = [Math.max(0, g[0]), Math.max(0, g[1]), Math.min(1920, g[2]), Math.min(1080, g[3])];
+        Object.assign(document.getElementById("ou-scrim").style, { left: g[0] + "px", top: g[1] + "px", width: g[2] - g[0] + "px", height: g[3] - g[1] + "px" });
+      }
       const tl = gsap.timeline({ paused: true });
       // host starts at 122.3 s: "And as we move forward, we continue to build it together, as one MENDAKI."
-      tl.fromTo("#ou-scrim", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0);
+      tl.fromTo("#ou-scrim", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 2.9);
       tl.fromTo("#ou-l2", { opacity: 0, filter: "blur(14px)", scale: 1.08, transformOrigin: "left center" },
         { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.5, ease: "expo.out" }, 3.2);
 
       // colour flood once the presenter has left the shot (127.2 s), then the logo lockup
       tl.fromTo("#ou-flood", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.inOut" }, 5.0);
-      tl.to("#ou-lines", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, 5.1);
+      tl.to(["#ou-lines", "#ou-scrim"], { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, 5.1);
       tl.fromTo("#ou-glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.6, ease: "power2.out" }, 5.4);
       tl.fromTo("#ou-logo", { opacity: 0, scale: 0.88, filter: "blur(12px)" },
         { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 5.55);
       tl.fromTo("#ou-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 6.05);
       tl.fromTo("#ou-tag", { opacity: 0, filter: "blur(8px)", scale: 1.1 },
         { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.9, ease: "expo.out" }, 6.2);
-      tl.fromTo("#ou-credit", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 6.8);
       window.__timelines["outro"] = tl;
+      });
     })();
   </script>
 </template>

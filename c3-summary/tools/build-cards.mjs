@@ -3,6 +3,9 @@
 // Edit the table below (or a card's variables in Studio), then: node tools/build-cards.mjs
 import { readFileSync, writeFileSync } from "node:fs";
 import { track, presenterBox } from "./presenter.mjs";
+import { facesIn } from "./faces.mjs";
+import { placeItems, estimator } from "./layout-estimate.mjs";
+const RUNTIME = readFileSync(new URL("./place-runtime.js", import.meta.url), "utf8");
 
 // [dimension, k1, k2, k3, start(s), end(s)]
 // Times follow the voiceover lines each dimension matches. Each card goes on the side
@@ -24,7 +27,7 @@ const cards = [
   ["Agility & Innovation", "Innovation", "Digitalisation", "Continuous Improvement", 92.1, 101.4],
   ["Commitment to Sector", "Serving Communities", "Making a Difference", "Shared Commitment", 101.5, 113.35],
   ["Commitment to Organisation", "Shared Purpose", "Commitment", "Growing Together", 113.4, 117.6],
-  ["Purpose & Mission", "Empowering Communities", "Meaningful Work", "Lasting Impact", 117.7, 122.2],
+  ["Purpose & Mission", "Empowering Communities", "Meaningful Work", "Lasting Impact", 117.7, 124.9],
 ];
 
 // Keyword layouts, cycled card by card: slam (huge word, gold tag, outline fill),
@@ -50,31 +53,49 @@ function placeBox(b) {
   const glow = Math.min(1100, Math.max(200, side === "left" ? b[0] - 10 : 1920 - b[2] - 10));
   return { side, width, glow, edge };
 }
-// Split a card at camera cuts when the presenter moves, so its keywords can move to
-// the free side with the cut; trim slivers (< 0.6 s) of a new shot at either end.
-function segmentCard(start, end) {
-  let sh = shotsIn(start, end);
-  while (sh.length > 1 && sh[0].end - start < 0.6) { start = sh[0].end; sh = sh.slice(1); }
-  while (sh.length > 1 && end - sh[sh.length - 1].start < 0.6) { end = sh[sh.length - 1].start - 0.03; sh = sh.slice(0, -1); }
-  const union = (list) => presenterBox(Math.max(start, list[0].start), Math.min(end, list[list.length - 1].end));
-  const groups = [];
-  for (const shot of sh) {
-    const g = groups[groups.length - 1];
-    if (g) {
-      const merged = placeBox(union([...g, shot])).width;
-      const alone = placeBox(union(g)).width;
-      const next = placeBox(union([shot])).width;
-      // keep together unless that costs real room on either side of the cut
-      if (merged >= alone - 40 && merged >= next - 150) { g.push(shot); continue; }
-    }
-    groups.push([shot]);
+// Cuts in the picture: camera cuts in the footage and every photo change.
+const photoCuts = (() => {
+  const idx = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const cuts = [];
+  for (const m of idx.matchAll(/data-composition-src="compositions\/(photos-[a-z]+)\.html" data-start="([\d.]+)"/g)) {
+    const scene = readFileSync(new URL(`../compositions/${m[1]}.html`, import.meta.url), "utf8");
+    for (const c of scene.matchAll(/class="clip photo" data-start="([\d.]+)"/g)) cuts.push(+m[2] + +c[1]);
   }
-  if (!groups.length) return [{ start, end, ...placeBox(null) }];
-  return groups.map((g, i) => ({
-    start: +(i === 0 ? start : g[0].start).toFixed(3),
-    end: +(i === groups.length - 1 ? end : g[g.length - 1].end).toFixed(3),
-    ...placeBox(union(g)),
-  }));
+  return cuts;
+})();
+const CUTS = [...new Set([...track.map((t) => t.start), ...photoCuts].map((t) => +t.toFixed(3)))].sort((a, b) => a - b);
+
+// How well can the card sit, clear of faces and the presenter, over [start, end)?
+function plan(layout, words, start, end) {
+  const pb = presenterBox(start, end);
+  const pl = placeBox(pb);
+  const pres = pb && [pb[0] - 40, pb[1] - 40, pb[2] + 40, pb[3]];
+  const xMin = pl.side === "right" ? 1920 - pl.edge - pl.width : pl.edge;
+  const opts = (floor) => ({ sizes: estimator(layout, words, pl.width, floor), faces: facesIn(start, end), pres, side: pl.side,
+    xMin, xMax: xMin + pl.width, areaMin: 70, areaMax: 1850, yMin: 50, yMax: 890, prefY: 140, pad: 26 });
+  let P = placeItems(opts(34));
+  if (!P || P.cost !== 0) P = placeItems(opts(28));
+  return { ...pl, good: !!P && P.cost === 0 && P.s >= 0.77, s: P ? P.s : 0, cost: P ? P.cost : -1 };
+}
+
+// Split a card at cuts only where one spot can't stay clear of every face (and the
+// presenter) for the whole card: the keywords then hop to a clear spot with the cut.
+// Slivers (< 0.6 s) of a new shot at either end are trimmed off instead.
+function segmentCard(layout, words, start, end) {
+  let cuts = CUTS.filter((c) => c > start + 0.05 && c < end - 0.05);
+  while (cuts.length && cuts[0] - start < 0.6) { start = cuts[0]; cuts = cuts.slice(1); }
+  while (cuts.length && end - cuts[cuts.length - 1] < 0.6) { end = cuts[cuts.length - 1] - 0.03; cuts = cuts.slice(0, -1); }
+  const edges = [start, ...cuts, end];
+  const groups = [[edges[0], edges[1]]];
+  for (let i = 1; i < edges.length - 1; i++) {
+    const g = groups[groups.length - 1];
+    const piece = [edges[i], edges[i + 1]];
+    const together = plan(layout, words, g[0], piece[1]).good;
+    const tooShort = piece[1] - piece[0] < 0.9 || g[1] - g[0] < 0.9;
+    if (together || (tooShort && !plan(layout, words, ...piece).good)) g[1] = piece[1];
+    else groups.push(piece);
+  }
+  return groups.map(([s, e]) => ({ start: +s.toFixed(3), end: +e.toFixed(3), ...plan(layout, words, s, e) }));
 }
 
 const tpl = readFileSync(new URL("./dimension.template.html", import.meta.url), "utf8");
@@ -83,24 +104,32 @@ const attr = (s) => s.replace(/&/g, "&amp;").replace(/'/g, "&#39;");
 const hosts = [];
 
 cards.forEach(([label, k1, k2, k3, start, end], i) => {
-  const segs = segmentCard(start, end);
   const layout = LAYOUT_CYCLE[i % LAYOUT_CYCLE.length];
+  // a piece where no spot clears every face is skipped: the keywords step off for that shot
+  const all = segmentCard(layout, [k1, k2, k3], start, end);
+  const segs = all.filter((g) => g.cost === 0);
+  all.filter((g) => g.cost !== 0).forEach((g) => console.log(`  (keywords step off ${g.start}-${g.end}: no face-free spot)`));
   const vars = [
     { id: "k1", type: "string", label: "Keyword 1", default: k1 },
     { id: "k2", type: "string", label: "Keyword 2", default: k2 },
     { id: "k3", type: "string", label: "Keyword 3", default: k3 },
   ];
   segs.forEach((seg, j) => {
-    const n = String(i + 1).padStart(2, "0") + (segs.length > 1 ? "abc"[j] : "");
+    const n = String(i + 1).padStart(2, "0") + (segs.length > 1 ? "abcdefghij"[j] : "");
     const id = `dim-${n}`;
     const p = `d${n}`;
     const dur = +(seg.end - seg.start).toFixed(2);
-    const cfg = { dimension: label, layout, side: seg.side, width: seg.width, glow: seg.glow, edge: seg.edge, dur,
-      cont: j > 0, last: j === segs.length - 1 };
+    const pb = presenterBox(seg.start, seg.end);
+    const cfg = { dimension: label, layout, side: seg.side, width: seg.width, edge: seg.edge, dur,
+      cont: j > 0 && Math.abs(segs[j - 1].end - seg.start) < 0.01,
+      last: !(segs[j + 1] && Math.abs(segs[j + 1].start - seg.end) < 0.01),
+      pres: pb && [pb[0] - 40, pb[1] - 40, pb[2] + 40, pb[3]],
+      faces: facesIn(seg.start, seg.end) };
     const s2 = tpl
       .replaceAll("__ID__", id)
       .replaceAll("__P__", p)
       .replace("__CFG__", JSON.stringify(cfg))
+      .replace("__PLACE_RUNTIME__", RUNTIME.replace(/\n/g, "\n      "))
       .replace(/data-composition-variables='[\s\S]*?'/, `data-composition-variables='${attr(JSON.stringify(vars))}'`)
       .replace(/(data-var-text="k1">)[^<]*/, `$1${esc(k1)}`)
       .replace(/(data-var-text="k2">)[^<]*/, `$1${esc(k2)}`)
@@ -111,7 +140,7 @@ cards.forEach(([label, k1, k2, k3, start, end], i) => {
         `data-start="${seg.start}" data-duration="${dur}" data-track-index="3" data-track-kind="graphics" ` +
         `data-width="1920" data-height="1080" style="z-index: 6"></div>`,
     );
-    console.log(id, seg.start, seg.end, seg.side, seg.width);
+    console.log(id, seg.start, seg.end, seg.side, seg.width, seg.good ? "clear" : "TIGHT", "scale", seg.s, "faceArea", Math.round(seg.cost));
   });
 });
 
