@@ -30,16 +30,17 @@
       position: relative;
       z-index: 1;
       display: inline-block;
-      font-weight: 800;
-      line-height: 1.02;
-      letter-spacing: -0.02em;
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: 0;
       text-wrap: balance;
     }
     /* word styles */
-    #root .solid .t { color: #fff; font-weight: 900; text-shadow: 0 6px 30px rgba(10, 6, 30, 0.55); }
-    #root .hero .t { color: #fff; font-weight: 900; letter-spacing: -0.035em; text-shadow: 0 8px 40px rgba(10, 6, 30, 0.6); }
-    #root .plain .t { color: #fff; text-shadow: 0 5px 26px rgba(10, 6, 30, 0.6); }
-    #root .outline .t { color: transparent; -webkit-text-stroke: 3px #fcd400; font-weight: 900; }
+    /* weights kept at 700-800 with normal spacing so every word reads cleanly at a glance */
+    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(10, 6, 30, 0.65); }
+    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .outline .t { color: #fcd400; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
     #root .tag .t,
     #root .pill-gold .t { background: #fcd400; color: #1a1046; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(10, 6, 30, 0.35); }
     #root .pill-gold .t,
@@ -228,9 +229,9 @@
       };
       // each style's weight, letter-spacing (em), horizontal + vertical padding (em) and border (px)
       const STY = {
-        solid: [900, -0.02, 0, 0, 0], hero: [900, -0.035, 0, 0, 0], plain: [800, -0.02, 0, 0, 0], outline: [900, -0.02, 0, 0, 0],
-        tag: [800, -0.02, 0.84, 0.24, 0], "pill-gold": [800, -0.02, 1.24, 0.34, 0], "pill-white": [800, -0.02, 1.24, 0.34, 0],
-        "pill-ink": [800, -0.02, 1.24, 0.34, 8], chip: [800, -0.02, 1.2, 0.28, 6],
+        solid: [800, 0, 0, 0, 0], hero: [800, 0, 0, 0, 0], plain: [700, 0, 0, 0, 0], outline: [800, 0, 0, 0, 0],
+        tag: [700, 0, 0.84, 0.24, 0], "pill-gold": [700, 0, 1.24, 0.34, 0], "pill-white": [700, 0, 1.24, 0.34, 0],
+        "pill-ink": [700, 0, 1.24, 0.34, 8], chip: [700, 0, 1.2, 0.28, 6],
       };
       const L = LAYOUTS[v.layout] || LAYOUTS.slam;
       const texts = ts.map((t) => t.textContent);
@@ -270,7 +271,7 @@
           const fs = Math.max(FLOOR, base[i] * s), indent = c.indent * k * s; // small tags stay readable
           const oneLine = !/solid|hero|outline/.test(c.cls);
           const m = oneLine ? { lines: 1, w: __textW(texts[i], wt, fs, ls) } : __wrap(texts[i], wt, fs, Math.max(W, 640) - indent, ls);
-          return { w: m.w + ph * fs + bd, h: m.lines * 1.02 * fs + pv * fs + bd + 0.12 * fs, indent, gap: i ? c.gap * s : 0, lines: m.lines, mw: m.w };
+          return { w: m.w + ph * fs + bd, h: m.lines * 1.06 * fs + pv * fs + bd + 0.12 * fs, indent, gap: i ? c.gap * s : 0, lines: m.lines, mw: m.w };
         });
         const edge = Number(v.edge) || 120;
         const xMin = right ? 1920 - edge - W : edge, xMax = right ? 1920 - edge : edge + W;
@@ -303,7 +304,6 @@
           tl.fromTo(["#d15d-stage", ...gs], { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 0);
           L.forEach((c, i) => {
             tl.set(ws[i], { rotation: c.rot }, 0);
-            if (c.cls === "outline") tl.set(ts[i], { color: "rgba(252,212,0,1)" }, 0);
             if (c.mark) tl.set("#d15d-m" + (i + 1), { clipPath: "inset(-20% -20% -20% -20%)" }, 0);
           });
         } else L.forEach((c, i) => {
@@ -323,8 +323,7 @@
                 { opacity: 1, scale: 1, rotation: c.rot, duration: 0.6, ease: "back.out(1.9)" }, t);
               break;
             case "outline":
-              tl.fromTo(el, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power3.out" }, t);
-              tl.fromTo(el, { color: "rgba(252,212,0,0)" }, { color: "rgba(252,212,0,1)", duration: 0.45, ease: "power2.inOut" }, t + 0.55);
+              tl.fromTo(el, { clipPath: "inset(-10% 100% -10% -10%)" }, { clipPath: "inset(-10% -10% -10% -10%)", duration: 0.6, ease: "power3.out" }, t);
               break;
             case "pill-gold":
             case "pill-white":

@@ -13,7 +13,7 @@ const place = (start, end, prefY) => {
 };
 
 const files = {
-  "opening.html": { a: place(0.3, 6.6, 300) }, // scene starts at 0 s; "2026" shows until the crowd shot
+  "opening.html": { a: place(3.5, 6.7, 300) }, // scene starts at 0 s; "2026" shows until the crowd shot
   "outro.html": { a: place(125.2, 127.45, 250) }, // "One MENDAKI." shows 125.2-127.45 s
 };
 

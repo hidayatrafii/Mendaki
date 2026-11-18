@@ -1,10 +1,8 @@
 // Builds compositions/captions.html (the subtitles) from assets/transcript.json.
-// Subtitles are centred on one line inside the 80% title-safe area. Each one sits at the
-// usual height unless a face is there, in which case it rises just enough to clear it.
+// Subtitles always sit in the same place: bottom centre, on one line, inside the 80%
+// title-safe area.
 // Fix a misheard word by editing the transcript or FIXES below, then: node tools/build-captions.mjs
 import { readFileSync, writeFileSync } from "node:fs";
-import { facesIn } from "./faces.mjs";
-import { placeBlock } from "./layout-estimate.mjs";
 
 const RUNTIME = readFileSync(new URL("./place-runtime.js", import.meta.url), "utf8");
 const SAFE = [192, 1728]; // 80% title-safe, horizontally
@@ -33,25 +31,6 @@ words.forEach((w, i) => {
   }
 });
 
-// A subtitle that can't sit centred anywhere without crossing a face (tight close-ups)
-// is split into shorter halves, which fit between faces. Estimated here; exact at runtime.
-const windowOf = (g, next) => [Math.max(0.15, g[0].start - 0.05), Math.min(g[g.length - 1].end + 0.3, next ? next[0].start - 0.07 : Infinity)];
-const blocked = (g, next) => {
-  const [s, e] = windowOf(g, next);
-  const w = g.map((x) => x.text).join(" ").length * 0.6 * 42 + 64;
-  const P = placeBlock({ measure: (k) => ({ w: w * k, h: 77 * k }), faces: facesIn(s, e), pres: null, side: "center",
-    xMin: 0, xMax: 1920, yMin: 48, yMax: 1032, prefY: 906, pad: 6, scales: [1, 0.9, 0.8], step: 8 });
-  return !P || P.cost > 0;
-};
-for (let i = 0; i < groups.length; i++) {
-  const g = groups[i];
-  if (g.length >= 2 && blocked(g, groups[i + 1])) {
-    const half = Math.ceil(g.length / 2);
-    groups.splice(i, 1, g.slice(0, half), g.slice(half));
-    i--; // re-check the first half
-  }
-}
-
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const r = (x) => Math.round(x * 1000) / 1000;
 const html = [];
@@ -66,7 +45,7 @@ groups.forEach((g, gi) => {
       g.map((w, wi) => `<span class="cw" id="${id}-${wi}">${esc(w.text)}</span>`).join(" ") +
       `</span></div>`,
   );
-  data.push([id, r(start), r(end), g.map((w) => [r(w.start), r(w.end)]), facesIn(start, end)]);
+  data.push([id, r(start), r(end), g.map((w) => [r(w.start), r(w.end)])]);
 });
 const last = Math.max(...data.map((d) => d[2]));
 
@@ -110,12 +89,11 @@ ${html.join("\n")}
   <script>
     (function () {
       ${RUNTIME.replace(/\n/g, "\n      ")}
-      // [group id, show, hide, [[word start, word end], ...], faces on screen meanwhile]
+      // [group id, show, hide, [[word start, word end], ...]]
       const G = ${JSON.stringify(data)};
       __fontsReady().then(() => {
         const maxW = ${SAFE[1] - SAFE[0]};
-        G.forEach(([id, start, end, ws, faces]) => {
-          const cg = document.getElementById(id);
+        G.forEach(([id]) => {
           const pill = document.getElementById(id + "-pill");
           // one line, always: shrink the type if a line would leave the title-safe area
           // (sized from the font, so it works even while hidden)
@@ -124,17 +102,6 @@ ${html.join("\n")}
           while (fs > 30 && __textW(text, 700, fs, -0.005) + 64 > maxW) fs -= 1;
           if (fs !== 42) pill.style.fontSize = fs + "px";
           const pw = __textW(text, 700, fs, -0.005) + 64, ph = fs * 1.2 + 27;
-          // centred; at the usual height unless a face is there, then the nearest clear height
-          const P = __placeBlock({
-            measure: (s) => ({ w: pw * s, h: ph * s }),
-            faces, pres: null, side: "center", xMin: 0, xMax: 1920,
-            yMin: 54 - 6, yMax: 1080 - 54 + 6, prefY: 912 - 6, pad: 6, scales: [1, 0.9, 0.8, 0.72], step: 8,
-          });
-          if (P) {
-            cg.style.top = P.y + 6 + "px";
-            if (P.s !== 1) pill.style.fontSize = Math.round(fs * P.s) + "px";
-          }
-          cg.setAttribute("data-cost", P ? Math.round(P.cost) : -1);
         });
         const tl = gsap.timeline({ paused: true });
         G.forEach(([id, start, end, ws]) => {

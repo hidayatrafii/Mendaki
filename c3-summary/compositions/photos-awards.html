@@ -5,30 +5,30 @@
     #root .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   </style>
   <div id="root" data-composition-id="photos-awards" data-width="1920" data-height="1080">
-    <div id="paward-p01" class="clip photo" data-start="0" data-duration="2.125" data-track-index="0">
+    <div id="paward-p01" class="clip photo" data-start="0" data-duration="2.192" data-track-index="0">
       <img id="paward-i01" src="assets/photos/01-awards-congratulations.jpg" alt="" />
     </div>
-    <div id="paward-p02" class="clip photo" data-start="2.125" data-duration="1.95" data-track-index="1">
+    <div id="paward-p02" class="clip photo" data-start="2.192" data-duration="1.95" data-track-index="1">
       <img id="paward-i02" src="assets/photos/02-awards-best-employee.jpg" alt="" />
     </div>
-    <div id="paward-p03" class="clip photo" data-start="4.075" data-duration="1.997" data-track-index="0">
+    <div id="paward-p03" class="clip photo" data-start="4.142" data-duration="1.997" data-track-index="0">
       <img id="paward-i03" src="assets/photos/03-awards-handover-1.jpg" alt="" />
     </div>
-    <div id="paward-p04" class="clip photo" data-start="6.072" data-duration="1.695" data-track-index="1">
+    <div id="paward-p04" class="clip photo" data-start="6.139" data-duration="1.695" data-track-index="1">
       <img id="paward-i04" src="assets/photos/04-awards-handover-2.jpg" alt="" />
     </div>
-    <div id="paward-p05" class="clip photo" data-start="7.767" data-duration="1.566" data-track-index="0">
+    <div id="paward-p05" class="clip photo" data-start="7.834" data-duration="1.566" data-track-index="0">
       <img id="paward-i05" src="assets/photos/05-awards-best-employee-2.jpg" alt="" />
     </div>
   </div>
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#paward-i01", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 2.125, ease: "none" }, 0);
-      tl.fromTo("#paward-i02", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.95, ease: "none" }, 2.125);
-      tl.fromTo("#paward-i03", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.997, ease: "none" }, 4.075);
-      tl.fromTo("#paward-i04", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.695, ease: "none" }, 6.072);
-      tl.fromTo("#paward-i05", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.566, ease: "none" }, 7.767);
+      tl.fromTo("#paward-i01", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 2.192, ease: "none" }, 0);
+      tl.fromTo("#paward-i02", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.95, ease: "none" }, 2.192);
+      tl.fromTo("#paward-i03", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.997, ease: "none" }, 4.142);
+      tl.fromTo("#paward-i04", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.695, ease: "none" }, 6.139);
+      tl.fromTo("#paward-i05", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.566, ease: "none" }, 7.834);
       window.__timelines["photos-awards"] = tl;
     })();
   </script>

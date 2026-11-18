@@ -6,8 +6,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 // Each scene: [id, start (s), end (s), photos as [file in assets/photos, from (s)]]
 // Photo changes follow the narration line each photo illustrates.
 const scenes = [
-  ["photos-awards", 60.267, 69.6, [
-    ["01-awards-congratulations.jpg", 60.267], // "when our people reach new milestones, we celebrate them"
+  // starts 2 frames before the footage goes black (60.267 s) so no black frame shows
+  ["photos-awards", 60.2, 69.6, [
+    ["01-awards-congratulations.jpg", 60.2], // "when our people reach new milestones, we celebrate them"
     ["02-awards-best-employee.jpg", 62.5],
     ["03-awards-handover-1.jpg", 64.43], // "recognising effort and progress"
     ["04-awards-handover-2.jpg", 66.4],

@@ -30,7 +30,7 @@ export const LAYOUTS = {
   ],
 };
 const PADS = { tag: [0.84, 0.24], "pill-gold": [1.24, 0.34], "pill-white": [1.24, 0.34], "pill-ink": [1.24, 0.34], chip: [1.2, 0.28] };
-const CHAR = 0.68; // Montserrat ExtraBold/Black average advance, in em (slightly generous)
+const CHAR = 0.66; // Montserrat Bold/ExtraBold average advance, in em (slightly generous)
 
 /** Estimated sizes(scale) for a card's three keywords at width W. */
 export function estimator(layout, words, W, floor = 34) {
@@ -61,6 +61,6 @@ export function estimator(layout, words, W, floor = 34) {
       }
       lines++; tw = Math.max(tw, cur);
     }
-    return { w: tw + ph * fs, h: lines * 1.02 * fs + pv * fs + 0.12 * fs, indent, gap: i ? c.gap * s : 0 };
+    return { w: tw + ph * fs, h: lines * 1.06 * fs + pv * fs + 0.12 * fs, indent, gap: i ? c.gap * s : 0 };
   });
 }
