@@ -39,9 +39,9 @@ and `node tools/build-captions.mjs`.
 ## Sound
 
 - `assets/voice.m4a`: the narration, separated from the original edit's music with Demucs.
-- `assets/music/trip-around-the-world.m4a`: "Trip Around The World" by ANtarcticbreeze,
-  CC BY 3.0 (https://www.jamendo.com/track/1210830). Credited on the end card, as the
-  licence requires.
+- `assets/music/be-happy.m4a`: "Be Happy" by Tioben Neenot (about 128 BPM), Creative
+  Commons Attribution (CC BY), https://www.jamendo.com/track/1732250. Credited on the end
+  card, as the licence requires.
 
 ## Media
 
