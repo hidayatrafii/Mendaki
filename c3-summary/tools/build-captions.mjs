@@ -6,30 +6,55 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const RUNTIME = readFileSync(new URL("./place-runtime.js", import.meta.url), "utf8");
 const SAFE = [192, 1728]; // 80% title-safe, horizontally
-const MAX_WORDS = 6;
-const MAX_CHARS = 44; // keeps every subtitle comfortably on one line
-const PAUSE = 0.15; // a pause this long (s) starts a new subtitle
+const MAX_CHARS = 54; // the longest line that still fits on one line inside the safe area
 const FIXES = { mendaki: "MENDAKI", "mendaki,": "MENDAKI,", "mendaki.": "MENDAKI.", program: "programme", "program,": "programme," };
 
 const words = JSON.parse(readFileSync(new URL("../assets/transcript.json", import.meta.url), "utf8"))
   .map((w) => ({ ...w, text: FIXES[w.text.toLowerCase()] ?? w.text }))
   .filter((w) => w.text.trim());
 
-const groups = [];
-let cur = [];
+// Subtitles hold whole statements: a line ends only at a full stop or comma. A clause too
+// long for one line is split once at its most natural point (before a joining word such as
+// "and", "to" or "because"), keeping the halves as even as possible.
 const len = (g) => g.map((w) => w.text).join(" ").length;
+const clauses = [];
+let cur = [];
 words.forEach((w, i) => {
-  const next = words[i + 1];
-  if (cur.length && len([...cur, w]) > MAX_CHARS) { groups.push(cur); cur = []; }
   cur.push(w);
-  const sentenceEnd = /[.!?]$/.test(w.text);
-  const comma = /,$/.test(w.text) && cur.length >= 3;
-  const pause = next && next.start - w.end >= PAUSE;
-  if (!next || sentenceEnd || comma || pause || cur.length >= MAX_WORDS) {
-    groups.push(cur);
-    cur = [];
-  }
+  if (i === words.length - 1 || /[.!?,]$/.test(w.text)) { clauses.push(cur); cur = []; }
 });
+// each whole sentence is planned at once: the splitter below picks the best breaks
+const merged = [];
+for (const c of clauses) {
+  const prev = merged[merged.length - 1];
+  if (prev && !/[.!?]$/.test(prev[prev.length - 1].text)) prev.push(...c);
+  else merged.push([...c]);
+}
+const JOIN = new Set(["and", "but", "or", "so", "to", "of", "for", "with", "from", "in", "on", "at", "by", "across", "around",
+  "through", "that", "which", "who", "where", "how", "why", "because", "as", "into", "beyond", "behind", "between", "while",
+  "when", "is", "are", "remains", "about", "also"]);
+// a line must not end on a word that leans on the next one
+const DANGLE = new Set(["is", "are", "also", "a", "an", "the", "of", "to", "and", "or", "our", "their", "in", "on", "for", "with", "from", "as", "be"]);
+const bare = (w) => w.text.toLowerCase().replace(/[^a-z]/g, "");
+function split(c) {
+  if (len(c) <= MAX_CHARS || c.length < 2) return [c];
+  let best = null;
+  for (let k = 1; k < c.length; k++) {
+    const a = c.slice(0, k), b = c.slice(k);
+    const score =
+      (len(a) > MAX_CHARS ? 1000 : 0) + // the first line must fit; a long rest is split again
+      (len(b) > MAX_CHARS ? 0 : 0) + // a long rest is fine: it is split again
+      (/,$/.test(c[k - 1].text) ? 0 : JOIN.has(bare(c[k])) ? 30 : 200) + // after a comma, else before a joining word
+      (/,$/.test(c[k - 1].text) && c[k - 1].text.length < 0 ? 0 : 0) +
+      (DANGLE.has(bare(c[k - 1])) ? 150 : 0) +
+      (a.length < 3 || b.length < 3 ? 300 : 0) + // no one- or two-word lines
+      (len(b) <= MAX_CHARS ? 0 : 0) +
+      Math.abs(len(a) - len(b)) * 0.15;
+    if (!best || score < best.score) best = { score, a, b };
+  }
+  return [...split(best.a), ...split(best.b)];
+}
+const groups = merged.flatMap(split);
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const r = (x) => Math.round(x * 1000) / 1000;

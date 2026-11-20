@@ -14,7 +14,8 @@ for (const w of words) {
   if (last && w.start - last[1] < 0.45) last[1] = Math.max(last[1], w.end);
   else speech.push([w.start, w.end]);
 }
-const DUCK = 0.34, GAP = 0.62, FULL = 0.95, RAMP = 0.25;
+// under the voice the music sits ~15 dB below it (voice -16 LUFS, music -13.6 LUFS at full)
+const DUCK = 0.13, GAP = 0.3, FULL = 0.95, RAMP = 0.25;
 const pts = [{ t: 0, v: FULL }, { t: 2.9, v: FULL }];
 for (const [s, e] of speech) {
   pts.push({ t: r(Math.max(s - RAMP, pts[pts.length - 1].t + 0.01)), v: pts[pts.length - 1].v });
