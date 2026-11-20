@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.6), rgba(16, 10, 46, 0.36) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.6), rgba(26, 27, 30, 0.36) 62%, rgba(26, 27, 30, 0));
     }
     #root .stage {
       position: absolute;
@@ -37,18 +37,18 @@
     }
     /* word styles */
     /* weights kept at 700-800 with normal spacing so every word reads cleanly at a glance */
-    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(10, 6, 30, 0.65); }
-    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .outline .t { color: #fcd400; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(0, 0, 0, 0.65); }
+    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .outline .t { color: #fdd901; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
     #root .tag .t,
-    #root .pill-gold .t { background: #fcd400; color: #1a1046; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(10, 6, 30, 0.35); }
+    #root .pill-gold .t { background: #fdd901; color: #1a1b1e; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
     #root .pill-gold .t,
     #root .pill-white .t,
-    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(10, 6, 30, 0.4); }
-    #root .pill-white .t { background: #fff; color: #1a1046; }
-    #root .pill-ink .t { background: rgba(26, 16, 70, 0.94); color: #fff; border: 4px solid #fcd400; }
-    #root .chip .t { color: #fcd400; border: 3px solid #fcd400; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(16, 10, 46, 0.55); }
+    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4); }
+    #root .pill-white .t { background: #fff; color: #1a1b1e; }
+    #root .pill-ink .t { background: rgba(26, 27, 30, 0.94); color: #fff; border: 4px solid #26b6c6; }
+    #root .chip .t { color: #fdd901; border: 3px solid #fdd901; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(26, 27, 30, 0.55); }
     /* hand-drawn marker strokes */
     #root .mk {
       position: absolute;
@@ -58,7 +58,7 @@
     }
     #root .mk path {
       fill: none;
-      stroke: #fcd400;
+      stroke: #fdd901;
       stroke-linecap: round;
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
@@ -85,7 +85,7 @@
     (function () {
       // layout, side, room beside the presenter, his box, the faces on screen and the card
       // length are written by tools/build-cards.mjs
-      const v = {"dimension":"Senior Leadership: People","layout":"marker","side":"right","width":860,"edge":120,"dur":6.45,"cont":false,"last":true,"pres":[-10,434,544,1080],"faces":[[1511,255,1810,628],[187,494,359,737],[275,289,483,627],[776,49,961,377],[83,144,117,191],[119,61,148,102],[1210,0,1524,329],[1666,44,1920,430],[0,204,111,417],[1021,126,1096,254],[851,356,920,463],[1067,256,1154,385],[934,336,1003,444],[696,189,765,303],[616,181,642,224],[667,357,741,485],[39,153,72,201],[209,150,336,348],[605,114,622,142],[609,153,632,186],[527,169,626,346],[646,119,668,152]]};
+      const v = {"dimension":"Senior Leadership: People","layout":"marker","side":"left","width":860,"edge":120,"dur":6.45,"cont":false,"last":true,"pres":null,"faces":[[1511,254,1808,626],[270,292,484,623],[97,46,125,87],[65,139,98,184],[776,51,961,377],[83,145,116,192],[1208,0,1525,328],[1663,47,1920,430],[976,407,1038,506],[0,205,110,418],[1021,127,1096,253],[851,358,920,463],[1067,254,1154,385],[934,337,1002,445],[695,188,766,304],[667,356,743,485],[616,181,643,226],[39,152,72,200],[212,150,338,347],[605,113,622,140],[610,153,633,187],[527,169,627,347],[646,119,668,151]]};
       // Inlined into the keyword and subtitle scenes by the build scripts.
       // Finds where a block of text can sit without touching any face or the presenter.
       function __hit(a, b) {
@@ -127,13 +127,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {

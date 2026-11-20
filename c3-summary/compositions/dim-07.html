@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.6), rgba(16, 10, 46, 0.36) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.6), rgba(26, 27, 30, 0.36) 62%, rgba(26, 27, 30, 0));
     }
     #root .stage {
       position: absolute;
@@ -37,18 +37,18 @@
     }
     /* word styles */
     /* weights kept at 700-800 with normal spacing so every word reads cleanly at a glance */
-    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(10, 6, 30, 0.65); }
-    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .outline .t { color: #fcd400; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(0, 0, 0, 0.65); }
+    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .outline .t { color: #fdd901; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
     #root .tag .t,
-    #root .pill-gold .t { background: #fcd400; color: #1a1046; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(10, 6, 30, 0.35); }
+    #root .pill-gold .t { background: #fdd901; color: #1a1b1e; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
     #root .pill-gold .t,
     #root .pill-white .t,
-    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(10, 6, 30, 0.4); }
-    #root .pill-white .t { background: #fff; color: #1a1046; }
-    #root .pill-ink .t { background: rgba(26, 16, 70, 0.94); color: #fff; border: 4px solid #fcd400; }
-    #root .chip .t { color: #fcd400; border: 3px solid #fcd400; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(16, 10, 46, 0.55); }
+    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4); }
+    #root .pill-white .t { background: #fff; color: #1a1b1e; }
+    #root .pill-ink .t { background: rgba(26, 27, 30, 0.94); color: #fff; border: 4px solid #26b6c6; }
+    #root .chip .t { color: #fdd901; border: 3px solid #fdd901; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(26, 27, 30, 0.55); }
     /* hand-drawn marker strokes */
     #root .mk {
       position: absolute;
@@ -58,7 +58,7 @@
     }
     #root .mk path {
       fill: none;
-      stroke: #fcd400;
+      stroke: #fdd901;
       stroke-linecap: round;
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
@@ -85,7 +85,7 @@
     (function () {
       // layout, side, room beside the presenter, his box, the faces on screen and the card
       // length are written by tools/build-cards.mjs
-      const v = {"dimension":"Teamwork / Collaboration","layout":"marker","side":"right","width":860,"edge":120,"dur":4.05,"cont":false,"last":true,"pres":[-40,196,716,1080],"faces":[[693,315,743,380],[852,305,891,370],[1754,535,1850,595],[1000,319,1042,388],[509,308,569,370],[1219,501,1276,565],[1664,530,1754,593],[574,677,646,763],[1382,354,1447,421],[1186,668,1256,763],[1138,331,1184,393],[1384,598,1463,679],[1557,701,1662,812],[1479,318,1569,426],[1724,333,1821,410],[737,323,784,387],[1046,290,1086,353],[612,308,665,368],[1070,706,1129,794],[19,639,131,731],[705,674,773,767],[1276,299,1331,362],[1360,675,1437,762],[1710,712,1824,828],[637,446,692,502],[467,496,531,550],[1110,494,1159,554],[172,271,453,638],[1739,635,1849,727],[1572,368,1657,444],[1325,526,1391,586],[972,301,1005,361],[647,354,700,417],[167,495,210,553],[1487,699,1582,799],[1292,326,1362,409],[953,332,990,399],[1654,350,1737,413],[818,688,874,776],[807,338,846,400],[778,304,824,370],[1328,312,1381,368],[435,307,500,371],[1575,524,1660,587],[421,594,505,670],[971,486,1013,547],[1495,529,1572,591],[963,702,1016,796],[1399,504,1468,566],[494,579,572,654],[1295,615,1365,693],[1162,290,1211,357],[1084,363,1128,424],[1612,636,1710,729],[542,487,603,546],[741,497,794,557],[85,496,177,552],[1336,349,1387,406],[1305,446,1368,507],[1214,310,1273,411],[1235,302,1278,356],[826,500,871,560],[1182,346,1231,409],[124,627,209,717],[879,363,919,426],[467,345,528,401],[556,334,615,396],[1238,344,1291,411],[1020,360,1062,422],[1530,310,1590,389],[1406,315,1470,377],[1557,308,1595,364],[465,662,536,753],[1497,651,1553,714],[401,782,553,1011],[1475,642,1525,713]]};
+      const v = {"dimension":"Teamwork / Collaboration","layout":"marker","side":"left","width":860,"edge":120,"dur":4.05,"cont":false,"last":true,"pres":null,"faces":[[692,315,742,379],[1000,319,1042,388],[1754,535,1849,595],[852,306,891,370],[1219,501,1277,565],[509,308,569,370],[574,678,646,763],[1665,530,1754,593],[1382,354,1448,421],[1384,599,1464,679],[1557,701,1662,812],[1187,668,1257,763],[1136,331,1184,392],[737,323,783,387],[360,554,446,628],[1479,319,1570,427],[1724,334,1823,410],[280,495,360,552],[292,324,370,391],[612,308,665,368],[1046,290,1086,353],[705,675,772,767],[1070,706,1130,794],[18,639,131,731],[371,318,443,385],[1110,493,1159,555],[1360,675,1437,763],[1739,635,1848,727],[467,496,531,550],[1277,299,1333,362],[637,445,692,502],[1711,712,1825,830],[972,301,1005,360],[246,587,341,663],[1572,368,1657,443],[953,332,990,399],[1488,699,1583,799],[1325,526,1390,586],[1654,350,1738,412],[647,354,699,417],[819,689,873,775],[456,662,536,749],[1292,326,1363,409],[495,578,571,654],[167,495,255,552],[778,304,824,370],[1399,504,1469,566],[1575,525,1657,588],[434,307,499,371],[1328,312,1382,367],[807,339,847,400],[971,486,1013,547],[963,702,1017,797],[187,703,285,796],[126,624,230,715],[1295,615,1366,692],[422,595,504,670],[1495,529,1574,592],[542,487,602,546],[1612,637,1711,729],[85,496,177,552],[1162,288,1212,356],[333,634,423,728],[1336,349,1387,404],[741,497,794,557],[1085,363,1128,424],[1213,307,1274,411],[1305,446,1366,508],[1181,346,1231,409],[467,345,527,402],[556,334,615,396],[879,363,919,424],[826,499,870,559],[1238,301,1279,356],[358,499,433,555],[1240,345,1291,410],[1021,361,1062,422],[1531,310,1590,390],[1406,315,1470,377],[1557,309,1596,363],[1476,644,1569,718]]};
       // Inlined into the keyword and subtitle scenes by the build scripts.
       // Finds where a block of text can sit without touching any face or the presenter.
       function __hit(a, b) {
@@ -127,13 +127,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {

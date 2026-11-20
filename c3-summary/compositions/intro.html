@@ -1,0 +1,87 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+    }
+    #root .panel {
+      position: absolute;
+      inset: 0;
+      background: #1a1b1e;
+    }
+    #root .stripe {
+      position: absolute;
+      left: -10%;
+      width: 120%;
+      height: 26px;
+      background: #fdd901;
+      transform-origin: 0 50%;
+    }
+    #root .label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 250px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.42em;
+      color: #26b6c6;
+    }
+    #root .words {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 330px;
+      text-align: center;
+      line-height: 0.98;
+    }
+    #root .line {
+      display: block;
+      white-space: nowrap;
+    }
+    #root .w {
+      display: inline-block;
+      margin: 0 0.12em;
+      font-size: 190px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+    #root .w.y {
+      color: #fdd901;
+    }
+  </style>
+  <div id="root" data-composition-id="intro" data-width="1920" data-height="1080">
+    <div class="panel" id="in-panel"></div>
+    <div class="stripe" id="in-s1" style="top: 170px"></div>
+    <div class="stripe" id="in-s2" style="top: 884px"></div>
+    <div class="label" id="in-label">YAYASAN MENDAKI · 2026</div>
+    <div class="words" id="in-words">
+      <span class="line"><span class="w" id="in-w1">OUR</span><span class="w y" id="in-w2">YEAR</span></span>
+      <span class="line"><span class="w" id="in-w3">IN</span><span class="w y" id="in-w4">REVIEW</span></span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // the music's first beats: 0, 0.535, 1.069, 1.603, 2.137, 2.671 s (assets/music/beats.json)
+      const B = [0, 0.535, 1.069, 1.603, 2.137, 2.671];
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#in-s1", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, B[0] + 0.02);
+      tl.fromTo("#in-s2", { scaleX: 0, transformOrigin: "100% 50%" }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, B[0] + 0.1);
+      tl.fromTo("#in-label", { opacity: 0, scaleX: 1.4 }, { opacity: 1, scaleX: 1, duration: 0.5, ease: "expo.out" }, B[0] + 0.12);
+      ["#in-w1", "#in-w2", "#in-w3", "#in-w4"].forEach((w, i) => {
+        tl.fromTo(w, { opacity: 0, scale: 1.7, filter: "blur(14px)" },
+          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.32, ease: "expo.out" }, B[i + 1]);
+      });
+      // a punch on the last word, then the whole panel wipes up on the next beat
+      tl.fromTo("#in-words", { scale: 1 }, { scale: 1.06, duration: 0.5, ease: "power1.out" }, B[4] + 0.05);
+      tl.to(["#in-words", "#in-label"], { yPercent: -60, opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, B[5] - 0.05);
+      tl.to(["#in-s1", "#in-s2"], { scaleX: 0, transformOrigin: "100% 50%", duration: 0.3, ease: "power3.in" }, B[5] - 0.05);
+      tl.to("#in-panel", { yPercent: -100, duration: 0.42, ease: "power3.inOut" }, B[5]);
+      window.__timelines["intro"] = tl;
+    })();
+  </script>
+</template>

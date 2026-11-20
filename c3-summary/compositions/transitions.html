@@ -1,0 +1,149 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    #root .tr { position: absolute; inset: 0; overflow: hidden; }
+    #root .band { position: absolute; top: -20%; left: 0; width: 120%; height: 140%; transform-origin: 50% 50%; }
+    #root .band.yellow { background: #fdd901; clip-path: polygon(30% 0, 70% 0, 50% 100%, 10% 100%); }
+    #root .band.teal { background: #26b6c6; clip-path: polygon(46% 0, 58% 0, 38% 100%, 26% 100%); }
+    #root .flash { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+    #root .bar { position: absolute; left: 0; width: 1920px; height: 360px; background: #1a1b1e; }
+  </style>
+  <div id="root" data-composition-id="transitions" data-width="1920" data-height="1080">
+    <div id="tr-01" class="clip tr" data-start="6.567" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-01-a"></div><div class="band teal" id="tr-01-b"></div></div>
+    <div id="tr-02" class="clip tr" data-start="7.867" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-02-f"></div></div>
+    <div id="tr-03" class="clip tr" data-start="9.5" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-03-s0" style="top: 0px"></div><div class="bar" id="tr-03-s1" style="top: 360px"></div><div class="bar" id="tr-03-s2" style="top: 720px"></div></div>
+    <div id="tr-05" class="clip tr" data-start="12.133" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-05-a"></div><div class="band teal" id="tr-05-b"></div></div>
+    <div id="tr-06" class="clip tr" data-start="14.667" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-06-f"></div></div>
+    <div id="tr-07" class="clip tr" data-start="16.133" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-07-s0" style="top: 0px"></div><div class="bar" id="tr-07-s1" style="top: 360px"></div><div class="bar" id="tr-07-s2" style="top: 720px"></div></div>
+    <div id="tr-09" class="clip tr" data-start="23.833" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-09-a"></div><div class="band teal" id="tr-09-b"></div></div>
+    <div id="tr-10" class="clip tr" data-start="25.833" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-10-f"></div></div>
+    <div id="tr-11" class="clip tr" data-start="30.533" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-11-s0" style="top: 0px"></div><div class="bar" id="tr-11-s1" style="top: 360px"></div><div class="bar" id="tr-11-s2" style="top: 720px"></div></div>
+    <div id="tr-13" class="clip tr" data-start="36.633" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-13-a"></div><div class="band teal" id="tr-13-b"></div></div>
+    <div id="tr-14" class="clip tr" data-start="39.733" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-14-f"></div></div>
+    <div id="tr-15" class="clip tr" data-start="42.233" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-15-s0" style="top: 0px"></div><div class="bar" id="tr-15-s1" style="top: 360px"></div><div class="bar" id="tr-15-s2" style="top: 720px"></div></div>
+    <div id="tr-17" class="clip tr" data-start="48.3" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-17-a"></div><div class="band teal" id="tr-17-b"></div></div>
+    <div id="tr-18" class="clip tr" data-start="52.133" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-18-f"></div></div>
+    <div id="tr-19" class="clip tr" data-start="52.9" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-19-s0" style="top: 0px"></div><div class="bar" id="tr-19-s1" style="top: 360px"></div><div class="bar" id="tr-19-s2" style="top: 720px"></div></div>
+    <div id="tr-21" class="clip tr" data-start="55.833" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-21-a"></div><div class="band teal" id="tr-21-b"></div></div>
+    <div id="tr-22" class="clip tr" data-start="57.633" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-22-f"></div></div>
+    <div id="tr-23" class="clip tr" data-start="59.967" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-23-s0" style="top: 0px"></div><div class="bar" id="tr-23-s1" style="top: 360px"></div><div class="bar" id="tr-23-s2" style="top: 720px"></div></div>
+    <div id="tr-25" class="clip tr" data-start="95.133" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-25-a"></div><div class="band teal" id="tr-25-b"></div></div>
+    <div id="tr-26" class="clip tr" data-start="97.167" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-26-f"></div></div>
+    <div id="tr-27" class="clip tr" data-start="98.9" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-27-s0" style="top: 0px"></div><div class="bar" id="tr-27-s1" style="top: 360px"></div><div class="bar" id="tr-27-s2" style="top: 720px"></div></div>
+    <div id="tr-29" class="clip tr" data-start="104.2" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-29-a"></div><div class="band teal" id="tr-29-b"></div></div>
+    <div id="tr-30" class="clip tr" data-start="105.233" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-30-f"></div></div>
+    <div id="tr-31" class="clip tr" data-start="106.133" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-31-s0" style="top: 0px"></div><div class="bar" id="tr-31-s1" style="top: 360px"></div><div class="bar" id="tr-31-s2" style="top: 720px"></div></div>
+    <div id="tr-33" class="clip tr" data-start="110.633" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-33-a"></div><div class="band teal" id="tr-33-b"></div></div>
+    <div id="tr-34" class="clip tr" data-start="111.6" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-34-f"></div></div>
+    <div id="tr-35" class="clip tr" data-start="112.85" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-35-s0" style="top: 0px"></div><div class="bar" id="tr-35-s1" style="top: 360px"></div><div class="bar" id="tr-35-s2" style="top: 720px"></div></div>
+    <div id="tr-37" class="clip tr" data-start="117.5" data-duration="0.7" data-track-index="0"><div class="band yellow" id="tr-37-a"></div><div class="band teal" id="tr-37-b"></div></div>
+    <div id="tr-38" class="clip tr" data-start="119.567" data-duration="0.7" data-track-index="1"><div class="flash" id="tr-38-f"></div></div>
+    <div id="tr-39" class="clip tr" data-start="121.667" data-duration="0.7" data-track-index="0"><div class="bar" id="tr-39-s0" style="top: 0px"></div><div class="bar" id="tr-39-s1" style="top: 360px"></div><div class="bar" id="tr-39-s2" style="top: 720px"></div></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#tr-01-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 6.617);
+      tl.fromTo("#tr-01-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 6.687);
+      tl.fromTo("#tr-02-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 8.127);
+      tl.to("#tr-02-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 8.187);
+      tl.fromTo("#tr-03-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 9.6);
+      tl.to("#tr-03-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 9.82);
+      tl.fromTo("#tr-03-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 9.62);
+      tl.to("#tr-03-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 9.84);
+      tl.fromTo("#tr-03-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 9.64);
+      tl.to("#tr-03-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 9.86);
+      tl.fromTo("#tr-05-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 12.183);
+      tl.fromTo("#tr-05-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 12.253);
+      tl.fromTo("#tr-06-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 14.927);
+      tl.to("#tr-06-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 14.987);
+      tl.fromTo("#tr-07-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 16.233);
+      tl.to("#tr-07-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 16.453);
+      tl.fromTo("#tr-07-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 16.253);
+      tl.to("#tr-07-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 16.473);
+      tl.fromTo("#tr-07-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 16.273);
+      tl.to("#tr-07-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 16.493);
+      tl.fromTo("#tr-09-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 23.883);
+      tl.fromTo("#tr-09-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 23.953);
+      tl.fromTo("#tr-10-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 26.093);
+      tl.to("#tr-10-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 26.153);
+      tl.fromTo("#tr-11-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 30.633);
+      tl.to("#tr-11-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 30.853);
+      tl.fromTo("#tr-11-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 30.653);
+      tl.to("#tr-11-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 30.873);
+      tl.fromTo("#tr-11-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 30.673);
+      tl.to("#tr-11-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 30.893);
+      tl.fromTo("#tr-13-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 36.683);
+      tl.fromTo("#tr-13-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 36.753);
+      tl.fromTo("#tr-14-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 39.993);
+      tl.to("#tr-14-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 40.053);
+      tl.fromTo("#tr-15-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 42.333);
+      tl.to("#tr-15-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 42.553);
+      tl.fromTo("#tr-15-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 42.353);
+      tl.to("#tr-15-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 42.573);
+      tl.fromTo("#tr-15-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 42.373);
+      tl.to("#tr-15-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 42.593);
+      tl.fromTo("#tr-17-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 48.35);
+      tl.fromTo("#tr-17-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 48.42);
+      tl.fromTo("#tr-18-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 52.393);
+      tl.to("#tr-18-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 52.453);
+      tl.fromTo("#tr-19-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 53);
+      tl.to("#tr-19-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 53.22);
+      tl.fromTo("#tr-19-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 53.02);
+      tl.to("#tr-19-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 53.24);
+      tl.fromTo("#tr-19-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 53.04);
+      tl.to("#tr-19-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 53.26);
+      tl.fromTo("#tr-21-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 55.883);
+      tl.fromTo("#tr-21-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 55.953);
+      tl.fromTo("#tr-22-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 57.893);
+      tl.to("#tr-22-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 57.953);
+      tl.fromTo("#tr-23-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 60.067);
+      tl.to("#tr-23-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 60.287);
+      tl.fromTo("#tr-23-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 60.087);
+      tl.to("#tr-23-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 60.307);
+      tl.fromTo("#tr-23-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 60.107);
+      tl.to("#tr-23-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 60.327);
+      tl.fromTo("#tr-25-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 95.183);
+      tl.fromTo("#tr-25-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 95.253);
+      tl.fromTo("#tr-26-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 97.427);
+      tl.to("#tr-26-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 97.487);
+      tl.fromTo("#tr-27-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 99);
+      tl.to("#tr-27-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 99.22);
+      tl.fromTo("#tr-27-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 99.02);
+      tl.to("#tr-27-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 99.24);
+      tl.fromTo("#tr-27-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 99.04);
+      tl.to("#tr-27-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 99.26);
+      tl.fromTo("#tr-29-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 104.25);
+      tl.fromTo("#tr-29-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 104.32);
+      tl.fromTo("#tr-30-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 105.493);
+      tl.to("#tr-30-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 105.553);
+      tl.fromTo("#tr-31-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 106.233);
+      tl.to("#tr-31-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 106.453);
+      tl.fromTo("#tr-31-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 106.253);
+      tl.to("#tr-31-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 106.473);
+      tl.fromTo("#tr-31-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 106.273);
+      tl.to("#tr-31-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 106.493);
+      tl.fromTo("#tr-33-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 110.683);
+      tl.fromTo("#tr-33-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 110.753);
+      tl.fromTo("#tr-34-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 111.86);
+      tl.to("#tr-34-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 111.92);
+      tl.fromTo("#tr-35-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 112.95);
+      tl.to("#tr-35-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 113.17);
+      tl.fromTo("#tr-35-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 112.97);
+      tl.to("#tr-35-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 113.19);
+      tl.fromTo("#tr-35-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 112.99);
+      tl.to("#tr-35-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 113.21);
+      tl.fromTo("#tr-37-a", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 117.55);
+      tl.fromTo("#tr-37-b", { xPercent: -160 }, { xPercent: 160, duration: 0.5, ease: "power2.inOut" }, 117.62);
+      tl.fromTo("#tr-38-f", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none" }, 119.827);
+      tl.to("#tr-38-f", { opacity: 0, duration: 0.3, ease: "power2.out" }, 119.887);
+      tl.fromTo("#tr-39-s0", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 121.767);
+      tl.to("#tr-39-s0", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 121.987);
+      tl.fromTo("#tr-39-s1", { xPercent: 105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 121.787);
+      tl.to("#tr-39-s1", { xPercent: -105, duration: 0.26, ease: "power3.out" }, 122.007);
+      tl.fromTo("#tr-39-s2", { xPercent: -105 }, { xPercent: 0, duration: 0.2, ease: "power3.in" }, 121.807);
+      tl.to("#tr-39-s2", { xPercent: 105, duration: 0.26, ease: "power3.out" }, 122.027);
+      window.__timelines["transitions"] = tl;
+    })();
+  </script>
+</template>

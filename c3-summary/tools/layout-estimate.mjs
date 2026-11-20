@@ -30,7 +30,7 @@ export const LAYOUTS = {
   ],
 };
 const PADS = { tag: [0.84, 0.24], "pill-gold": [1.24, 0.34], "pill-white": [1.24, 0.34], "pill-ink": [1.24, 0.34], chip: [1.2, 0.28] };
-const CHAR = 0.66; // Montserrat Bold/ExtraBold average advance, in em (slightly generous)
+const CHAR = 0.66; // Poppins Bold/ExtraBold average advance, in em (slightly generous)
 
 /** Estimated sizes(scale) for a card's three keywords at width W. */
 export function estimator(layout, words, W, floor = 34) {

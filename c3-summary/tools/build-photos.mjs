@@ -1,5 +1,6 @@
-// Builds the photo scenes that fill the stretches where the original edit was black.
-// The presenter is keyed in front of them (presenter-a/b.webm in index.html).
+// Builds the photo scenes that fill the stretches where the edit is black: each photo
+// slams in on the beat as a tilted, white-framed card over a blurred copy of itself,
+// leaving the previous card peeking out underneath.
 // Edit the lists below, then: node tools/build-photos.mjs
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -37,14 +38,21 @@ const scenes = [
 
 const r = (x) => Math.round(x * 1000) / 1000;
 // Photo changes land on the music's beat: each change moves to the nearest beat within
-// 0.2 s (the first photo of a scene stays where the footage goes black).
+// 0.28 s, i.e. always (the first photo of a scene stays where the footage goes black).
 const BEATS = JSON.parse(readFileSync(new URL("../assets/music/beats.json", import.meta.url), "utf8")).beats;
 const onBeat = (t) => {
   const b = BEATS.reduce((a, x) => (Math.abs(x - t) < Math.abs(a - t) ? x : a), Infinity);
-  return Math.abs(b - t) <= 0.2 ? b : t;
+  return Math.abs(b - t) <= 0.28 ? b : t;
 };
 for (const scene of scenes) scene[3].forEach((ph, i) => { if (i > 0) ph[1] = r(onBeat(ph[1])); });
+// Card geometry, shared with the face detector (assets/photos/layout.json): every card is
+// the photo at K of full size, centred a little above middle (clear of the subtitles).
+const K = 0.72;
+const TILT = [-3.2, 2.6, -1.8, 3.0, -2.4, 1.6, -2.9];
+const NUDGE = [[-40, -6], [36, 10], [-18, -14], [44, 4], [-30, 12], [20, -10], [-44, 0]];
+const layout = {};
 const hosts = [];
+let k = 0;
 for (const [id, start, end, photos] of scenes) {
   const pre = id.replace("photos-", "p").slice(0, 6);
   const els = [];
@@ -54,23 +62,52 @@ for (const [id, start, end, photos] of scenes) {
     const e = r((photos[i + 1] ? photos[i + 1][1] : end) - start);
     const d = r(e - s);
     const n = String(i + 1).padStart(2, "0");
+    const rot = TILT[k % TILT.length], [nx, ny] = NUDGE[k % NUDGE.length];
+    k++;
+    const cx = 960 + nx, cy = 490 + ny;
+    layout[file] = { cx, cy, k: K, rot, start: r(from), end: r(from + d) };
+    // the blurred backdrop changes with the photo; the card stays until the scene ends,
+    // so the previous one peeks out from under the next
     els.push(
-      `    <div id="${pre}-p${n}" class="clip photo" data-start="${s}" data-duration="${d}" data-track-index="${i % 2}">\n` +
-        `      <img id="${pre}-i${n}" src="assets/photos/${file}" alt="" />\n    </div>`,
+      `    <div id="${pre}-b${n}" class="clip backdrop" data-start="${s}" data-duration="${d}" data-track-index="0">\n` +
+        `      <img id="${pre}-bi${n}" src="assets/photos/backdrop/${file}" alt="" />\n    </div>`,
     );
-    // slow push-in, drifting the other way on every other photo
-    const x = i % 2 ? 1.6 : -1.6;
+    els.push(
+      `    <div id="${pre}-p${n}" class="clip card-host" data-start="${s}" data-duration="${r(end - start - s)}" data-track-index="${1 + (i % 2)}" style="z-index: ${10 + i}">\n` +
+        `      <div class="card" id="${pre}-c${n}" style="left: ${cx - (1920 * K) / 2 - 16}px; top: ${cy - (1080 * K) / 2 - 16}px">` +
+        `<img id="${pre}-i${n}" src="assets/photos/${file}" alt="" /></div>\n    </div>`,
+    );
+    const first = i === 0;
     tweens.push(
-      `      tl.fromTo("#${pre}-i${n}", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: ${x}, duration: ${d}, ease: "none" }, ${s});`,
+      `      tl.fromTo("#${pre}-c${n}", { opacity: 0, scale: ${first ? 1.18 : 1.32}, rotation: ${r(rot + (i % 2 ? -9 : 9))}, y: ${first ? 0 : -70} },` +
+        ` { opacity: 1, scale: 1, rotation: ${rot}, y: 0, duration: 0.42, ease: "back.out(1.5)" }, ${s});`,
+      `      tl.fromTo("#${pre}-i${n}", { scale: 1 }, { scale: 1.05, duration: ${d + 0.6}, ease: "none" }, ${s});`,
+      `      tl.fromTo("#${pre}-bi${n}", { scale: 1.08 }, { scale: 1.16, duration: ${d}, ease: "none" }, ${s});`,
+      // a quick white flash on the card as it lands
+      `      tl.fromTo("#${pre}-c${n}", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, ${r(s + 0.08)});`,
     );
   });
   writeFileSync(
     new URL(`../compositions/${id}.html`, import.meta.url),
     `<template>
   <style>
-    #root { position: absolute; inset: 0; overflow: hidden; background: #100a2e; }
-    #root .photo { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
-    #root .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1a1b1e; }
+    #root .backdrop { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+    #root .backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #root .card-host { position: absolute; inset: 0; }
+    #root .card {
+      position: absolute;
+      width: ${Math.round(1920 * K) + 32}px;
+      height: ${Math.round(1080 * K) + 32}px;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 6px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      --flash: 0;
+    }
+    #root .card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    #root .card::after { content: ""; position: absolute; inset: 0; background: #ffffff; opacity: var(--flash); }
   </style>
   <div id="root" data-composition-id="${id}" data-width="1920" data-height="1080">
 ${els.join("\n")}
@@ -91,6 +128,7 @@ ${tweens.join("\n")}
       `data-width="1920" data-height="1080" style="z-index: 2"></div>`,
   );
 }
+writeFileSync(new URL("../assets/photos/layout.json", import.meta.url), JSON.stringify(layout, null, 1));
 
 const indexUrl = new URL("../index.html", import.meta.url);
 const index = readFileSync(indexUrl, "utf8");

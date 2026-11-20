@@ -55,7 +55,7 @@ const out = `<template>
       position: absolute;
       inset: 0;
       overflow: visible;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
     }
     #root .cg {
       position: absolute;
@@ -71,8 +71,8 @@ const out = `<template>
       white-space: nowrap;
       padding: 12px 32px 15px;
       border-radius: 999px;
-      background: rgba(16, 10, 46, 0.76);
-      box-shadow: 0 10px 30px rgba(10, 6, 30, 0.3);
+      background: rgba(26, 27, 30, 0.76);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       font-size: 42px;
       font-weight: 700;
       line-height: 1.2;
@@ -110,7 +110,7 @@ ${html.join("\n")}
           tl.fromTo(g, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, start);
           ws.forEach(([s, e], i) => {
             // the spoken word lights up gold
-            tl.fromTo(g + "-" + i, { color: "#ffffff" }, { color: "#fcd400", duration: 0.08, ease: "none" }, s);
+            tl.fromTo(g + "-" + i, { color: "#ffffff" }, { color: "#fdd901", duration: 0.08, ease: "none" }, s);
             const back = Math.min(e, end - 0.14);
             if (back >= s + 0.09) tl.to(g + "-" + i, { color: "#ffffff", duration: 0.12, ease: "none" }, back);
           });

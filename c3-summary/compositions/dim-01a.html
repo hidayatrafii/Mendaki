@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.6), rgba(16, 10, 46, 0.36) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.6), rgba(26, 27, 30, 0.36) 62%, rgba(26, 27, 30, 0));
     }
     #root .stage {
       position: absolute;
@@ -37,18 +37,18 @@
     }
     /* word styles */
     /* weights kept at 700-800 with normal spacing so every word reads cleanly at a glance */
-    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(10, 6, 30, 0.65); }
-    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .outline .t { color: #fcd400; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(0, 0, 0, 0.65); }
+    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .outline .t { color: #fdd901; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
     #root .tag .t,
-    #root .pill-gold .t { background: #fcd400; color: #1a1046; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(10, 6, 30, 0.35); }
+    #root .pill-gold .t { background: #fdd901; color: #1a1b1e; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
     #root .pill-gold .t,
     #root .pill-white .t,
-    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(10, 6, 30, 0.4); }
-    #root .pill-white .t { background: #fff; color: #1a1046; }
-    #root .pill-ink .t { background: rgba(26, 16, 70, 0.94); color: #fff; border: 4px solid #fcd400; }
-    #root .chip .t { color: #fcd400; border: 3px solid #fcd400; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(16, 10, 46, 0.55); }
+    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4); }
+    #root .pill-white .t { background: #fff; color: #1a1b1e; }
+    #root .pill-ink .t { background: rgba(26, 27, 30, 0.94); color: #fff; border: 4px solid #26b6c6; }
+    #root .chip .t { color: #fdd901; border: 3px solid #fdd901; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(26, 27, 30, 0.55); }
     /* hand-drawn marker strokes */
     #root .mk {
       position: absolute;
@@ -58,7 +58,7 @@
     }
     #root .mk path {
       fill: none;
-      stroke: #fcd400;
+      stroke: #fdd901;
       stroke-linecap: round;
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
@@ -85,7 +85,7 @@
     (function () {
       // layout, side, room beside the presenter, his box, the faces on screen and the card
       // length are written by tools/build-cards.mjs
-      const v = {"dimension":"Communication","layout":"slam","side":"left","width":860,"edge":120,"dur":2.17,"cont":false,"last":false,"pres":[1308,450,1846,1080],"faces":[[912,398,1094,694],[732,158,900,401],[548,564,630,665],[1201,302,1282,413],[1387,290,1479,425],[177,225,300,363],[702,287,962,842],[988,274,1051,370],[959,286,1028,403],[1546,308,1656,443],[1137,323,1211,461],[1425,282,1543,438],[1807,262,1920,485],[1642,239,1779,388],[735,578,816,673],[1248,320,1341,439],[974,601,1045,732],[604,508,678,591],[1471,265,1565,375],[1062,601,1151,760],[1288,571,1379,716],[1723,276,1822,382],[1439,652,1537,805],[1667,325,1780,453],[1357,299,1426,384],[497,371,548,448],[564,303,627,387],[1669,748,1767,937],[1514,518,1651,735],[1032,334,1065,392],[608,360,666,456],[663,592,723,686],[1350,394,1480,600],[279,152,503,469],[1318,475,1356,548],[1144,488,1184,554],[1224,526,1284,609]]};
+      const v = {"dimension":"Communication","layout":"slam","side":"left","width":860,"edge":120,"dur":2.17,"cont":false,"last":false,"pres":null,"faces":[[913,399,1094,693],[731,156,900,407],[1202,302,1282,412],[548,565,629,665],[1387,290,1479,425],[957,286,1042,404],[177,225,301,365],[900,493,962,591],[1545,307,1656,443],[989,274,1050,368],[1138,321,1212,460],[1425,283,1525,425],[1806,260,1920,485],[1644,239,1780,387],[717,299,931,828],[1248,320,1341,438],[603,507,678,593],[973,602,1044,731],[1468,265,1566,376],[1439,651,1549,806],[1059,600,1151,760],[1285,572,1379,715],[1620,741,1750,924],[1723,276,1822,382],[1396,816,1512,1000],[1667,326,1780,453],[1357,300,1426,384],[563,300,627,388],[496,370,549,449],[1034,334,1065,390],[608,360,666,456],[663,600,723,688],[1350,394,1480,602],[1497,367,1543,440],[282,152,502,470],[1318,474,1357,551],[1145,490,1184,554],[1224,527,1284,608]]};
       // Inlined into the keyword and subtitle scenes by the build scripts.
       // Finds where a block of text can sit without touching any face or the presenter.
       function __hit(a, b) {
@@ -127,13 +127,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {

@@ -1,458 +1,210 @@
 {
- "about": "Where the cartoon presenter stands in each shot (1920x1080), [x0,y0,x1,y1] with room for hand gestures. Titles, subtitles and the glow are laid out to stay clear of these boxes. Built by face tracking; see README.",
+ "about": "Camera shots of the avatar-free edit (cut times from scene detection). No presenter any more, so every box is null.",
  "shots": [
   {
-   "start": 0.0,
+   "start": 0,
    "end": 6.867,
-   "box": [
-    572,
-    56,
-    1412,
-    1080
-   ],
-   "head": 262.0,
-   "box_from": 4.0
+   "box": null
   },
   {
    "start": 6.867,
    "end": 8.167,
-   "box": [
-    536,
-    69,
-    1410,
-    1080
-   ],
-   "head": 284.0
+   "box": null
   },
   {
    "start": 8.167,
    "end": 9.8,
-   "box": [
-    506,
-    67,
-    1380,
-    1080
-   ],
-   "head": 284.0
+   "box": null
   },
   {
    "start": 9.8,
    "end": 11.067,
-   "box": [
-    568,
-    62,
-    1398,
-    1080
-   ],
-   "head": 262
+   "box": null
   },
   {
    "start": 11.067,
    "end": 12.433,
-   "box": [
-    554,
-    80,
-    1374,
-    1080
-   ],
-   "head": 262
+   "box": null
   },
   {
    "start": 12.433,
    "end": 14.967,
-   "box": [
-    1348,
-    490,
-    1806,
-    1080
-   ],
-   "head": 148
+   "box": null
   },
   {
    "start": 14.967,
    "end": 16.433,
-   "box": [
-    1354,
-    492,
-    1804,
-    1080
-   ],
-   "head": 148.0
+   "box": null
   },
   {
    "start": 16.433,
    "end": 17.933,
-   "box": [
-    1388,
-    496,
-    1800,
-    1080
-   ],
-   "head": 132.0
+   "box": null
   },
   {
    "start": 17.933,
    "end": 24.133,
-   "box": [
-    650,
-    201,
-    1268,
-    1080
-   ],
-   "head": 202
+   "box": null
   },
   {
    "start": 24.133,
    "end": 26.133,
-   "box": [
-    30,
-    474,
-    498,
-    1080
-   ],
-   "head": 148
+   "box": null
   },
   {
    "start": 26.133,
    "end": 30.833,
-   "box": [
-    36,
-    476,
-    504,
-    1080
-   ],
-   "head": 148.0
+   "box": null
   },
   {
    "start": 30.833,
    "end": 33.9,
-   "box": [
-    24,
-    482,
-    502,
-    1080
-   ],
-   "head": 148.0
+   "box": null
   },
   {
    "start": 33.9,
    "end": 36.933,
-   "box": [
-    1358,
-    410,
-    1906,
-    1080
-   ],
-   "head": 148
+   "box": null
   },
   {
    "start": 36.933,
    "end": 40.033,
-   "box": [
-    1346,
-    402,
-    1908,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 40.033,
    "end": 42.533,
-   "box": [
-    0,
-    244,
-    644,
-    1080
-   ],
-   "head": 228
+   "box": null
   },
   {
    "start": 42.533,
    "end": 44.267,
-   "box": [
-    0,
-    248,
-    674,
-    1080
-   ],
-   "head": 228.0
+   "box": null
   },
   {
    "start": 44.267,
    "end": 48.6,
-   "box": [
-    0,
-    236,
-    676,
-    1080
-   ],
-   "head": 228
+   "box": null
   },
   {
    "start": 48.6,
    "end": 52.433,
-   "box": [
-    1328,
-    408,
-    1920,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 52.433,
    "end": 53.2,
-   "box": [
-    1360,
-    414,
-    1892,
-    1080
-   ],
-   "head": 176
+   "box": null
   },
   {
    "start": 53.2,
    "end": 54.233,
-   "box": [
-    1340,
-    410,
-    1876,
-    1080
-   ],
-   "head": 176
+   "box": null
   },
   {
    "start": 54.233,
    "end": 56.133,
-   "box": [
-    1364,
-    412,
-    1902,
-    1080
-   ],
-   "head": 176
+   "box": null
   },
   {
    "start": 56.133,
    "end": 57.933,
-   "box": [
-    1356,
-    408,
-    1898,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 57.933,
    "end": 60.267,
-   "box": [
-    1364,
-    404,
-    1908,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 60.267,
    "end": 91.933,
-   "box": [
-    1282,
-    308,
-    1920,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 91.933,
    "end": 95.433,
-   "box": [
-    536,
-    136,
-    1412,
-    1080
-   ],
-   "head": 262.0
+   "box": null
   },
   {
    "start": 95.433,
    "end": 97.467,
-   "box": [
-    0,
-    384,
-    554,
-    1080
-   ],
-   "head": 176
+   "box": null
   },
   {
    "start": 97.467,
    "end": 99.2,
-   "box": [
-    6,
-    390,
-    564,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 99.2,
    "end": 101.5,
-   "box": [
-    8,
-    390,
-    554,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 101.5,
    "end": 104.5,
-   "box": [
-    566,
-    116,
-    1386,
-    1080
-   ],
-   "head": 262.0
+   "box": null
   },
   {
    "start": 104.5,
    "end": 105.533,
-   "box": [
-    1412,
-    426,
-    1860,
-    1080
-   ],
-   "head": 148
+   "box": null
   },
   {
    "start": 105.533,
    "end": 106.433,
-   "box": [
-    1372,
-    422,
-    1844,
-    1080
-   ],
-   "head": 148
+   "box": null
   },
   {
    "start": 106.433,
    "end": 109.033,
-   "box": [
-    1352,
-    402,
-    1888,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 109.033,
    "end": 110.933,
-   "box": [
-    1380,
-    400,
-    1920,
-    1080
-   ],
-   "head": 148,
-   "note": "corrected by hand"
+   "box": null
   },
   {
    "start": 110.933,
    "end": 111.9,
-   "box": [
-    1368,
-    412,
-    1874,
-    1080
-   ],
-   "head": 162.0
+   "box": null
   },
   {
    "start": 111.9,
-   "end": 113.133,
-   "box": [
-    1358,
-    412,
-    1870,
-    1080
-   ],
-   "head": 162.0
+   "end": 113.15,
+   "box": null
   },
   {
-   "start": 113.167,
+   "start": 113.15,
    "end": 115.9,
-   "box": [
-    502,
-    35,
-    1432,
-    1080
-   ],
-   "head": 306
+   "box": null
   },
   {
    "start": 115.9,
    "end": 117.8,
-   "box": [
-    570,
-    108,
-    1396,
-    1080
-   ],
-   "head": 262
+   "box": null
   },
   {
    "start": 117.8,
    "end": 119.867,
-   "box": [
-    583,
-    168,
-    1355,
-    1080
-   ],
-   "head": 245.0
+   "box": null
   },
   {
    "start": 119.867,
    "end": 121.967,
-   "box": [
-    610,
-    240,
-    1332,
-    1080
-   ],
-   "head": 228.0
+   "box": null
   },
   {
    "start": 121.967,
    "end": 124.133,
-   "box": [
-    1356,
-    406,
-    1898,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   },
   {
    "start": 124.133,
    "end": 129.15,
-   "box": [
-    1316,
-    406,
-    1920,
-    1080
-   ],
-   "head": 176.0
+   "box": null
   }
  ]
 }

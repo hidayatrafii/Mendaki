@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.6), rgba(16, 10, 46, 0.36) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.6), rgba(26, 27, 30, 0.36) 62%, rgba(26, 27, 30, 0));
     }
     #root .stage {
       position: absolute;
@@ -37,18 +37,18 @@
     }
     /* word styles */
     /* weights kept at 700-800 with normal spacing so every word reads cleanly at a glance */
-    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(10, 6, 30, 0.65); }
-    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .outline .t { color: #fcd400; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(0, 0, 0, 0.65); }
+    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .outline .t { color: #fdd901; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
     #root .tag .t,
-    #root .pill-gold .t { background: #fcd400; color: #1a1046; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(10, 6, 30, 0.35); }
+    #root .pill-gold .t { background: #fdd901; color: #1a1b1e; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
     #root .pill-gold .t,
     #root .pill-white .t,
-    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(10, 6, 30, 0.4); }
-    #root .pill-white .t { background: #fff; color: #1a1046; }
-    #root .pill-ink .t { background: rgba(26, 16, 70, 0.94); color: #fff; border: 4px solid #fcd400; }
-    #root .chip .t { color: #fcd400; border: 3px solid #fcd400; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(16, 10, 46, 0.55); }
+    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4); }
+    #root .pill-white .t { background: #fff; color: #1a1b1e; }
+    #root .pill-ink .t { background: rgba(26, 27, 30, 0.94); color: #fff; border: 4px solid #26b6c6; }
+    #root .chip .t { color: #fdd901; border: 3px solid #fdd901; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(26, 27, 30, 0.55); }
     /* hand-drawn marker strokes */
     #root .mk {
       position: absolute;
@@ -58,7 +58,7 @@
     }
     #root .mk path {
       fill: none;
-      stroke: #fcd400;
+      stroke: #fdd901;
       stroke-linecap: round;
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
@@ -85,7 +85,7 @@
     (function () {
       // layout, side, room beside the presenter, his box, the faces on screen and the card
       // length are written by tools/build-cards.mjs
-      const v = {"dimension":"Diversity & Inclusion","layout":"slam","side":"left","width":860,"edge":120,"dur":2.93,"cont":false,"last":false,"pres":[1318,370,1946,1080],"faces":[[768,131,1248,788],[49,400,453,822],[516,402,753,736],[327,431,634,798],[1569,359,1920,867],[1224,373,1505,745],[1366,351,1718,792],[746,432,842,545],[693,464,777,586],[1794,511,1920,787],[0,416,249,920],[71,536,183,704],[1384,500,1494,694],[0,438,109,558],[168,549,268,701],[1468,502,1516,577],[271,458,425,589],[275,563,362,700],[361,531,456,675],[1842,337,1920,619],[9,345,26,373],[27,346,44,373],[770,520,846,637],[726,529,803,642],[0,348,16,381]]};
+      const v = {"dimension":"Diversity & Inclusion","layout":"slam","side":"left","width":860,"edge":120,"dur":2.93,"cont":false,"last":false,"pres":null,"faces":[[767,131,1248,783],[51,404,543,821],[515,401,753,737],[432,451,639,749],[1566,359,1920,866],[1223,350,1723,820],[1248,494,1425,703],[746,432,842,544],[693,463,776,586],[1342,518,1382,586],[1794,513,1920,786],[0,413,249,921],[70,536,182,705],[1384,505,1494,691],[1464,476,1562,664],[0,437,108,559],[169,550,269,702],[271,458,425,590],[277,565,362,700],[1568,538,1696,726],[1396,503,1451,580],[360,531,455,675],[1504,501,1625,709],[1841,354,1920,611],[9,346,27,373],[27,346,44,373],[772,520,846,635],[725,531,803,640],[1435,351,1609,561],[1193,488,1274,644],[1245,458,1280,505],[0,348,16,381]]};
       // Inlined into the keyword and subtitle scenes by the build scripts.
       // Finds where a block of text can sit without touching any face or the presenter.
       function __hit(a, b) {
@@ -127,13 +127,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {

@@ -1,134 +1,134 @@
 [
 {
 "text": "2026",
-"start": 3.93,
-"end": 4.39,
+"start": 3.28,
+"end": 4.48,
 "id": "w0"
 },
 {
 "text": "has",
-"start": 4.45,
-"end": 4.62,
+"start": 4.53,
+"end": 4.69,
 "id": "w1"
 },
 {
 "text": "been",
-"start": 4.62,
-"end": 4.91,
+"start": 4.69,
+"end": 4.97,
 "id": "w2"
 },
 {
 "text": "a",
-"start": 4.92,
-"end": 4.99,
+"start": 4.97,
+"end": 5.04,
 "id": "w3"
 },
 {
 "text": "year",
-"start": 4.99,
-"end": 5.28,
+"start": 5.04,
+"end": 5.31,
 "id": "w4"
 },
 {
 "text": "of",
-"start": 5.28,
-"end": 5.44,
+"start": 5.31,
+"end": 5.46,
 "id": "w5"
 },
 {
 "text": "moving",
-"start": 5.44,
+"start": 5.46,
 "end": 5.8,
 "id": "w6"
 },
 {
 "text": "forward",
 "start": 5.92,
-"end": 6.41,
+"end": 6.39,
 "id": "w7"
 },
 {
 "text": "together.",
-"start": 6.41,
-"end": 7.08,
+"start": 6.39,
+"end": 7.36,
 "id": "w8"
 },
 {
 "text": "Across",
-"start": 7.32,
-"end": 7.67,
+"start": 7.36,
+"end": 7.69,
 "id": "w9"
 },
 {
 "text": "Mendaki,",
-"start": 7.67,
+"start": 7.69,
 "end": 8.18,
 "id": "w10"
 },
 {
 "text": "every",
 "start": 8.18,
-"end": 8.47,
+"end": 8.46,
 "id": "w11"
 },
 {
 "text": "conversation,",
-"start": 8.47,
+"start": 8.46,
 "end": 9.28,
 "id": "w12"
 },
 {
 "text": "every",
 "start": 9.28,
-"end": 9.57,
+"end": 9.59,
 "id": "w13"
 },
 {
 "text": "program,",
-"start": 9.57,
-"end": 10.14,
+"start": 9.59,
+"end": 10.16,
 "id": "w14"
 },
 {
 "text": "and",
-"start": 10.14,
-"end": 10.33,
+"start": 10.16,
+"end": 10.35,
 "id": "w15"
 },
 {
 "text": "every",
-"start": 10.33,
-"end": 10.65,
+"start": 10.35,
+"end": 10.73,
 "id": "w16"
 },
 {
 "text": "person",
-"start": 10.65,
-"end": 11.04,
+"start": 10.73,
+"end": 11.08,
 "id": "w17"
 },
 {
 "text": "has",
-"start": 11.04,
-"end": 11.25,
+"start": 11.08,
+"end": 11.18,
 "id": "w18"
 },
 {
 "text": "played",
-"start": 11.25,
-"end": 11.46,
+"start": 11.29,
+"end": 11.43,
 "id": "w19"
 },
 {
 "text": "a",
-"start": 11.46,
+"start": 11.48,
 "end": 11.52,
 "id": "w20"
 },
 {
 "text": "part",
 "start": 11.52,
-"end": 11.79,
+"end": 11.75,
 "id": "w21"
 },
 {
@@ -158,96 +158,96 @@
 {
 "text": "starts",
 "start": 12.93,
-"end": 13.32,
+"end": 13.33,
 "id": "w26"
 },
 {
 "text": "with",
-"start": 13.32,
-"end": 13.58,
+"start": 13.33,
+"end": 13.6,
 "id": "w27"
 },
 {
 "text": "knowing",
-"start": 13.58,
-"end": 14.04,
+"start": 13.6,
+"end": 14.07,
 "id": "w28"
 },
 {
 "text": "where",
-"start": 14.04,
-"end": 14.37,
+"start": 14.07,
+"end": 14.41,
 "id": "w29"
 },
 {
 "text": "we",
-"start": 14.37,
-"end": 14.5,
+"start": 14.41,
+"end": 14.54,
 "id": "w30"
 },
 {
 "text": "are",
-"start": 14.5,
-"end": 14.69,
+"start": 14.54,
+"end": 14.74,
 "id": "w31"
 },
 {
 "text": "going,",
-"start": 14.69,
-"end": 15.15,
+"start": 14.74,
+"end": 15.21,
 "id": "w32"
 },
 {
 "text": "why",
-"start": 15.15,
-"end": 15.34,
+"start": 15.21,
+"end": 15.41,
 "id": "w33"
 },
 {
 "text": "it",
-"start": 15.34,
-"end": 15.47,
+"start": 15.41,
+"end": 15.54,
 "id": "w34"
 },
 {
 "text": "matters,",
-"start": 15.47,
-"end": 16.12,
+"start": 15.54,
+"end": 16.14,
 "id": "w35"
 },
 {
 "text": "and",
-"start": 16.12,
-"end": 16.33,
+"start": 16.17,
+"end": 16.34,
 "id": "w36"
 },
 {
 "text": "how",
-"start": 16.33,
-"end": 16.54,
+"start": 16.34,
+"end": 16.53,
 "id": "w37"
 },
 {
 "text": "each",
-"start": 16.73,
-"end": 16.82,
+"start": 16.57,
+"end": 16.81,
 "id": "w38"
 },
 {
 "text": "of",
-"start": 16.82,
-"end": 16.96,
+"start": 16.81,
+"end": 16.94,
 "id": "w39"
 },
 {
 "text": "us",
-"start": 16.96,
-"end": 17.1,
+"start": 16.94,
+"end": 17.06,
 "id": "w40"
 },
 {
 "text": "contributes.",
-"start": 17.1,
+"start": 17.06,
 "end": 18.07,
 "id": "w41"
 },
@@ -266,49 +266,49 @@
 {
 "text": "conversations",
 "start": 18.84,
-"end": 19.55,
+"end": 19.56,
 "id": "w44"
 },
 {
 "text": "and",
-"start": 19.55,
-"end": 19.71,
+"start": 19.56,
+"end": 19.72,
 "id": "w45"
 },
 {
 "text": "updates,",
-"start": 19.71,
-"end": 20.2,
+"start": 19.72,
+"end": 20.21,
 "id": "w46"
 },
 {
 "text": "we",
-"start": 20.2,
-"end": 20.31,
+"start": 20.21,
+"end": 20.32,
 "id": "w47"
 },
 {
 "text": "continued",
-"start": 20.31,
-"end": 20.8,
+"start": 20.32,
+"end": 20.82,
 "id": "w48"
 },
 {
 "text": "building",
-"start": 20.8,
-"end": 21.24,
+"start": 20.82,
+"end": 21.26,
 "id": "w49"
 },
 {
 "text": "clarity",
-"start": 21.24,
-"end": 21.62,
+"start": 21.45,
+"end": 21.64,
 "id": "w50"
 },
 {
 "text": "around",
-"start": 21.62,
-"end": 22.01,
+"start": 21.64,
+"end": 21.9,
 "id": "w51"
 },
 {
@@ -320,24 +320,24 @@
 {
 "text": "direction",
 "start": 22.2,
-"end": 22.86,
+"end": 22.88,
 "id": "w53"
 },
 {
 "text": "and",
-"start": 22.86,
-"end": 23.08,
+"start": 22.88,
+"end": 23.1,
 "id": "w54"
 },
 {
 "text": "our",
-"start": 23.08,
-"end": 23.3,
+"start": 23.1,
+"end": 23.32,
 "id": "w55"
 },
 {
 "text": "priorities.",
-"start": 23.3,
+"start": 23.32,
 "end": 24.28,
 "id": "w56"
 },
@@ -397,13 +397,13 @@
 },
 {
 "text": "different",
-"start": 27.31,
+"start": 27.65,
 "end": 27.86,
 "id": "w66"
 },
 {
 "text": "perspectives,",
-"start": 28.21,
+"start": 27.86,
 "end": 28.67,
 "id": "w67"
 },
@@ -464,13 +464,13 @@
 {
 "text": "into",
 "start": 32.63,
-"end": 32.89,
+"end": 32.93,
 "id": "w77"
 },
 {
 "text": "positive",
-"start": 32.89,
-"end": 33.49,
+"start": 32.93,
+"end": 33.38,
 "id": "w78"
 },
 {
@@ -541,8 +541,8 @@
 },
 {
 "text": "together,",
-"start": 37.31,
-"end": 37.93,
+"start": 37.45,
+"end": 37.9,
 "id": "w90"
 },
 {
@@ -566,150 +566,150 @@
 {
 "text": "and",
 "start": 39.32,
-"end": 39.51,
+"end": 39.52,
 "id": "w94"
 },
 {
 "text": "backgrounds,",
-"start": 39.51,
-"end": 40.37,
+"start": 39.52,
+"end": 40.38,
 "id": "w95"
 },
 {
 "text": "from",
-"start": 40.37,
-"end": 40.63,
+"start": 40.38,
+"end": 40.64,
 "id": "w96"
 },
 {
 "text": "everyday",
-"start": 40.63,
-"end": 41.16,
+"start": 40.64,
+"end": 41.17,
 "id": "w97"
 },
 {
 "text": "collaboration",
-"start": 41.16,
-"end": 42.02,
+"start": 41.17,
+"end": 42.03,
 "id": "w98"
 },
 {
 "text": "to",
-"start": 42.02,
-"end": 42.15,
+"start": 42.03,
+"end": 42.16,
 "id": "w99"
 },
 {
 "text": "celebrations",
-"start": 42.15,
-"end": 42.94,
+"start": 42.69,
+"end": 42.95,
 "id": "w100"
 },
 {
 "text": "and",
-"start": 42.94,
-"end": 43.25,
+"start": 42.95,
+"end": 43.14,
 "id": "w101"
 },
 {
 "text": "shared",
 "start": 43.25,
-"end": 43.52,
+"end": 43.55,
 "id": "w102"
 },
 {
 "text": "experiences.",
-"start": 43.52,
+"start": 43.55,
 "end": 44.47,
 "id": "w103"
 },
 {
 "text": "These",
-"start": 44.5,
-"end": 44.88,
+"start": 44.52,
+"end": 44.9,
 "id": "w104"
 },
 {
 "text": "moments",
-"start": 44.88,
-"end": 45.41,
+"start": 44.9,
+"end": 45.43,
 "id": "w105"
 },
 {
 "text": "remind",
-"start": 45.41,
-"end": 45.87,
+"start": 45.43,
+"end": 45.88,
 "id": "w106"
 },
 {
 "text": "us",
-"start": 45.87,
-"end": 46.02,
+"start": 45.88,
+"end": 46.03,
 "id": "w107"
 },
 {
 "text": "that",
-"start": 46.02,
-"end": 46.32,
+"start": 46.03,
+"end": 46.33,
 "id": "w108"
 },
 {
 "text": "we",
-"start": 46.32,
-"end": 46.47,
+"start": 46.33,
+"end": 46.48,
 "id": "w109"
 },
 {
 "text": "do",
-"start": 46.47,
-"end": 46.62,
+"start": 46.48,
+"end": 46.63,
 "id": "w110"
 },
 {
 "text": "our",
-"start": 46.62,
-"end": 46.85,
+"start": 46.63,
+"end": 46.86,
 "id": "w111"
 },
 {
 "text": "best",
-"start": 46.85,
-"end": 47.15,
+"start": 46.86,
+"end": 47.16,
 "id": "w112"
 },
 {
 "text": "work",
-"start": 47.15,
-"end": 47.45,
+"start": 47.16,
+"end": 47.46,
 "id": "w113"
 },
 {
 "text": "when",
-"start": 47.45,
-"end": 47.75,
+"start": 47.46,
+"end": 47.76,
 "id": "w114"
 },
 {
 "text": "we",
-"start": 47.75,
-"end": 47.9,
+"start": 47.89,
+"end": 47.91,
 "id": "w115"
 },
 {
 "text": "do",
-"start": 47.9,
-"end": 48.05,
+"start": 47.91,
+"end": 48.06,
 "id": "w116"
 },
 {
 "text": "it",
-"start": 48.05,
+"start": 48.06,
 "end": 48.2,
 "id": "w117"
 },
 {
 "text": "together.",
-"start": 48.43,
+"start": 48.21,
 "end": 49.12,
 "id": "w118"
 },
@@ -732,7 +732,7 @@
 "id": "w121"
 },
 {
-"text": "organization",
+"text": "organisation",
 "start": 49.84,
 "end": 50.62,
 "id": "w122"
@@ -806,13 +806,13 @@
 {
 "text": "we",
 "start": 55.7,
-"end": 55.83,
+"end": 55.85,
 "id": "w134"
 },
 {
 "text": "continue",
-"start": 55.83,
-"end": 56.41,
+"start": 55.85,
+"end": 56.3,
 "id": "w135"
 },
 {
@@ -884,84 +884,84 @@
 {
 "text": "step.",
 "start": 59.97,
-"end": 60.38,
+"end": 60.36,
 "id": "w147"
 },
 {
 "text": "And",
-"start": 60.38,
-"end": 60.58,
+"start": 60.36,
+"end": 60.55,
 "id": "w148"
 },
 {
 "text": "when",
-"start": 60.58,
-"end": 60.85,
+"start": 60.55,
+"end": 60.8,
 "id": "w149"
 },
 {
 "text": "our",
-"start": 60.85,
-"end": 61.05,
+"start": 60.8,
+"end": 60.99,
 "id": "w150"
 },
 {
 "text": "people",
-"start": 61.05,
-"end": 61.45,
+"start": 60.99,
+"end": 61.37,
 "id": "w151"
 },
 {
 "text": "reach",
-"start": 61.45,
-"end": 61.78,
+"start": 61.37,
+"end": 61.69,
 "id": "w152"
 },
 {
 "text": "new",
-"start": 61.78,
-"end": 61.98,
+"start": 61.69,
+"end": 61.88,
 "id": "w153"
 },
 {
 "text": "milestones,",
-"start": 61.98,
-"end": 62.78,
+"start": 61.88,
+"end": 62.64,
 "id": "w154"
 },
 {
 "text": "we",
-"start": 62.78,
-"end": 62.91,
+"start": 62.64,
+"end": 62.77,
 "id": "w155"
 },
 {
 "text": "celebrate",
-"start": 62.91,
-"end": 63.51,
+"start": 62.77,
+"end": 63.35,
 "id": "w156"
 },
 {
 "text": "them,",
-"start": 63.51,
-"end": 63.96,
+"start": 63.35,
+"end": 63.8,
 "id": "w157"
 },
 {
 "text": "because",
-"start": 64.31,
-"end": 64.45,
+"start": 63.8,
+"end": 64.34,
 "id": "w158"
 },
 {
 "text": "recognizing",
-"start": 64.5,
-"end": 65.24,
+"start": 64.34,
+"end": 65.2,
 "id": "w159"
 },
 {
 "text": "effort",
-"start": 65.24,
+"start": 65.2,
 "end": 65.67,
 "id": "w160"
 },
@@ -1022,13 +1022,13 @@
 {
 "text": "the",
 "start": 68.8,
-"end": 68.99,
+"end": 69.05,
 "id": "w170"
 },
 {
 "text": "work.",
-"start": 68.99,
-"end": 69.52,
+"start": 69.05,
+"end": 69.5,
 "id": "w171"
 },
 {
@@ -1046,132 +1046,132 @@
 {
 "text": "matters,",
 "start": 69.97,
-"end": 70.55,
+"end": 70.54,
 "id": "w174"
 },
 {
 "text": "and",
-"start": 70.55,
-"end": 70.74,
+"start": 70.54,
+"end": 70.73,
 "id": "w175"
 },
 {
 "text": "so",
-"start": 70.74,
-"end": 70.87,
+"start": 70.73,
+"end": 70.86,
 "id": "w176"
 },
 {
 "text": "do",
-"start": 70.87,
-"end": 71,
+"start": 70.86,
+"end": 70.99,
 "id": "w177"
 },
 {
 "text": "the",
-"start": 71,
-"end": 71.19,
+"start": 70.99,
+"end": 71.18,
 "id": "w178"
 },
 {
 "text": "people",
-"start": 71.19,
-"end": 71.58,
+"start": 71.18,
+"end": 71.57,
 "id": "w179"
 },
 {
 "text": "doing",
-"start": 71.58,
-"end": 71.9,
+"start": 71.57,
+"end": 71.89,
 "id": "w180"
 },
 {
 "text": "it,",
-"start": 71.9,
-"end": 72.16,
+"start": 71.89,
+"end": 72.14,
 "id": "w181"
 },
 {
 "text": "from",
-"start": 72.16,
-"end": 72.42,
+"start": 72.14,
+"end": 72.4,
 "id": "w182"
 },
 {
 "text": "health",
-"start": 72.42,
-"end": 72.81,
+"start": 72.4,
+"end": 72.89,
 "id": "w183"
 },
 {
 "text": "and",
-"start": 72.81,
-"end": 73,
+"start": 72.89,
+"end": 72.98,
 "id": "w184"
 },
 {
 "text": "well-being",
-"start": 73,
+"start": 72.98,
 "end": 73.59,
 "id": "w185"
 },
 {
 "text": "initiatives",
 "start": 73.64,
-"end": 74.42,
+"end": 74.4,
 "id": "w186"
 },
 {
 "text": "to",
-"start": 74.42,
-"end": 74.54,
+"start": 74.4,
+"end": 74.52,
 "id": "w187"
 },
 {
 "text": "creating",
-"start": 74.54,
-"end": 75.01,
+"start": 74.52,
+"end": 75,
 "id": "w188"
 },
 {
 "text": "greater",
-"start": 75.01,
+"start": 75,
 "end": 75.42,
 "id": "w189"
 },
 {
 "text": "awareness",
 "start": 75.42,
-"end": 75.95,
+"end": 75.96,
 "id": "w190"
 },
 {
 "text": "around",
-"start": 75.95,
-"end": 76.31,
+"start": 75.96,
+"end": 76.32,
 "id": "w191"
 },
 {
 "text": "physical",
-"start": 76.31,
-"end": 76.78,
+"start": 76.32,
+"end": 76.8,
 "id": "w192"
 },
 {
 "text": "and",
-"start": 76.78,
-"end": 76.96,
+"start": 76.8,
+"end": 76.98,
 "id": "w193"
 },
 {
 "text": "digital",
-"start": 76.96,
-"end": 77.37,
+"start": 76.98,
+"end": 77.4,
 "id": "w194"
 },
 {
 "text": "safety.",
-"start": 77.37,
+"start": 77.76,
 "end": 77.96,
 "id": "w195"
 },
@@ -1232,90 +1232,90 @@
 {
 "text": "Behind",
 "start": 81.12,
-"end": 81.52,
+"end": 81.51,
 "id": "w205"
 },
 {
 "text": "every",
-"start": 81.52,
-"end": 81.85,
+"start": 81.51,
+"end": 81.84,
 "id": "w206"
 },
 {
 "text": "program",
-"start": 81.85,
-"end": 82.31,
+"start": 81.84,
+"end": 82.3,
 "id": "w207"
 },
 {
 "text": "is",
-"start": 82.31,
-"end": 82.44,
+"start": 82.3,
+"end": 82.43,
 "id": "w208"
 },
 {
 "text": "the",
-"start": 82.44,
-"end": 82.64,
+"start": 82.43,
+"end": 82.62,
 "id": "w209"
 },
 {
 "text": "everyday",
-"start": 82.64,
-"end": 83.17,
+"start": 82.62,
+"end": 83.15,
 "id": "w210"
 },
 {
 "text": "work",
-"start": 83.17,
-"end": 83.43,
+"start": 83.15,
+"end": 83.41,
 "id": "w211"
 },
 {
 "text": "that",
-"start": 83.43,
-"end": 83.69,
+"start": 83.41,
+"end": 83.67,
 "id": "w212"
 },
 {
 "text": "keeps",
-"start": 83.69,
-"end": 84.02,
+"start": 83.67,
+"end": 84,
 "id": "w213"
 },
 {
 "text": "Mendaki",
-"start": 84.02,
-"end": 84.48,
+"start": 84,
+"end": 84.45,
 "id": "w214"
 },
 {
 "text": "moving,",
-"start": 84.48,
-"end": 85.01,
+"start": 84.49,
+"end": 84.94,
 "id": "w215"
 },
 {
 "text": "better",
 "start": 85.05,
-"end": 85.4,
+"end": 85.36,
 "id": "w216"
 },
 {
 "text": "ways",
-"start": 85.41,
-"end": 85.67,
+"start": 85.36,
+"end": 85.59,
 "id": "w217"
 },
 {
 "text": "of",
-"start": 85.67,
-"end": 85.88,
+"start": 85.65,
+"end": 85.84,
 "id": "w218"
 },
 {
 "text": "working,",
-"start": 85.88,
+"start": 85.84,
 "end": 86.76,
 "id": "w219"
 },
@@ -1352,577 +1352,577 @@
 {
 "text": "support",
 "start": 88.88,
-"end": 89.38,
+"end": 89.37,
 "id": "w225"
 },
 {
 "text": "help",
-"start": 89.38,
-"end": 89.66,
+"start": 89.37,
+"end": 89.65,
 "id": "w226"
 },
 {
 "text": "our",
-"start": 89.66,
-"end": 89.87,
+"start": 89.65,
+"end": 89.86,
 "id": "w227"
 },
 {
 "text": "teams",
-"start": 89.87,
-"end": 90.22,
+"start": 90.13,
+"end": 90.21,
 "id": "w228"
 },
 {
 "text": "focus",
-"start": 90.22,
-"end": 90.23,
+"start": 90.21,
+"end": 90.56,
 "id": "w229"
 },
 {
 "text": "on",
-"start": 90.69,
-"end": 90.71,
+"start": 90.56,
+"end": 90.7,
 "id": "w230"
 },
 {
 "text": "what",
-"start": 90.71,
-"end": 90.99,
+"start": 90.7,
+"end": 90.98,
 "id": "w231"
 },
 {
 "text": "matters",
-"start": 90.99,
-"end": 91.49,
+"start": 90.98,
+"end": 91.47,
 "id": "w232"
 },
 {
 "text": "most.",
-"start": 91.49,
-"end": 92.07,
+"start": 91.47,
+"end": 92.04,
 "id": "w233"
 },
 {
 "text": "And",
-"start": 92.08,
-"end": 92.31,
+"start": 92.04,
+"end": 92.27,
 "id": "w234"
 },
 {
 "text": "as",
-"start": 92.31,
-"end": 92.46,
+"start": 92.27,
+"end": 92.42,
 "id": "w235"
 },
 {
 "text": "the",
-"start": 92.46,
-"end": 92.69,
+"start": 92.42,
+"end": 92.65,
 "id": "w236"
 },
 {
 "text": "way",
-"start": 92.69,
-"end": 92.92,
+"start": 92.65,
+"end": 92.88,
 "id": "w237"
 },
 {
 "text": "we",
-"start": 92.92,
-"end": 93.07,
+"start": 92.88,
+"end": 93.03,
 "id": "w238"
 },
 {
 "text": "work",
-"start": 93.07,
-"end": 93.38,
+"start": 93.03,
+"end": 93.34,
 "id": "w239"
 },
 {
 "text": "continues",
-"start": 93.38,
-"end": 94.08,
+"start": 93.34,
+"end": 94.04,
 "id": "w240"
 },
 {
 "text": "to",
-"start": 94.08,
-"end": 94.23,
+"start": 94.04,
+"end": 94.19,
 "id": "w241"
 },
 {
 "text": "evolve,",
-"start": 94.23,
-"end": 94.84,
+"start": 94.19,
+"end": 94.8,
 "id": "w242"
 },
 {
 "text": "so",
-"start": 94.84,
-"end": 94.99,
+"start": 94.8,
+"end": 94.95,
 "id": "w243"
 },
 {
 "text": "do",
-"start": 94.99,
-"end": 95.14,
+"start": 94.95,
+"end": 95.1,
 "id": "w244"
 },
 {
 "text": "we,",
-"start": 95.14,
-"end": 95.52,
+"start": 95.1,
+"end": 95.48,
 "id": "w245"
 },
 {
 "text": "trying",
-"start": 95.52,
-"end": 96.01,
+"start": 95.48,
+"end": 95.86,
 "id": "w246"
 },
 {
 "text": "new",
-"start": 96.01,
-"end": 96.15,
+"start": 95.97,
+"end": 96.17,
 "id": "w247"
 },
 {
 "text": "ideas,",
-"start": 96.2,
-"end": 96.69,
+"start": 96.17,
+"end": 96.7,
 "id": "w248"
 },
 {
 "text": "embracing",
-"start": 96.69,
+"start": 96.7,
 "end": 97.35,
 "id": "w249"
 },
 {
-"text": "digitalization,",
-"start": 97.36,
-"end": 98.61,
+"text": "digitalisation,",
+"start": 97.42,
+"end": 98.57,
 "id": "w250"
 },
 {
 "text": "and",
-"start": 98.62,
-"end": 98.82,
+"start": 98.6,
+"end": 98.79,
 "id": "w251"
 },
 {
 "text": "finding",
-"start": 98.82,
-"end": 99.28,
+"start": 98.79,
+"end": 99.24,
 "id": "w252"
 },
 {
 "text": "better",
-"start": 99.28,
-"end": 99.68,
+"start": 99.24,
+"end": 99.62,
 "id": "w253"
 },
 {
 "text": "ways",
-"start": 99.68,
-"end": 99.94,
+"start": 99.62,
+"end": 99.87,
 "id": "w254"
 },
 {
 "text": "to",
-"start": 99.94,
-"end": 100.07,
+"start": 99.87,
+"end": 99.99,
 "id": "w255"
 },
 {
 "text": "serve",
-"start": 100.07,
-"end": 100.4,
+"start": 99.99,
+"end": 100.31,
 "id": "w256"
 },
 {
 "text": "our",
-"start": 100.4,
-"end": 100.6,
+"start": 100.31,
+"end": 100.5,
 "id": "w257"
 },
 {
 "text": "community.",
-"start": 100.6,
-"end": 101.44,
+"start": 100.5,
+"end": 101.32,
 "id": "w258"
 },
 {
 "text": "Ultimately,",
-"start": 101.44,
-"end": 102.29,
+"start": 101.32,
+"end": 102.19,
 "id": "w259"
 },
 {
 "text": "our",
-"start": 102.29,
-"end": 102.5,
+"start": 102.19,
+"end": 102.4,
 "id": "w260"
 },
 {
 "text": "work",
-"start": 102.5,
-"end": 102.78,
+"start": 102.4,
+"end": 102.69,
 "id": "w261"
 },
 {
 "text": "goes",
-"start": 102.78,
-"end": 103.06,
+"start": 102.69,
+"end": 102.98,
 "id": "w262"
 },
 {
 "text": "beyond",
-"start": 103.06,
-"end": 103.48,
+"start": 102.98,
+"end": 103.41,
 "id": "w263"
 },
 {
 "text": "the",
-"start": 103.48,
-"end": 103.69,
+"start": 103.41,
+"end": 103.62,
 "id": "w264"
 },
 {
-"text": "organization.",
-"start": 103.69,
-"end": 104.78,
+"text": "organisation.",
+"start": 103.62,
+"end": 104.76,
 "id": "w265"
 },
 {
 "text": "Across",
-"start": 104.78,
-"end": 105.17,
+"start": 104.76,
+"end": 105.14,
 "id": "w266"
 },
 {
 "text": "education,",
-"start": 105.17,
-"end": 105.87,
+"start": 105.14,
+"end": 105.83,
 "id": "w267"
 },
 {
 "text": "employment,",
-"start": 105.87,
-"end": 106.64,
+"start": 105.83,
+"end": 106.59,
 "id": "w268"
 },
 {
 "text": "youth",
-"start": 106.64,
-"end": 106.96,
+"start": 106.59,
+"end": 106.91,
 "id": "w269"
 },
 {
 "text": "development,",
-"start": 106.96,
-"end": 107.79,
+"start": 106.91,
+"end": 107.73,
 "id": "w270"
 },
 {
 "text": "and",
-"start": 107.79,
-"end": 107.98,
+"start": 107.73,
+"end": 107.92,
 "id": "w271"
 },
 {
 "text": "community",
-"start": 107.98,
-"end": 108.56,
+"start": 108.13,
+"end": 108.49,
 "id": "w272"
 },
 {
 "text": "engagement,",
-"start": 108.71,
-"end": 109.4,
+"start": 108.53,
+"end": 109.32,
 "id": "w273"
 },
 {
 "text": "our",
-"start": 109.4,
-"end": 109.52,
+"start": 109.32,
+"end": 109.44,
 "id": "w274"
 },
 {
 "text": "shared",
-"start": 109.52,
-"end": 109.76,
+"start": 109.44,
+"end": 109.68,
 "id": "w275"
 },
 {
 "text": "commitment",
-"start": 109.76,
-"end": 110.1,
+"start": 109.69,
+"end": 110.07,
 "id": "w276"
 },
 {
 "text": "is",
-"start": 110.16,
-"end": 110.29,
+"start": 110.12,
+"end": 110.25,
 "id": "w277"
 },
 {
 "text": "reflected",
-"start": 110.29,
-"end": 110.91,
+"start": 110.25,
+"end": 110.87,
 "id": "w278"
 },
 {
 "text": "in",
-"start": 110.91,
-"end": 111.04,
+"start": 110.87,
+"end": 111,
 "id": "w279"
 },
 {
 "text": "the",
-"start": 111.04,
-"end": 111.24,
+"start": 111,
+"end": 111.2,
 "id": "w280"
 },
 {
 "text": "people",
-"start": 111.24,
-"end": 111.65,
+"start": 111.2,
+"end": 111.61,
 "id": "w281"
 },
 {
 "text": "and",
-"start": 111.65,
-"end": 111.85,
+"start": 111.61,
+"end": 111.81,
 "id": "w282"
 },
 {
 "text": "communities",
-"start": 111.85,
-"end": 112.61,
+"start": 111.81,
+"end": 112.57,
 "id": "w283"
 },
 {
 "text": "we",
-"start": 112.61,
-"end": 112.74,
+"start": 112.57,
+"end": 112.7,
 "id": "w284"
 },
 {
 "text": "serve.",
-"start": 112.74,
-"end": 113.36,
+"start": 112.7,
+"end": 113.32,
 "id": "w285"
 },
 {
 "text": "Because",
-"start": 113.36,
-"end": 113.79,
+"start": 113.32,
+"end": 113.74,
 "id": "w286"
 },
 {
 "text": "behind",
-"start": 113.79,
-"end": 114.16,
+"start": 113.74,
+"end": 114.1,
 "id": "w287"
 },
 {
 "text": "every",
-"start": 114.16,
-"end": 114.47,
+"start": 114.1,
+"end": 114.4,
 "id": "w288"
 },
 {
 "text": "event,",
-"start": 114.47,
-"end": 114.9,
+"start": 114.4,
+"end": 114.82,
 "id": "w289"
 },
 {
 "text": "program",
-"start": 114.9,
-"end": 115.33,
+"start": 114.82,
+"end": 115.24,
 "id": "w290"
 },
 {
 "text": "and",
-"start": 115.33,
-"end": 115.51,
+"start": 115.24,
+"end": 115.42,
 "id": "w291"
 },
 {
 "text": "initiative",
-"start": 115.51,
-"end": 116.13,
+"start": 115.42,
+"end": 116.02,
 "id": "w292"
 },
 {
 "text": "is",
-"start": 116.13,
-"end": 116.25,
+"start": 116.02,
+"end": 116.14,
 "id": "w293"
 },
 {
 "text": "a",
-"start": 116.25,
-"end": 116.31,
+"start": 116.14,
+"end": 116.2,
 "id": "w294"
 },
 {
 "text": "shared",
-"start": 116.31,
-"end": 116.68,
+"start": 116.2,
+"end": 116.56,
 "id": "w295"
 },
 {
 "text": "purpose,",
-"start": 116.68,
-"end": 117.32,
+"start": 116.69,
+"end": 117.14,
 "id": "w296"
 },
 {
 "text": "creating",
-"start": 117.32,
-"end": 117.83,
+"start": 117.25,
+"end": 117.71,
 "id": "w297"
 },
 {
 "text": "opportunities,",
-"start": 117.83,
+"start": 117.77,
 "end": 118.8,
 "id": "w298"
 },
 {
 "text": "strengthening",
 "start": 118.8,
-"end": 119.6,
+"end": 119.59,
 "id": "w299"
 },
 {
 "text": "our",
-"start": 119.6,
-"end": 119.78,
+"start": 119.59,
+"end": 119.77,
 "id": "w300"
 },
 {
 "text": "community,",
-"start": 119.78,
-"end": 120.45,
+"start": 119.77,
+"end": 120.44,
 "id": "w301"
 },
 {
 "text": "and",
-"start": 120.45,
-"end": 120.63,
+"start": 120.44,
+"end": 120.62,
 "id": "w302"
 },
 {
 "text": "making",
-"start": 120.63,
-"end": 121,
+"start": 120.62,
+"end": 120.98,
 "id": "w303"
 },
 {
 "text": "our",
-"start": 121,
-"end": 121.18,
+"start": 120.98,
+"end": 121.16,
 "id": "w304"
 },
 {
 "text": "work",
-"start": 121.18,
-"end": 121.42,
+"start": 121.16,
+"end": 121.4,
 "id": "w305"
 },
 {
 "text": "meaningful.",
-"start": 121.42,
-"end": 122.28,
+"start": 121.4,
+"end": 122.24,
 "id": "w306"
 },
 {
 "text": "And",
-"start": 122.28,
-"end": 122.48,
+"start": 122.24,
+"end": 122.46,
 "id": "w307"
 },
 {
 "text": "as",
-"start": 122.48,
-"end": 122.61,
+"start": 122.46,
+"end": 122.6,
 "id": "w308"
 },
 {
 "text": "we",
-"start": 122.61,
+"start": 122.6,
 "end": 122.74,
 "id": "w309"
 },
 {
 "text": "move",
 "start": 122.74,
-"end": 123,
+"end": 123.03,
 "id": "w310"
 },
 {
 "text": "forward,",
-"start": 123,
-"end": 123.59,
+"start": 123.03,
+"end": 123.68,
 "id": "w311"
 },
 {
 "text": "we",
-"start": 123.59,
-"end": 123.72,
+"start": 123.68,
+"end": 123.82,
 "id": "w312"
 },
 {
 "text": "continue",
-"start": 123.72,
-"end": 124.25,
+"start": 123.82,
+"end": 124.41,
 "id": "w313"
 },
 {
 "text": "to",
-"start": 124.25,
-"end": 124.38,
+"start": 124.41,
+"end": 124.55,
 "id": "w314"
 },
 {
 "text": "build",
-"start": 124.38,
-"end": 124.71,
+"start": 124.55,
+"end": 124.91,
 "id": "w315"
 },
 {
 "text": "it",
-"start": 124.71,
-"end": 124.84,
+"start": 124.91,
+"end": 125.05,
 "id": "w316"
 },
 {
-"text": "together,",
-"start": 124.84,
-"end": 125.5,
+"text": "together",
+"start": 125.61,
+"end": 125.64,
 "id": "w317"
 },
 {
 "text": "as",
-"start": 125.5,
-"end": 125.63,
+"start": 125.64,
+"end": 125.78,
 "id": "w318"
 },
 {
-"text": "one,",
-"start": 125.63,
-"end": 125.96,
+"text": "one",
+"start": 125.78,
+"end": 125.97,
 "id": "w319"
 },
 {
 "text": "Mendaki.",
-"start": 126.21,
-"end": 126.52,
+"start": 126.01,
+"end": 126.64,
 "id": "w320"
 }
 ]

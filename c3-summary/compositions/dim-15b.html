@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.6), rgba(16, 10, 46, 0.36) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.6), rgba(26, 27, 30, 0.36) 62%, rgba(26, 27, 30, 0));
     }
     #root .stage {
       position: absolute;
@@ -37,18 +37,18 @@
     }
     /* word styles */
     /* weights kept at 700-800 with normal spacing so every word reads cleanly at a glance */
-    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(10, 6, 30, 0.65); }
-    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .outline .t { color: #fcd400; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(0, 0, 0, 0.65); }
+    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .outline .t { color: #fdd901; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
     #root .tag .t,
-    #root .pill-gold .t { background: #fcd400; color: #1a1046; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(10, 6, 30, 0.35); }
+    #root .pill-gold .t { background: #fdd901; color: #1a1b1e; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
     #root .pill-gold .t,
     #root .pill-white .t,
-    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(10, 6, 30, 0.4); }
-    #root .pill-white .t { background: #fff; color: #1a1046; }
-    #root .pill-ink .t { background: rgba(26, 16, 70, 0.94); color: #fff; border: 4px solid #fcd400; }
-    #root .chip .t { color: #fcd400; border: 3px solid #fcd400; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(16, 10, 46, 0.55); }
+    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4); }
+    #root .pill-white .t { background: #fff; color: #1a1b1e; }
+    #root .pill-ink .t { background: rgba(26, 27, 30, 0.94); color: #fff; border: 4px solid #26b6c6; }
+    #root .chip .t { color: #fdd901; border: 3px solid #fdd901; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(26, 27, 30, 0.55); }
     /* hand-drawn marker strokes */
     #root .mk {
       position: absolute;
@@ -58,7 +58,7 @@
     }
     #root .mk path {
       fill: none;
-      stroke: #fcd400;
+      stroke: #fdd901;
       stroke-linecap: round;
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
@@ -85,7 +85,7 @@
     (function () {
       // layout, side, room beside the presenter, his box, the faces on screen and the card
       // length are written by tools/build-cards.mjs
-      const v = {"dimension":"Commitment to Sector","layout":"marker","side":"left","width":860,"edge":120,"dur":1.03,"cont":true,"last":false,"pres":[1372,386,1900,1080],"faces":[[633,511,706,588],[1559,441,1721,696],[537,534,618,613],[1176,517,1268,600],[119,518,252,621],[26,466,163,562],[1075,478,1123,540],[485,586,573,660],[636,447,698,513],[212,528,330,615],[1422,500,1501,557],[465,490,548,563],[1270,521,1347,598],[1350,493,1418,551],[1013,509,1054,567],[1220,612,1379,798],[704,585,789,709],[242,478,342,548],[359,568,481,739],[801,570,874,684],[843,548,903,646],[151,466,257,536],[1774,424,1915,558],[673,455,729,513],[1291,488,1349,533],[593,649,702,768],[1143,479,1204,542],[897,559,945,625],[1229,481,1282,529],[357,384,435,449],[309,523,410,590],[917,521,962,596],[1490,518,1562,566],[1243,522,1282,586],[1026,478,1055,517],[1409,1015,1426,1041],[952,464,975,498],[0,550,79,672],[446,538,481,592]]};
+      const v = {"dimension":"Commitment to Sector","layout":"marker","side":"left","width":860,"edge":120,"dur":0.9,"cont":true,"last":false,"pres":null,"faces":[[1495,229,1730,530],[246,173,498,501],[576,0,753,265],[0,349,298,862],[1381,0,1569,332],[0,39,165,318],[1199,473,1500,938],[176,0,341,153],[976,197,1140,520],[942,31,1106,303],[631,499,795,728],[900,0,992,95],[1843,25,1920,263]]};
       // Inlined into the keyword and subtitle scenes by the build scripts.
       // Finds where a block of text can sit without touching any face or the presenter.
       function __hit(a, b) {
@@ -127,13 +127,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {

@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.62), rgba(16, 10, 46, 0.38) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.62), rgba(26, 27, 30, 0.38) 62%, rgba(26, 27, 30, 0));
     }
     #root .block {
       position: absolute;
@@ -27,7 +27,7 @@
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.03em;
-      color: #fcd400;
+      color: #fdd901;
     }
     #root .digit {
       display: inline-block;
@@ -43,14 +43,14 @@
       font-size: 40px;
       font-weight: 700;
       line-height: 1.12;
-      text-shadow: 0 4px 22px rgba(10, 6, 30, 0.6);
+      text-shadow: 0 4px 22px rgba(0, 0, 0, 0.6);
     }
     #root .tag .w {
       display: inline-block;
       margin-right: 0.24em;
     }
     #root .tag .gold {
-      color: #fcd400;
+      color: #fdd901;
     }
   </style>
   <div id="root" data-composition-id="opening" data-width="1920" data-height="1080">
@@ -113,13 +113,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {
@@ -176,7 +176,7 @@
       }
       /*@end-runtime*/
       // faces on screen while each block shows, and the presenter's box (tools/build-titles.mjs)
-      const PLACE = /*@place*/ {"a":{"faces":[[830,88,1163,541],[1086,687,1247,945]],"pres":[532,16,1452,1080],"prefY":300}} /*@end-place*/;
+      const PLACE = /*@place*/ {"a":{"faces":[],"pres":null,"prefY":300}} /*@end-place*/;
       const blocks = [
         ["#op-a", "#op-glow-a", PLACE.a],
       ];
@@ -210,15 +210,15 @@
           tl.fromTo(sel, { opacity: 0, filter: "blur(10px)" },
             { opacity: 1, filter: "blur(0px)", duration: d, ease: "power2.out" }, t);
 
-        tl.fromTo("#op-glow-a", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 3.5);
+        tl.fromTo("#op-glow-a", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 3.0);
         // "2026" lands with the first spoken word
         tl.fromTo(["#op-d1", "#op-d2", "#op-d3", "#op-d4"], { yPercent: 110 },
-          { yPercent: 0, duration: 0.8, ease: "expo.out", stagger: 0.09 }, 3.85);
+          { yPercent: 0, duration: 0.8, ease: "expo.out", stagger: 0.09 }, 3.2);
         // "has been a year of moving forward together"
-        // each word lands as it is spoken (voice starts at 3.93 s)
-        ["#op-w1", "#op-w2", "#op-w3", "#op-w4", "#op-w5"].forEach((s, i) => blurIn(s, [4.9, 4.97, 5.26, 5.42, 5.9][i]));
+        // each word lands as it is spoken (voice starts at 3.28 s)
+        ["#op-w1", "#op-w2", "#op-w3", "#op-w4", "#op-w5"].forEach((s, i) => blurIn(s, [4.95, 5.02, 5.29, 5.44, 5.9][i]));
         tl.fromTo("#op-w6", { opacity: 0, filter: "blur(12px)", scale: 1.15 },
-          { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.45, ease: "expo.out" }, 6.39);
+          { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.45, ease: "expo.out" }, 6.37);
         tl.to(["#op-a", "#op-glow-a"], { opacity: 0, filter: "blur(8px)", duration: 0.12, ease: "power3.in" }, 6.74);
 
         window.__timelines["opening"] = tl;

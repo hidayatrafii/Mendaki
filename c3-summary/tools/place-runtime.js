@@ -39,13 +39,13 @@ function __placeBlock(o) {
   return best;
 }
 function __fontsReady() {
-  const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+  const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
   return Promise.all(loads).then(() => document.fonts.ready);
 }
 // Text measured with the real font on a canvas: works even while a scene is hidden.
 const __ctx = document.createElement("canvas").getContext("2d");
 function __textW(text, weight, size, ls) {
-  __ctx.font = weight + " " + size + "px Montserrat";
+  __ctx.font = weight + " " + size + "px Poppins";
   return __ctx.measureText(text).width + (ls || 0) * size * text.length;
 }
 function __wrap(text, weight, size, maxW, ls) {

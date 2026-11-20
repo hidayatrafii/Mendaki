@@ -42,7 +42,7 @@ function shotsIn(start, end) {
   return track.filter((s) => s.end > start && s.start < end && !(s.box_from && end <= s.box_from));
 }
 function placeBox(b) {
-  if (!b) return { side: "left", width: 860, glow: 900 };
+  if (!b) return { side: "left", width: 860, glow: 900, edge: EDGE };
   const leftW = b[0] - MARGIN - EDGE;
   const rightW = 1920 - EDGE - (b[2] + MARGIN);
   const side = leftW >= rightW ? "left" : "right";

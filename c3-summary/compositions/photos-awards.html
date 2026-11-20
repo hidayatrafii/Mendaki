@@ -1,34 +1,78 @@
 <template>
   <style>
-    #root { position: absolute; inset: 0; overflow: hidden; background: #100a2e; }
-    #root .photo { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
-    #root .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1a1b1e; }
+    #root .backdrop { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+    #root .backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #root .card-host { position: absolute; inset: 0; }
+    #root .card {
+      position: absolute;
+      width: 1414px;
+      height: 810px;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 6px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      --flash: 0;
+    }
+    #root .card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    #root .card::after { content: ""; position: absolute; inset: 0; background: #ffffff; opacity: var(--flash); }
   </style>
   <div id="root" data-composition-id="photos-awards" data-width="1920" data-height="1080">
-    <div id="paward-p01" class="clip photo" data-start="0" data-duration="2.192" data-track-index="0">
-      <img id="paward-i01" src="assets/photos/01-awards-congratulations.jpg" alt="" />
+    <div id="paward-b01" class="clip backdrop" data-start="0" data-duration="2.468" data-track-index="0">
+      <img id="paward-bi01" src="assets/photos/backdrop/01-awards-congratulations.jpg" alt="" />
     </div>
-    <div id="paward-p02" class="clip photo" data-start="2.192" data-duration="1.95" data-track-index="1">
-      <img id="paward-i02" src="assets/photos/02-awards-best-employee.jpg" alt="" />
+    <div id="paward-p01" class="clip card-host" data-start="0" data-duration="9.4" data-track-index="1" style="z-index: 10">
+      <div class="card" id="paward-c01" style="left: 212.80000000000007px; top: 79.19999999999999px"><img id="paward-i01" src="assets/photos/01-awards-congratulations.jpg" alt="" /></div>
     </div>
-    <div id="paward-p03" class="clip photo" data-start="4.142" data-duration="1.997" data-track-index="0">
-      <img id="paward-i03" src="assets/photos/03-awards-handover-1.jpg" alt="" />
+    <div id="paward-b02" class="clip backdrop" data-start="2.468" data-duration="1.625" data-track-index="0">
+      <img id="paward-bi02" src="assets/photos/backdrop/02-awards-best-employee.jpg" alt="" />
     </div>
-    <div id="paward-p04" class="clip photo" data-start="6.139" data-duration="1.695" data-track-index="1">
-      <img id="paward-i04" src="assets/photos/04-awards-handover-2.jpg" alt="" />
+    <div id="paward-p02" class="clip card-host" data-start="2.468" data-duration="6.932" data-track-index="2" style="z-index: 11">
+      <div class="card" id="paward-c02" style="left: 288.80000000000007px; top: 95.19999999999999px"><img id="paward-i02" src="assets/photos/02-awards-best-employee.jpg" alt="" /></div>
     </div>
-    <div id="paward-p05" class="clip photo" data-start="7.834" data-duration="1.566" data-track-index="0">
-      <img id="paward-i05" src="assets/photos/05-awards-best-employee-2.jpg" alt="" />
+    <div id="paward-b03" class="clip backdrop" data-start="4.093" data-duration="2.136" data-track-index="0">
+      <img id="paward-bi03" src="assets/photos/backdrop/03-awards-handover-1.jpg" alt="" />
+    </div>
+    <div id="paward-p03" class="clip card-host" data-start="4.093" data-duration="5.307" data-track-index="1" style="z-index: 12">
+      <div class="card" id="paward-c03" style="left: 234.80000000000007px; top: 71.19999999999999px"><img id="paward-i03" src="assets/photos/03-awards-handover-1.jpg" alt="" /></div>
+    </div>
+    <div id="paward-b04" class="clip backdrop" data-start="6.229" data-duration="1.6" data-track-index="0">
+      <img id="paward-bi04" src="assets/photos/backdrop/04-awards-handover-2.jpg" alt="" />
+    </div>
+    <div id="paward-p04" class="clip card-host" data-start="6.229" data-duration="3.171" data-track-index="2" style="z-index: 13">
+      <div class="card" id="paward-c04" style="left: 296.80000000000007px; top: 89.19999999999999px"><img id="paward-i04" src="assets/photos/04-awards-handover-2.jpg" alt="" /></div>
+    </div>
+    <div id="paward-b05" class="clip backdrop" data-start="7.829" data-duration="1.571" data-track-index="0">
+      <img id="paward-bi05" src="assets/photos/backdrop/05-awards-best-employee-2.jpg" alt="" />
+    </div>
+    <div id="paward-p05" class="clip card-host" data-start="7.829" data-duration="1.571" data-track-index="1" style="z-index: 14">
+      <div class="card" id="paward-c05" style="left: 222.80000000000007px; top: 97.19999999999999px"><img id="paward-i05" src="assets/photos/05-awards-best-employee-2.jpg" alt="" /></div>
     </div>
   </div>
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#paward-i01", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 2.192, ease: "none" }, 0);
-      tl.fromTo("#paward-i02", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.95, ease: "none" }, 2.192);
-      tl.fromTo("#paward-i03", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.997, ease: "none" }, 4.142);
-      tl.fromTo("#paward-i04", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: 1.6, duration: 1.695, ease: "none" }, 6.139);
-      tl.fromTo("#paward-i05", { scale: 1.04, xPercent: 0 }, { scale: 1.12, xPercent: -1.6, duration: 1.566, ease: "none" }, 7.834);
+      tl.fromTo("#paward-c01", { opacity: 0, scale: 1.18, rotation: 5.8, y: 0 }, { opacity: 1, scale: 1, rotation: -3.2, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 0);
+      tl.fromTo("#paward-i01", { scale: 1 }, { scale: 1.05, duration: 3.068, ease: "none" }, 0);
+      tl.fromTo("#paward-bi01", { scale: 1.08 }, { scale: 1.16, duration: 2.468, ease: "none" }, 0);
+      tl.fromTo("#paward-c01", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 0.08);
+      tl.fromTo("#paward-c02", { opacity: 0, scale: 1.32, rotation: -6.4, y: -70 }, { opacity: 1, scale: 1, rotation: 2.6, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 2.468);
+      tl.fromTo("#paward-i02", { scale: 1 }, { scale: 1.05, duration: 2.225, ease: "none" }, 2.468);
+      tl.fromTo("#paward-bi02", { scale: 1.08 }, { scale: 1.16, duration: 1.625, ease: "none" }, 2.468);
+      tl.fromTo("#paward-c02", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 2.548);
+      tl.fromTo("#paward-c03", { opacity: 0, scale: 1.32, rotation: 7.2, y: -70 }, { opacity: 1, scale: 1, rotation: -1.8, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 4.093);
+      tl.fromTo("#paward-i03", { scale: 1 }, { scale: 1.05, duration: 2.736, ease: "none" }, 4.093);
+      tl.fromTo("#paward-bi03", { scale: 1.08 }, { scale: 1.16, duration: 2.136, ease: "none" }, 4.093);
+      tl.fromTo("#paward-c03", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 4.173);
+      tl.fromTo("#paward-c04", { opacity: 0, scale: 1.32, rotation: -6, y: -70 }, { opacity: 1, scale: 1, rotation: 3, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 6.229);
+      tl.fromTo("#paward-i04", { scale: 1 }, { scale: 1.05, duration: 2.2, ease: "none" }, 6.229);
+      tl.fromTo("#paward-bi04", { scale: 1.08 }, { scale: 1.16, duration: 1.6, ease: "none" }, 6.229);
+      tl.fromTo("#paward-c04", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 6.309);
+      tl.fromTo("#paward-c05", { opacity: 0, scale: 1.32, rotation: 6.6, y: -70 }, { opacity: 1, scale: 1, rotation: -2.4, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 7.829);
+      tl.fromTo("#paward-i05", { scale: 1 }, { scale: 1.05, duration: 2.171, ease: "none" }, 7.829);
+      tl.fromTo("#paward-bi05", { scale: 1.08 }, { scale: 1.16, duration: 1.571, ease: "none" }, 7.829);
+      tl.fromTo("#paward-c05", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 7.909);
       window.__timelines["photos-awards"] = tl;
     })();
   </script>

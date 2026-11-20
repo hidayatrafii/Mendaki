@@ -1,5 +1,13 @@
 # C3 Nov 2026 Summary Video (HyperFrames)
 
+**Current version: the avatar-free edit**, set to Coldplay's "Adventure of a Lifetime"
+(chorus 1, chorus 2 and the build/outro, joined on the beat), in the MENDAKI brand
+(yellow #FDD901, charcoal #1A1B1E, teal #26B6C6) and Poppins, with a beat intro, a
+transition on every cut, polaroid photo cards and the official yellow logo on the end card.
+Build order after changes: build-photos, build-faces.py, build-cards, build-captions,
+build-titles, build-transitions, build-audio.
+
+
 Your edited summary video with graphics and text added on top: an opening title, 17
 dimension cards (the recommended keywords, timed to the voiceover), photo slots for the
 footage still to come, and the MENDAKI logo at the end.

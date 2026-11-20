@@ -1,6 +1,6 @@
 # Large media: regenerate with tools/prepare-media.sh from the original edit
 assets/footage.mp4
-assets/presenter-*.webm
+# (no presenter cut-outs in the avatar-free edit)
 renders/
 .hyperframes/
 node_modules/

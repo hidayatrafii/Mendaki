@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.6), rgba(16, 10, 46, 0.36) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.6), rgba(26, 27, 30, 0.36) 62%, rgba(26, 27, 30, 0));
     }
     #root .stage {
       position: absolute;
@@ -37,18 +37,18 @@
     }
     /* word styles */
     /* weights kept at 700-800 with normal spacing so every word reads cleanly at a glance */
-    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(10, 6, 30, 0.65); }
-    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
-    #root .outline .t { color: #fcd400; font-weight: 800; text-shadow: 0 4px 22px rgba(10, 6, 30, 0.65); }
+    #root .solid .t { color: #fff; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .hero .t { color: #fff; font-weight: 800; text-shadow: 0 4px 26px rgba(0, 0, 0, 0.65); }
+    #root .plain .t { color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
+    #root .outline .t { color: #fdd901; font-weight: 800; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65); }
     #root .tag .t,
-    #root .pill-gold .t { background: #fcd400; color: #1a1046; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(10, 6, 30, 0.35); }
+    #root .pill-gold .t { background: #fdd901; color: #1a1b1e; padding: 0.1em 0.42em 0.14em; border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
     #root .pill-gold .t,
     #root .pill-white .t,
-    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(10, 6, 30, 0.4); }
-    #root .pill-white .t { background: #fff; color: #1a1046; }
-    #root .pill-ink .t { background: rgba(26, 16, 70, 0.94); color: #fff; border: 4px solid #fcd400; }
-    #root .chip .t { color: #fcd400; border: 3px solid #fcd400; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(16, 10, 46, 0.55); }
+    #root .pill-ink .t { border-radius: 999px; padding: 0.14em 0.62em 0.2em; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4); }
+    #root .pill-white .t { background: #fff; color: #1a1b1e; }
+    #root .pill-ink .t { background: rgba(26, 27, 30, 0.94); color: #fff; border: 4px solid #26b6c6; }
+    #root .chip .t { color: #fdd901; border: 3px solid #fdd901; border-radius: 999px; padding: 0.12em 0.6em 0.16em; background: rgba(26, 27, 30, 0.55); }
     /* hand-drawn marker strokes */
     #root .mk {
       position: absolute;
@@ -58,7 +58,7 @@
     }
     #root .mk path {
       fill: none;
-      stroke: #fcd400;
+      stroke: #fdd901;
       stroke-linecap: round;
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
@@ -85,7 +85,7 @@
     (function () {
       // layout, side, room beside the presenter, his box, the faces on screen and the card
       // length are written by tools/build-cards.mjs
-      const v = {"dimension":"Engagement","layout":"sticker","side":"right","width":860,"edge":120,"dur":1.7,"cont":true,"last":true,"pres":[-40,208,714,1080],"faces":[[203,270,465,633],[974,318,1080,505],[1257,344,1419,585],[1903,469,1920,503],[1886,470,1911,508],[1869,470,1894,509],[1852,471,1876,507],[419,426,623,765],[1834,472,1858,510],[1816,474,1841,510],[1053,288,1086,339],[691,315,726,366],[736,323,770,372],[1814,535,1857,595],[852,306,887,357],[1518,356,1562,419],[1718,533,1761,593],[1414,354,1453,410],[1237,500,1280,568],[1392,684,1440,765],[1202,677,1259,765],[1797,643,1853,729],[1601,714,1668,812],[1151,331,1185,380],[703,683,759,769],[80,496,117,550],[1707,348,1742,401],[505,304,539,358],[610,308,644,357],[973,299,1004,346],[12,648,67,731],[1300,297,1334,348],[1417,604,1466,679],[1528,710,1585,800],[1122,492,1161,554],[1177,290,1213,344],[1661,644,1716,731],[1619,367,1663,436],[161,496,201,552],[1080,720,1129,795],[1784,334,1827,397],[645,350,680,406],[778,303,813,354],[819,700,866,775],[1768,726,1828,829],[953,331,990,387],[1322,624,1367,692],[965,716,1014,799],[974,486,1012,546],[1535,529,1579,592],[805,336,839,389],[124,630,173,711],[1620,526,1664,588],[1434,506,1473,564],[1354,312,1387,357],[741,497,780,555],[635,445,672,499],[826,500,864,560],[879,361,916,415],[553,333,587,386],[465,343,494,390],[1232,327,1266,378],[1247,299,1280,347],[1095,362,1130,413],[1198,345,1234,399],[1553,327,1589,384],[1440,313,1475,366],[1564,308,1599,361]]};
+      const v = {"dimension":"Engagement","layout":"sticker","side":"left","width":860,"edge":120,"dur":1.7,"cont":true,"last":true,"pres":null,"faces":[[974,318,1075,505],[1257,343,1419,585],[1903,469,1920,503],[1886,470,1911,508],[1869,470,1894,508],[1852,472,1876,508],[1834,472,1859,510],[1816,476,1840,510],[1252,739,1348,910],[690,314,725,367],[1053,288,1086,339],[736,323,770,372],[287,321,324,379],[1815,535,1858,595],[852,307,887,356],[1718,532,1762,594],[1238,500,1278,568],[1518,356,1561,419],[1392,684,1441,765],[275,496,313,550],[1601,714,1668,812],[1414,354,1453,410],[572,688,621,765],[1202,677,1259,767],[1798,643,1854,727],[353,556,406,629],[79,494,116,550],[610,308,644,357],[703,683,758,769],[505,304,539,358],[973,299,1004,346],[450,672,503,751],[1707,348,1742,402],[1300,297,1335,348],[1151,331,1185,380],[12,648,67,731],[1417,605,1466,678],[367,316,404,372],[1122,493,1161,555],[1784,334,1827,398],[1177,288,1213,344],[1619,367,1663,436],[160,495,199,551],[241,591,296,664],[1661,644,1716,731],[1080,720,1130,795],[1528,709,1585,801],[778,303,812,354],[492,582,541,655],[431,305,465,356],[645,351,680,407],[538,486,575,542],[953,331,990,387],[464,496,499,550],[1322,624,1367,692],[819,701,866,776],[1767,724,1827,831],[965,715,1015,799],[124,631,174,714],[974,486,1013,546],[182,716,232,797],[464,343,495,390],[805,336,839,389],[1434,506,1473,564],[328,641,383,727],[1537,532,1577,592],[419,598,469,670],[1354,312,1387,357],[741,497,780,555],[1620,526,1664,588],[635,443,672,499],[1232,327,1265,378],[879,359,916,415],[353,501,392,554],[553,332,588,386],[826,499,864,557],[1247,299,1281,347],[1095,362,1129,413],[1198,345,1234,399],[1554,329,1589,383],[1440,313,1474,366],[1564,308,1599,361]]};
       // Inlined into the keyword and subtitle scenes by the build scripts.
       // Finds where a block of text can sit without touching any face or the presenter.
       function __hit(a, b) {
@@ -127,13 +127,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {

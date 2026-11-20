@@ -3,7 +3,7 @@
     #root {
       position: absolute;
       inset: 0;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Poppins", sans-serif;
       color: #fff;
       overflow: hidden;
     }
@@ -14,7 +14,7 @@
       top: 0;
       width: 10px;
       height: 10px;
-      background: radial-gradient(closest-side, rgba(16, 10, 46, 0.62), rgba(16, 10, 46, 0.38) 62%, rgba(16, 10, 46, 0));
+      background: radial-gradient(closest-side, rgba(26, 27, 30, 0.62), rgba(26, 27, 30, 0.38) 62%, rgba(26, 27, 30, 0));
     }
     #root .lines {
       position: absolute;
@@ -40,50 +40,45 @@
       letter-spacing: -0.02em;
     }
     #root .l2 .gold {
-      color: #fcd400;
+      color: #fdd901;
     }
+    /* end card: a yellow wipe, then charcoal, then the logo (Yayasan MENDAKI, Sentiasa Bersamamu) */
+    #root .wipe-y { position: absolute; inset: 0; background: #fdd901; }
     #root .flood {
       position: absolute;
       inset: 0;
-      background: radial-gradient(1100px 700px at 50% 46%, #2f2276 0%, #1a1046 55%, #100a2e 100%);
+      background: radial-gradient(1200px 760px at 50% 48%, #2a2c31 0%, #1a1b1e 58%, #111214 100%);
+    }
+    #root .arc {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 50%;
+      border: 3px solid rgba(38, 182, 198, 0.35);
     }
     #root .glow {
       position: absolute;
       left: 50%;
-      top: 44%;
-      width: 1000px;
-      height: 900px;
-      margin: -450px 0 0 -450px;
+      top: 48%;
+      width: 1300px;
+      height: 1000px;
+      margin: -500px 0 0 -650px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(252, 212, 0, 0.18) 0%, rgba(252, 212, 0, 0) 62%);
+      background: radial-gradient(closest-side, rgba(253, 217, 1, 0.2) 0%, rgba(253, 217, 1, 0) 70%);
     }
     #root .lockup {
       position: absolute;
       left: 0;
       right: 0;
-      top: 300px;
+      top: 0;
+      bottom: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
     #root .logo {
-      width: 400px;
+      width: 860px;
       height: auto;
-    }
-    #root .rule {
-      margin-top: 44px;
-      width: 120px;
-      height: 3px;
-      background: #fcd400;
-      border-radius: 2px;
-    }
-    #root .tagline {
-      margin-top: 30px;
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.9);
     }
   </style>
   <div id="root" data-composition-id="outro" data-width="1920" data-height="1080">
@@ -92,12 +87,13 @@
       <div class="l2" id="ou-l2"><span class="gold">One</span> MENDAKI.</div>
     </div>
 
+    <div class="wipe-y" id="ou-wipe" data-layout-ignore></div>
     <div class="flood" id="ou-flood"></div>
-    <div class="glow" id="ou-glow"></div>
+    <div class="arc" id="ou-arc1" data-layout-ignore style="width: 1500px; height: 1500px; margin: -750px 0 0 -750px"></div>
+    <div class="arc" id="ou-arc2" data-layout-ignore style="width: 1900px; height: 1900px; margin: -950px 0 0 -950px; border-color: rgba(253, 217, 1, 0.22)"></div>
+    <div class="glow" id="ou-glow" data-layout-ignore></div>
     <div class="lockup" id="ou-lockup">
-      <img class="logo" id="ou-logo" src="assets/mendaki-logo.svg" alt="Yayasan MENDAKI" />
-      <div class="rule" id="ou-rule"></div>
-      <div class="tagline" id="ou-tag">Moving Forward Together · 2026</div>
+      <img class="logo" id="ou-logo" src="assets/mendaki-logo-sb-yellow.png" alt="Yayasan MENDAKI, Sentiasa Bersamamu" />
     </div>
   </div>
   <script>
@@ -144,13 +140,13 @@
         return best;
       }
       function __fontsReady() {
-        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Montserrat").catch(() => null));
+        const loads = ["500", "700", "800", "900"].map((w) => document.fonts.load(w + " 64px Poppins").catch(() => null));
         return Promise.all(loads).then(() => document.fonts.ready);
       }
       // Text measured with the real font on a canvas: works even while a scene is hidden.
       const __ctx = document.createElement("canvas").getContext("2d");
       function __textW(text, weight, size, ls) {
-        __ctx.font = weight + " " + size + "px Montserrat";
+        __ctx.font = weight + " " + size + "px Poppins";
         return __ctx.measureText(text).width + (ls || 0) * size * text.length;
       }
       function __wrap(text, weight, size, maxW, ls) {
@@ -207,7 +203,7 @@
       }
       /*@end-runtime*/
       // faces on screen while "One MENDAKI." shows, and the presenter's box (tools/build-titles.mjs)
-      const PLACE = /*@place*/ {"a":{"faces":[[1027,615,1078,687],[896,469,937,530],[860,436,900,496],[434,605,516,682],[321,628,412,708],[536,425,601,488],[1322,652,1398,730],[438,477,507,531],[994,490,1031,543],[806,622,858,693],[958,459,996,519],[791,462,838,524],[1179,487,1248,558],[1212,645,1276,723],[313,426,393,487],[533,608,606,681],[1114,621,1169,696],[201,648,303,734],[1295,570,1358,633],[403,444,476,503],[28,456,163,564],[300,470,406,541],[675,456,730,515],[1072,534,1118,593],[728,640,785,723],[1115,502,1164,558],[1811,596,1920,682],[1434,584,1515,652],[1415,663,1501,750],[337,531,416,591],[1756,537,1861,604],[145,424,248,496],[77,663,194,758],[499,466,565,522],[612,488,669,543],[922,621,966,693],[0,452,76,523],[646,619,708,693],[1370,473,1441,548],[258,477,332,541],[1244,511,1319,567],[424,522,496,580],[1383,594,1453,657],[1809,752,1920,867],[1715,532,1820,606],[1050,459,1090,510],[1697,577,1817,654],[87,519,193,592],[188,439,298,528],[1318,517,1379,570],[546,479,610,535],[1289,509,1340,562],[760,446,807,506],[534,541,610,623],[1050,501,1093,554],[1149,544,1200,606],[1508,439,1756,692],[700,491,751,546],[1413,497,1469,548],[285,467,347,527],[1380,536,1449,594],[1220,482,1272,559],[1460,472,1532,531],[209,431,290,497],[1691,581,1744,653],[612,447,670,503],[1134,476,1182,532],[1308,480,1368,533],[1451,521,1542,595],[1775,579,1868,655],[502,540,567,595],[1228,510,1263,560],[1204,544,1261,601],[1507,534,1567,598],[0,558,82,641],[0,493,70,566],[1520,694,1603,784],[245,539,299,599],[492,683,523,728],[1635,738,1685,806]],"pres":[1276,366,1960,1080],"prefY":250}} /*@end-place*/;
+      const PLACE = /*@place*/ {"a":{"faces":[[896,469,937,530],[1295,570,1354,632],[444,478,507,532],[157,429,248,497],[1323,652,1392,726],[615,487,670,543],[1434,584,1507,652],[958,459,995,519],[861,439,901,497],[806,622,857,692],[680,458,730,515],[440,605,516,680],[1213,646,1271,718],[542,428,602,488],[1028,615,1076,684],[538,608,606,677],[409,444,476,503],[994,492,1030,543],[1415,663,1494,746],[922,622,965,691],[329,629,411,706],[1518,694,1606,781],[1072,533,1115,590],[322,427,394,487],[1114,621,1167,693],[49,456,164,542],[1114,502,1164,559],[729,640,785,722],[1371,476,1440,548],[0,557,82,638],[793,464,838,526],[1180,504,1241,558],[1245,513,1315,567],[307,470,406,542],[196,439,299,528],[1615,530,1700,591],[1811,596,1915,678],[1460,472,1529,530],[1715,533,1828,605],[1488,535,1561,597],[344,532,417,590],[1548,547,1628,612],[762,448,806,506],[650,619,708,692],[1809,752,1920,864],[90,663,194,755],[1519,593,1595,661],[1634,736,1726,820],[1561,499,1644,574],[100,519,193,592],[1697,579,1810,651],[1318,517,1376,570],[213,645,305,733],[4,454,88,523],[1508,501,1577,556],[504,466,566,522],[1411,499,1461,548],[1380,536,1444,592],[1050,501,1091,553],[434,523,496,580],[1789,538,1850,604],[1050,460,1089,509],[1285,510,1336,562],[552,480,610,536],[703,492,751,546],[1134,476,1180,532],[507,540,571,596],[1450,521,1521,582],[266,480,338,540],[1640,580,1731,653],[1383,594,1448,656],[546,555,610,623],[1148,545,1197,606],[293,467,350,526],[219,432,290,499],[1218,482,1267,532],[618,449,670,504],[1307,480,1361,533],[1769,580,1857,654],[1611,516,1677,576],[0,493,84,568],[1580,583,1666,653],[1218,511,1258,560],[1205,543,1256,599],[484,683,523,730],[245,539,290,601]],"pres":null,"prefY":250}} /*@end-place*/;
       __fontsReady().then(() => {
       const p = PLACE.a;
       if (p) {
@@ -230,19 +226,21 @@
       }
       const tl = gsap.timeline({ paused: true });
       // host starts at 122.3 s: "And as we move forward, we continue to build it together, as one MENDAKI."
-      tl.fromTo("#ou-scrim", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 2.9);
-      tl.fromTo("#ou-l2", { opacity: 0, filter: "blur(14px)", scale: 1.08, transformOrigin: "left center" },
-        { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.5, ease: "expo.out" }, 3.2);
-
-      // colour flood once the presenter has left the shot (127.2 s), then the logo lockup
-      tl.fromTo("#ou-flood", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.inOut" }, 5.0);
-      tl.to(["#ou-lines", "#ou-scrim"], { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, 5.1);
-      tl.fromTo("#ou-glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.6, ease: "power2.out" }, 5.4);
-      tl.fromTo("#ou-logo", { opacity: 0, scale: 0.88, filter: "blur(12px)" },
-        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 5.55);
-      tl.fromTo("#ou-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 6.05);
-      tl.fromTo("#ou-tag", { opacity: 0, filter: "blur(8px)", scale: 1.1 },
-        { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.9, ease: "expo.out" }, 6.2);
+      // host starts at 122.3 s. Beats: 125.87 ("one MENDAKI"), 127.47 (wipe), 128.03 (logo)
+      tl.fromTo("#ou-scrim", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 3.3);
+      tl.fromTo("#ou-l2", { opacity: 0, filter: "blur(14px)", scale: 1.25, transformOrigin: "left center" },
+        { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.4, ease: "expo.out" }, 3.57);
+      tl.fromTo("#ou-l2", { y: 0 }, { y: -6, duration: 1.5, ease: "none" }, 3.97);
+      // brand wipe: yellow up, charcoal straight after
+      tl.fromTo("#ou-wipe", { yPercent: 100 }, { yPercent: 0, duration: 0.3, ease: "power3.in" }, 5.17 - 0.3);
+      tl.fromTo("#ou-flood", { yPercent: 100 }, { yPercent: 0, duration: 0.34, ease: "power3.inOut" }, 5.17);
+      tl.set(["#ou-lines", "#ou-scrim"], { opacity: 0 }, 5.17);
+      tl.fromTo(["#ou-arc1", "#ou-arc2"], { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.4, ease: "expo.out", stagger: 0.1 }, 5.6);
+      tl.fromTo("#ou-glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 5.65);
+      // the logo slams in on the beat, then settles slowly
+      tl.fromTo("#ou-logo", { opacity: 0, scale: 1.35, filter: "blur(16px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 5.73);
+      tl.fromTo("#ou-logo", { y: 0 }, { y: -4, scale: 1.03, duration: 4, ease: "none", immediateRender: false }, 6.23);
       window.__timelines["outro"] = tl;
       });
     })();
