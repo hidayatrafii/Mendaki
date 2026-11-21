@@ -9,11 +9,21 @@ from render import ease_back, ease_out, font, text_img, emoji_img, paste as _pas
 
 
 def paste(canvas, im, cx, cy, scale=1.0, rot=0.0, alpha=1.0):
-    """Skip graphics that are entirely off-canvas (e.g. mid slide-out) instead of crashing."""
-    hw, hh = im.width * max(scale, 0) / 2 + 40, im.height * max(scale, 0) / 2 + 40
-    if cx + hw < 0 or cx - hw > 1080 or cy + hh < 0 or cy - hh > 1920:
+    """Scale/rotate/fade a graphic and composite it, clipping cleanly at any canvas edge."""
+    if scale <= 0.01 or alpha <= 0.01:
         return
-    _paste(canvas, im, cx, cy, scale, rot, alpha)
+    if abs(scale - 1) > 1e-3:
+        im = im.resize((max(1, int(im.width * scale)), max(1, int(im.height * scale))), Image.BICUBIC)
+    if abs(rot) > 0.05:
+        im = im.rotate(rot, resample=Image.BICUBIC, expand=True)
+    if alpha < 1:
+        im = im.copy(); im.putalpha(im.split()[3].point(lambda v: int(v * alpha)))
+    x, y = int(cx - im.width / 2), int(cy - im.height / 2)
+    l, t = max(0, x), max(0, y)
+    r, b = min(canvas.width, x + im.width), min(canvas.height, y + im.height)
+    if r <= l or b <= t:
+        return
+    canvas.alpha_composite(im.crop((l - x, t - y, r - x, b - y)), (l, t))
 
 SRC = os.path.join(HERE, "in.mov")
 FPS = 30
@@ -56,14 +66,26 @@ CUTS = {71: "punch", 106: ("whip", 1), 145: "leak", 156: "punch", 188: ("whip", 
 SEG_STARTS = [0, 33, 71, 106, 145, 156, 188, 277, 333, 389, 425, 480, 683, 832, 949, 1132, 1195, 1363, 1462]
 ZOOM_ALT = {683: 1.1, 949: 1.1, 1363: 1.08}
 NAMETAG = (440, 668)
-STICKERS = [  # (t0, t1, emoji, x, y, size) -- x kept <= ~840 for the right-hand UI column
-    (0.05, 1.2, "🦷", 820, 860, 150), (1.25, 2.4, "🤐", 820, 860, 150), (2.45, 4.6, "📢", 200, 880, 160),
-    (4.8, 6.4, "🎤", 820, 880, 140), (6.65, 7.9, "😬", 820, 880, 150), (7.95, 8.85, "😅", 210, 900, 150),
-    (12.2, 13.95, "🤝", 820, 900, 140), (14.0, 15.55, "💡", 200, 900, 140), (17.62, 18.45, "😂", 820, 880, 140),
-    (25.45, 27.7, "🎈", 820, 900, 140), (25.6, 27.7, "🎀", 200, 920, 120), (30.72, 31.2, "📱", 820, 900, 140),
-    (32.5, 34.75, "📣", 200, 920, 140), (35.95, 37.45, "🦗", 800, 1360, 120), (36.3, 37.45, "🦗", 240, 1390, 100),
-    (38.05, 41.45, "🛍️", 200, 880, 150), (43.2, 45.1, "💪", 820, 880, 140), (45.2, 46.65, "🙌", 200, 880, 150),
-    (46.7, 47.45, "👂", 820, 880, 140), (47.5, 48.6, "👯", 820, 880, 150),
+STICKERS = [  # positions auto-chosen to stay clear of faces and other graphics (x <= ~840 for the right-hand UI)
+    (0.05, 1.2, "🦷", 800, 910, 150),
+    (1.25, 2.4, "🤐", 800, 970, 150),
+    (2.45, 4.6, "📢", 200, 880, 160),
+    (4.8, 6.4, "🎤", 840, 1000, 140),
+    (6.65, 7.9, "😬", 230, 970, 150),
+    (7.95, 8.85, "😅", 190, 1000, 150),
+    (12.2, 13.95, "🤝", 820, 900, 140),
+    (14.0, 15.55, "💡", 200, 900, 140),
+    (17.62, 18.45, "😂", 820, 880, 140),
+    (25.45, 27.7, "🎈", 820, 900, 140),
+    (30.72, 31.2, "📱", 820, 900, 140),
+    (32.5, 34.75, "📣", 190, 700, 140),
+    (35.95, 37.45, "🦗", 800, 940, 120),
+    (36.3, 37.45, "🦗", 230, 940, 100),
+    (38.05, 41.45, "🛍️", 200, 880, 150),
+    (43.2, 45.1, "💪", 820, 880, 140),
+    (45.2, 46.65, "🙌", 190, 910, 150),
+    (46.7, 47.45, "👂", 820, 880, 140),
+    (47.5, 48.6, "👯", 820, 880, 150),
 ]
 SPARKLES = [(2.45, 3.45), (11.15, 12.15), (38.0, 39.6)]
 SHAKES = [(6.6, 7.2, 4), (16.0, 16.25, 5), (48.75, 48.95, 6)]
@@ -73,7 +95,7 @@ INFO = [(41.5, "4 – 6 DEC", "📅"), (42.5, "*SCAPE Camping Ground", "📍"), 
 
 # ---------------------------------------------------------------- captions: Poppins, word-by-word, refined
 CAP_SIZE = 64
-CAP_Y = 1150
+CAP_Y = 1390   # subtitles sit lowest; graphics go above them
 CAP_MAXW = SAFE["right"] - SAFE["left"] - 40
 
 
@@ -229,17 +251,17 @@ def draw_nametag(cv, t):
     p1 = ease_back((t - s) / 0.45, 1.4) * out
     p2 = ease_back((t - s - 0.12) / 0.45, 1.4) * out
     L = SAFE["left"]
-    paste(cv, pa, -pa.width / 2 + (L - 26 + pa.width) * p1, 1300, rot=-2)
-    paste(cv, pb, -pb.width / 2 + (L + 10 + pb.width) * p2, 1378, rot=-2)
-    paste(cv, emoji_img("✨", 56), L - 26 + pa.width * p1 + 10 - pa.width / 2 + pa.width / 2 - 20, 1262,
+    paste(cv, pa, -pa.width / 2 + (L - 26 + pa.width) * p1, 1150, rot=-2)
+    paste(cv, pb, -pb.width / 2 + (L + 10 + pb.width) * p2, 1228, rot=-2)
+    paste(cv, emoji_img("✨", 56), L - 26 + pa.width * p1 + 10 - pa.width / 2 + pa.width / 2 - 20, 1112,
           ease_back((t - s - 0.45) / 0.3, 2) * out, 15 * math.sin(t * 3))
 
 
 @functools.lru_cache(None)
 def check_header():
-    a = text_img("First market DON'Ts", P8, 34, CREAM, 0, shadow=False)
-    e = emoji_img("🚫", 46)
-    im = rrect_img(a.width + e.width + 30, 70, 35, GREEN + (250,), outline=LIME + (255,), ow=5)
+    a = text_img("First market DON'Ts", P8, 28, CREAM, 0, shadow=False)
+    e = emoji_img("🚫", 38)
+    im = rrect_img(a.width + e.width + 30, 58, 29, GREEN + (250,), outline=LIME + (255,), ow=5)
     im.alpha_composite(e, (34, int(im.height / 2 - e.height / 2)))
     im.alpha_composite(a, (34 + e.width - 8, int(im.height / 2 - a.height / 2) - 2))
     return im
@@ -247,12 +269,15 @@ def check_header():
 
 @functools.lru_cache(None)
 def check_item(i, txt):
-    n = text_img(f"{i + 1}", P9, 32, PINK, 0, shadow=False)
-    a = text_img(txt, P7, 32, INK, 0, shadow=False)
-    im = rrect_img(a.width + n.width + 60, 62, 31, CREAM + (245,), outline=INK + (255,), ow=4)
+    n = text_img(f"{i + 1}", P9, 27, PINK, 0, shadow=False)
+    a = text_img(txt, P7, 27, INK, 0, shadow=False)
+    im = rrect_img(a.width + n.width + 60, 52, 26, CREAM + (245,), outline=INK + (255,), ow=4)
     im.alpha_composite(n, (40, int(im.height / 2 - n.height / 2) - 2))
     im.alpha_composite(a, (40 + n.width - 6, int(im.height / 2 - a.height / 2) - 2))
     return im
+
+
+CHECK_Y = 1030   # band between everyone's faces and the subtitles
 
 
 def draw_checklist(cv, t):
@@ -264,17 +289,17 @@ def draw_checklist(cv, t):
     off = (1 - pin * pout) * -700
     L = SAFE["left"] - 26
     h = check_header()
-    paste(cv, h, L + h.width / 2 + off, SAFE["top"] + 40)
+    paste(cv, h, L + h.width / 2 + off, CHECK_Y)
     for i, (ti, txt) in enumerate(CHECK_ITEMS):
         if t < ti:
             continue
         p = ease_back((t - ti) / 0.3, 1.5)
         im = check_item(i, txt)
-        cx, cy = L + 10 + im.width / 2 + off + (1 - min(p, 1)) * -150, SAFE["top"] + 122 + i * 72
+        cx, cy = L + 10 + im.width / 2 + off + (1 - min(p, 1)) * -150, CHECK_Y + 64 + i * 58
         paste(cv, im, cx, cy, max(0.01, min(p, 1.05)))
         q = (t - ti - 0.35) / 0.2
         if q > 0:
-            paste(cv, emoji_img("❌", 40), cx + im.width / 2 - 4, cy, ease_back(q, 2.0), -10)
+            paste(cv, emoji_img("❌", 34), cx + im.width / 2 - 4, cy, ease_back(q, 2.0), -10)
 
 
 @functools.lru_cache(None)
@@ -300,7 +325,7 @@ def draw_badges(cv, t):
             sc = (1 + 0.5 * (1 - ease_out(p))) if p < 1 else 1 + 0.03 * math.sin((t - s) * 4)
             if e - t < 0.15:
                 sc *= ease_out((e - t) / 0.15)
-            paste(cv, badge_img(num), SAFE["right"] - 110, SAFE["top"] + 110, sc, -8 + 5 * math.sin((t - s) * 2),
+            paste(cv, badge_img(num), SAFE["right"] - 105, CHECK_Y + 90, sc * 0.68, -8 + 5 * math.sin((t - s) * 2),
                   alpha=min(1, p * 2))
 
 
@@ -314,7 +339,7 @@ def draw_info(cv, t):
             continue
         p = ease_back((t - ti) / 0.35, 1.5) * pout
         off = (1 - min(1, (t - ti) / 0.35)) * (260 if i % 2 else -260)
-        paste(cv, chip(txt, ic, 32), (SAFE["left"] + SAFE["right"]) / 2 + off, 1270 + i * 72, p)
+        paste(cv, chip(txt, ic, 32), (SAFE["left"] + SAFE["right"]) / 2 + off, 1110 + i * 72, p)
 
 
 # confetti
