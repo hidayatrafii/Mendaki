@@ -35,13 +35,14 @@ const scenes = [
   // footage (moved to 96.96-99.0 s in index.html, on "embracing digitalisation"), then the SUTD selfie
   ["photos-innovation-a", 91.933, 96.964, [
     ["19-innovation-ai-programme-cohort.jpg", 91.933], // "as the way we work continues to evolve, so do we"
-    ["21-innovation-new-ideas-img0142.jpg", 95.361], // "trying new ideas"
-    ["22-innovation-new-ideas-img0150.jpg", 95.895],
-    ["23-innovation-new-ideas-img0153.jpg", 96.43],
-  ]],
+    // Innovenge: longer on screen (2, 2 and 3 beats) and a gentle entrance
+    ["21-innovation-new-ideas-img0142.jpg", 93.225],
+    ["22-innovation-new-ideas-img0150.jpg", 94.293],
+    ["23-innovation-new-ideas-img0153.jpg", 95.361], // "trying new ideas"
+  ], "gentle"],
   ["photos-innovation-b", 98.998, 101.5, [
     ["20-innovation-ai-programme-selfie.jpg", 98.998, "portrait"], // "and finding better ways to serve our community"
-  ]],
+  ], "gentle"],
 ];
 
 const r = (x) => Math.round(x * 1000) / 1000;
@@ -61,7 +62,7 @@ const NUDGE = [[-40, -6], [36, 10], [-18, -14], [44, 4], [-30, 12], [20, -10], [
 const layout = {};
 const hosts = [];
 let k = 0;
-for (const [id, start, end, photos] of scenes) {
+for (const [id, start, end, photos, mode] of scenes) {
   const pre = id.replace("photos-", "p").slice(0, 6);
   const els = [];
   const tweens = [];
@@ -89,12 +90,16 @@ for (const [id, start, end, photos] of scenes) {
     );
     const first = i === 0;
     tweens.push(
-      `      tl.fromTo("#${pre}-c${n}", { opacity: 0, scale: ${first ? 1.18 : 1.32}, rotation: ${r(rot + (i % 2 ? -9 : 9))}, y: ${first ? 0 : -70} },` +
-        ` { opacity: 1, scale: 1, rotation: ${rot}, y: 0, duration: 0.42, ease: "back.out(1.5)" }, ${s});`,
+      mode === "gentle"
+        ? // glides in: a small settle, no bounce
+          `      tl.fromTo("#${pre}-c${n}", { opacity: 0, scale: 1.06, rotation: ${r(rot + (i % 2 ? -2.5 : 2.5))}, y: -18 },` +
+            ` { opacity: 1, scale: 1, rotation: ${rot}, y: 0, duration: 0.75, ease: "power3.out" }, ${s});`
+        : `      tl.fromTo("#${pre}-c${n}", { opacity: 0, scale: ${first ? 1.18 : 1.32}, rotation: ${r(rot + (i % 2 ? -9 : 9))}, y: ${first ? 0 : -70} },` +
+            ` { opacity: 1, scale: 1, rotation: ${rot}, y: 0, duration: 0.42, ease: "back.out(1.5)" }, ${s});`,
       `      tl.fromTo("#${pre}-i${n}", { scale: 1 }, { scale: 1.05, duration: ${d + 0.6}, ease: "none" }, ${s});`,
       `      tl.fromTo("#${pre}-bi${n}", { scale: 1.08 }, { scale: 1.16, duration: ${d}, ease: "none" }, ${s});`,
       // a quick white flash on the card as it lands
-      `      tl.fromTo("#${pre}-c${n}", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, ${r(s + 0.08)});`,
+      `      tl.fromTo("#${pre}-c${n}", { "--flash": ${mode === "gentle" ? 0.3 : 0.75} }, { "--flash": 0, duration: ${mode === "gentle" ? 0.5 : 0.28}, ease: "power2.out" }, ${r(s + 0.08)});`,
     );
   });
   writeFileSync(
