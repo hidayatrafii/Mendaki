@@ -9,7 +9,7 @@ const r = (x) => Math.round(x * 1000) / 1000;
 // every cut, except the very start and end and doubles a frame apart
 // photo sections (they bring their own card slams); cuts strictly inside them are skipped
 const idxHtml = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-const photoWins = [...idxHtml.matchAll(/id="photos-[a-z]+"[^>]*data-start="([\d.]+)" data-duration="([\d.]+)"/g)].map((m) => [+m[1], +m[1] + +m[2]]);
+const photoWins = [...idxHtml.matchAll(/id="photos-[a-z-]+"[^>]*data-start="([\d.]+)" data-duration="([\d.]+)"/g)].map((m) => [+m[1], +m[1] + +m[2]]);
 const inPhotos = (t) => photoWins.some(([a, b]) => t > a + 0.1 && t < b - 0.1);
 const cuts = [];
 for (const s of track) {

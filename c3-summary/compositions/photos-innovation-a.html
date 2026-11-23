@@ -1,0 +1,37 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1a1b1e; }
+    #root .backdrop { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+    #root .backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #root .card-host { position: absolute; inset: 0; }
+    #root .card {
+      position: absolute;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 6px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      --flash: 0;
+    }
+    #root .card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    #root .card::after { content: ""; position: absolute; inset: 0; background: #ffffff; opacity: var(--flash); }
+  </style>
+  <div id="root" data-composition-id="photos-innovation-a" data-width="1920" data-height="1080">
+    <div id="pinnov-b01" class="clip backdrop" data-start="0" data-duration="3.5" data-track-index="0">
+      <img id="pinnov-bi01" src="assets/photos/backdrop/19-innovation-ai-programme-cohort.jpg" alt="" />
+    </div>
+    <div id="pinnov-p01" class="clip card-host" data-start="0" data-duration="3.5" data-track-index="1" style="z-index: 10">
+      <div class="card" id="pinnov-c01" style="left: 297px; top: 89px; width: 1414px; height: 810px"><img id="pinnov-i01" src="assets/photos/19-innovation-ai-programme-cohort.jpg" alt="" /></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#pinnov-c01", { opacity: 0, scale: 1.18, rotation: 12, y: 0 }, { opacity: 1, scale: 1, rotation: 3, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 0);
+      tl.fromTo("#pinnov-i01", { scale: 1 }, { scale: 1.05, duration: 4.1, ease: "none" }, 0);
+      tl.fromTo("#pinnov-bi01", { scale: 1.08 }, { scale: 1.16, duration: 3.5, ease: "none" }, 0);
+      tl.fromTo("#pinnov-c01", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 0.08);
+      window.__timelines["photos-innovation-a"] = tl;
+    })();
+  </script>
+</template>

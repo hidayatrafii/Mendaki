@@ -57,7 +57,7 @@ function placeBox(b) {
 const photoCuts = (() => {
   const idx = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   const cuts = [];
-  for (const m of idx.matchAll(/data-composition-src="compositions\/(photos-[a-z]+)\.html" data-start="([\d.]+)"/g)) {
+  for (const m of idx.matchAll(/data-composition-src="compositions\/(photos-[a-z-]+)\.html" data-start="([\d.]+)"/g)) {
     const scene = readFileSync(new URL(`../compositions/${m[1]}.html`, import.meta.url), "utf8");
     for (const c of scene.matchAll(/class="clip photo" data-start="([\d.]+)"/g)) cuts.push(+m[2] + +c[1]);
   }

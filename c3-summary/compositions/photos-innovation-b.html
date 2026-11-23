@@ -1,0 +1,47 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1a1b1e; }
+    #root .backdrop { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+    #root .backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #root .card-host { position: absolute; inset: 0; }
+    #root .card {
+      position: absolute;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 6px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      --flash: 0;
+    }
+    #root .card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    #root .card::after { content: ""; position: absolute; inset: 0; background: #ffffff; opacity: var(--flash); }
+  </style>
+  <div id="root" data-composition-id="photos-innovation-b" data-width="1920" data-height="1080">
+    <div id="pinnov-b01" class="clip backdrop" data-start="0" data-duration="1.633" data-track-index="0">
+      <img id="pinnov-bi01" src="assets/photos/backdrop/20-innovation-ai-programme-selfie.jpg" alt="" />
+    </div>
+    <div id="pinnov-p01" class="clip card-host" data-start="0" data-duration="4.033" data-track-index="1" style="z-index: 10">
+      <div class="card" id="pinnov-c01" style="left: 622.5px; top: 97px; width: 615px; height: 810px"><img id="pinnov-i01" src="assets/photos/20-innovation-ai-programme-selfie.jpg" alt="" /></div>
+    </div>
+    <div id="pinnov-b02" class="clip backdrop" data-start="1.633" data-duration="2.4" data-track-index="0">
+      <img id="pinnov-bi02" src="assets/photos/backdrop/18-satellite-centre-cck-mural.jpg" alt="" />
+    </div>
+    <div id="pinnov-p02" class="clip card-host" data-start="1.633" data-duration="2.4" data-track-index="2" style="z-index: 11">
+      <div class="card" id="pinnov-c02" style="left: 273px; top: 75px; width: 1414px; height: 810px"><img id="pinnov-i02" src="assets/photos/18-satellite-centre-cck-mural.jpg" alt="" /></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#pinnov-c01", { opacity: 0, scale: 1.18, rotation: 6.6, y: 0 }, { opacity: 1, scale: 1, rotation: -2.4, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 0);
+      tl.fromTo("#pinnov-i01", { scale: 1 }, { scale: 1.05, duration: 2.233, ease: "none" }, 0);
+      tl.fromTo("#pinnov-bi01", { scale: 1.08 }, { scale: 1.16, duration: 1.633, ease: "none" }, 0);
+      tl.fromTo("#pinnov-c01", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 0.08);
+      tl.fromTo("#pinnov-c02", { opacity: 0, scale: 1.32, rotation: -7.4, y: -70 }, { opacity: 1, scale: 1, rotation: 1.6, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 1.633);
+      tl.fromTo("#pinnov-i02", { scale: 1 }, { scale: 1.05, duration: 3, ease: "none" }, 1.633);
+      tl.fromTo("#pinnov-bi02", { scale: 1.08 }, { scale: 1.16, duration: 2.4, ease: "none" }, 1.633);
+      tl.fromTo("#pinnov-c02", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 1.713);
+      window.__timelines["photos-innovation-b"] = tl;
+    })();
+  </script>
+</template>
