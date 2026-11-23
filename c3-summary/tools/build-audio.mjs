@@ -23,6 +23,12 @@ for (const [s, e] of speech) {
   pts.push({ t: r(e), v: DUCK });
   pts.push({ t: r(e + RAMP), v: GAP });
 }
+// the article's music break (after "serve our community"): music comes up to full
+const M = JSON.parse(readFileSync(new URL("../assets/music/beats.json", import.meta.url), "utf8"));
+const BRK = [M.break_at + 0.05, M.break_at + M.break_len - 0.15];
+for (let i = pts.length - 1; i >= 0; i--) if (pts[i].t > BRK[0] - 0.3 && pts[i].t < BRK[1] + 0.3) pts.splice(i, 1);
+pts.push({ t: r(BRK[0] - 0.25), v: GAP }, { t: r(BRK[0] + 0.35), v: FULL }, { t: r(BRK[1] - 0.35), v: FULL }, { t: r(BRK[1] + 0.05), v: DUCK });
+pts.sort((a, b) => a.t - b.t);
 // clean up overlapping ramps (a gap shorter than two ramps stays ducked)
 const env = [];
 for (const p of pts) {
