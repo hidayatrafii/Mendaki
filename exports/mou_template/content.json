@@ -1,19 +1,17 @@
 {
   "_note": "Edit text here, then run: python3 exports/mou_template/build.py. Words wrapped in *asterisks* turn yellow. Leave a photo path empty to show a placeholder box.",
   "output_dir": "exports/mou_template/out",
-
   "cover": {
-    "pill": "MOU Signing - [DD Month 2026]",
-    "headline_white": "[Headline],",
-    "headline_yellow": "[line two.]",
-    "lead": "Yayasan MENDAKI and [Partner Organisation] ([ABBR]) sign a [three]-year MOU to [purpose of the partnership] for our community.",
+    "pill": "MOU Signing - 24 November 2026",
+    "headline_white": "Igniting",
+    "headline_yellow": "curiosity.",
+    "lead": "Yayasan MENDAKI and NUS High School of Math and Science (NUSHS) sign a [three]-year MOU to [purpose of the partnership] for our community.",
     "photo": ""
   },
-
   "about": {
     "definition": "Memorandum of Understanding (MOU) is a formal agreement between organisations that sets out shared goals and how they will work together.",
-    "pill": "MENDAKI x [Partner Organisation] MOU",
-    "body": "From *[2026 to 2029],* [ABBR]'s [expertise] meets MENDAKI's community reach to [create skills, exposure and opportunities].",
+    "pill": "MENDAKI x NUS High School MOU",
+    "body": "From *[2026 to 20XX],* NUSHS's [expertise in math and science education] meets MENDAKI's community reach to [create opportunities for our students].",
     "areas_label": "[Four] key areas of collaboration",
     "areas": [
       "[Area of collaboration 1]",
@@ -22,32 +20,45 @@
       "[Area of collaboration 4]"
     ]
   },
-
   "impact": {
     "pill": "Over [3] years",
     "big_number": "[0,000]",
     "headline": "[who] will benefit",
     "stats": [
-      {"number": "[000]", "label": "[beneficiaries] a year", "desc": "[Programme or support offered]"},
-      {"number": "[000]", "label": "[beneficiaries] a year", "desc": "[Programme or support offered]"},
-      {"number": "[000+]", "label": "[beneficiaries] a year", "desc": "[Programme or support offered]"},
-      {"number": "[000+]", "label": "[beneficiaries] a year", "desc": "[Programme or support offered]"}
+      {
+        "number": "[000]",
+        "label": "[beneficiaries] a year",
+        "desc": "[Programme or support offered]"
+      },
+      {
+        "number": "[000]",
+        "label": "[beneficiaries] a year",
+        "desc": "[Programme or support offered]"
+      },
+      {
+        "number": "[000+]",
+        "label": "[beneficiaries] a year",
+        "desc": "[Programme or support offered]"
+      },
+      {
+        "number": "[000+]",
+        "label": "[beneficiaries] a year",
+        "desc": "[Programme or support offered]"
+      }
     ]
   },
-
   "activity": {
-    "pill": "[Activity] at [Venue]",
-    "headline_white": "[Headline]",
-    "headline_yellow": "[line two.]",
+    "pill": "Campus Tour at NUS High School",
+    "headline_white": "Beyond the",
+    "headline_yellow": "boardroom.",
     "photo_left": "",
     "photo_right": "",
-    "caption": "Alongside the signing, [number] [participants] visited [place] to [what they did], with [who they met or learned from]."
+    "caption": "After the signing, the MENDAKI delegation toured the NUS High School campus, led by NUSHS representatives, to [see how students learn and create]."
   },
-
   "quote": {
     "photo": "",
     "text": "[Quote from the speaker, one to three lines.]",
-    "attribution": "[Mr/Ms Name], [Title], [Organisation]",
+    "attribution": "Mr Feroz Akber, Chief Executive Officer, Yayasan MENDAKI",
     "tagline": "With You, Every Step Forward."
   }
 }
