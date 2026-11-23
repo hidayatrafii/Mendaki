@@ -47,13 +47,37 @@
       }
     ]
   },
-  "activity": {
-    "pill": "Campus Tour at NUS High School",
-    "headline_white": "Beyond the",
-    "headline_yellow": "boardroom.",
-    "photo_left": "",
-    "photo_right": "",
-    "caption": "After the signing, the MENDAKI delegation toured the NUS High School campus, led by NUS High School representatives."
+  "signing": {
+    "pill": "Signing of the MOU",
+    "headline_white": "Partners",
+    "headline_yellow": "in STEM.",
+    "photo": "",
+    "people": [
+      {
+        "role": "Signatory",
+        "name": "Dr Noraslinda Muhammad Zuber",
+        "title": "Deputy Chief Executive Officer",
+        "org": "Yayasan MENDAKI"
+      },
+      {
+        "role": "Signatory",
+        "name": "Mr Goh Hock Leong",
+        "title": "Deputy Principal (Academic)",
+        "org": "NUS High School"
+      },
+      {
+        "role": "Witness",
+        "name": "Mr Feroz Akber",
+        "title": "Chief Executive Officer",
+        "org": "Yayasan MENDAKI"
+      },
+      {
+        "role": "Witness",
+        "name": "Ms Soh Lai Leng Magdalen",
+        "title": "Principal",
+        "org": "NUS High School"
+      }
+    ]
   },
   "quote": {
     "photo": "",

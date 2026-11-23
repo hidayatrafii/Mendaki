@@ -68,12 +68,16 @@ body {{ background: #000; }}
 .quote p {{ font-size: 30px; line-height: 1.95; letter-spacing: 1.2px; }}
 .quote .att {{ color: #F3CF45; font-size: 29px; line-height: 1.5; margin-top: 4px; letter-spacing: 0; }}
 .qm {{ position: absolute; font-family: Caveat; font-weight: 400; font-size: 78px; color: #F3CF45; line-height: 1; }}
+.person {{ position: absolute; width: 540px; height: 218px; border-radius: 26px; padding: 26px 34px; }}
+.person .role {{ font-family: Outfit; font-weight: 500; font-size: 22px; letter-spacing: 3px; text-transform: uppercase; color: #F3CF45; }}
+.person .name {{ font-family: Playfair; font-weight: 900; font-size: 29px; line-height: 1.15; margin-top: 10px; white-space: nowrap; }}
+.person .ptitle {{ font-size: 23px; color: #ACB8E0; line-height: 1.35; margin-top: 8px; letter-spacing: .5px; }}
 .tag {{ position: absolute; right: 75px; bottom: 82px; font-family: Playfair; font-weight: 700; font-size: 37px; }}
 """
 
 
 def slides(c):
-    cv, ab, im, ac, q = c["cover"], c["about"], c["impact"], c["activity"], c["quote"]
+    cv, ab, im, sg, q = c["cover"], c["about"], c["impact"], c["signing"], c["quote"]
     logo = (HERE / "logo_white.png").as_uri()
     s = []
     # 1 Cover
@@ -109,13 +113,16 @@ def slides(c):
       <div class="head" style="top:448px;font-size:82px;line-height:1.1;right:90px">{t(im['headline'])}</div>
       {stats}
     """)
-    # 4 Activity
+    # 4 Signing: photo + signatories / witnesses
+    ppl = "".join(
+        f'<div class="person card" style="left:{90 + (i % 2) * 560}px;top:{1028 + (i // 2) * 240}px">'
+        f'<div class="role">{t(pp["role"])}</div><div class="name">{t(pp["name"])}</div>'
+        f'<div class="ptitle">{t(pp["title"])}<br>{t(pp["org"])}</div></div>' for i, pp in enumerate(sg["people"][:4]))
     s.append(f"""
-      <div class="pill" style="top:186px;left:84px">{t(ac['pill'])}</div>
-      <div class="head" style="top:268px">{t(ac['headline_white'])}<span class="l2">{t(ac['headline_yellow'])}</span></div>
-      {photo(ac['photo_left'], '', 'PHOTO 1 (portrait)').replace('class=" ph', 'style="left:93px;top:638px;width:534px;height:580px;border-radius:26px" class="ph')}
-      {photo(ac['photo_right'], '', 'PHOTO 2 (portrait)').replace('class=" ph', 'style="left:653px;top:636px;width:534px;height:580px;border-radius:26px" class="ph')}
-      <div class="lead" style="top:1282px;left:95px;right:95px;letter-spacing:0;font-size:30px;line-height:1.6">{t(ac['caption'])}</div>
+      <div class="pill" style="top:150px">{t(sg['pill'])}</div>
+      <div class="head" style="top:238px;font-size:140px">{t(sg['headline_white'])}<span class="l2">{t(sg['headline_yellow'])}</span></div>
+      {photo(sg['photo'], '', 'SIGNING PHOTO (landscape)').replace('class=" ph', 'style="left:90px;top:578px;width:1100px;height:420px;border-radius:26px" class="ph')}
+      {ppl}
     """)
     # 5 Quote
     s.append(f"""
