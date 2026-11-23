@@ -159,24 +159,42 @@
   "h": 778,
   "rot": 3,
   "start": 91.933,
-  "end": 95.433
+  "end": 95.361
  },
- "20-innovation-ai-programme-selfie.jpg": {
+ "21-innovation-new-ideas-img0142.jpg": {
   "cx": 930,
   "cy": 502,
-  "w": 583,
+  "w": 1382,
   "h": 778,
   "rot": -2.4,
-  "start": 97.467,
-  "end": 99.1
+  "start": 95.361,
+  "end": 95.895
  },
- "18-satellite-centre-cck-mural.jpg": {
+ "22-innovation-new-ideas-img0150.jpg": {
   "cx": 980,
   "cy": 480,
   "w": 1382,
   "h": 778,
   "rot": 1.6,
-  "start": 99.1,
+  "start": 95.895,
+  "end": 96.43
+ },
+ "23-innovation-new-ideas-img0153.jpg": {
+  "cx": 916,
+  "cy": 490,
+  "w": 1382,
+  "h": 778,
+  "rot": -2.9,
+  "start": 96.43,
+  "end": 96.964
+ },
+ "20-innovation-ai-programme-selfie.jpg": {
+  "cx": 920,
+  "cy": 484,
+  "w": 583,
+  "h": 778,
+  "rot": -3.2,
+  "start": 98.998,
   "end": 101.5
  }
 }

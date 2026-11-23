@@ -146,8 +146,8 @@
       <audio id="sfx-035" class="clip" src="assets/sfx/pop.mp3" data-start="92.43" data-duration="0.72" data-track-index="8" data-volume="0.22"></audio>
       <audio id="sfx-036" class="clip" src="assets/sfx/pop.mp3" data-start="93.43" data-duration="0.72" data-track-index="8" data-volume="0.22"></audio>
       <audio id="sfx-037" class="clip" src="assets/sfx/pop.mp3" data-start="94.43" data-duration="0.72" data-track-index="8" data-volume="0.22"></audio>
-      <audio id="sfx-038" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="95.233" data-duration="0.57" data-track-index="8" data-volume="0.32"></audio>
-      <audio id="sfx-039" class="clip" src="assets/sfx/whoosh.mp3" data-start="97.347" data-duration="0.57" data-track-index="8" data-volume="0.22"></audio>
+      <audio id="sfx-038" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="96.764" data-duration="0.57" data-track-index="8" data-volume="0.32"></audio>
+      <audio id="sfx-039" class="clip" src="assets/sfx/whoosh.mp3" data-start="98.878" data-duration="0.57" data-track-index="8" data-volume="0.22"></audio>
       <audio id="sfx-040" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="101.32" data-duration="0.57" data-track-index="8" data-volume="0.3"></audio>
       <audio id="sfx-041" class="clip" src="assets/sfx/whoosh.mp3" data-start="104.4" data-duration="0.57" data-track-index="8" data-volume="0.2"></audio>
       <audio id="sfx-042" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="105.333" data-duration="0.57" data-track-index="8" data-volume="0.32"></audio>
@@ -224,9 +224,24 @@
       <div id="photos-awards" data-composition-id="photos-awards" data-composition-src="compositions/photos-awards.html" data-start="60.2" data-duration="9.4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
       <div id="photos-wellbeing" data-composition-id="photos-wellbeing" data-composition-src="compositions/photos-wellbeing.html" data-start="69.6" data-duration="8.57" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
       <div id="photos-work" data-composition-id="photos-work" data-composition-src="compositions/photos-work.html" data-start="78.17" data-duration="13.763" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
-      <div id="photos-innovation-a" data-composition-id="photos-innovation-a" data-composition-src="compositions/photos-innovation-a.html" data-start="91.933" data-duration="3.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
-      <div id="photos-innovation-b" data-composition-id="photos-innovation-b" data-composition-src="compositions/photos-innovation-b.html" data-start="97.467" data-duration="4.033" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="photos-innovation-a" data-composition-id="photos-innovation-a" data-composition-src="compositions/photos-innovation-a.html" data-start="91.933" data-duration="5.031" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="photos-innovation-b" data-composition-id="photos-innovation-b" data-composition-src="compositions/photos-innovation-b.html" data-start="98.998" data-duration="2.502" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
       <!-- photos:end -->
+
+      <!-- The MENDAKI kiosk clip from the edit (95.43-97.47 s), moved to "embracing digitalisation" -->
+      <div id="kiosk-wrap" style="position: absolute; inset: 0; z-index: 3">
+        <video
+          id="kiosk"
+          class="clip"
+          src="assets/footage.mp4"
+          data-start="96.964"
+          data-duration="2.034"
+          data-media-start="95.433"
+          data-track-index="1"
+          muted
+          playsinline
+        ></video>
+      </div>
 
       <!-- Transitions on every cut in the footage (tools/build-transitions.mjs) -->
       <!-- transitions:start -->
@@ -290,7 +305,7 @@
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
       // camera punch-ins on cuts (tools/build-transitions.mjs)
-      const PUNCH = /*@punch*/ [[8.167,1.1],[11.067,1.16],[14.967,1.1],[17.933,1.16],[26.133,1.1],[33.9,1.16],[40.033,1.1],[44.267,1.16],[52.433,1.1],[54.233,1.16],[57.933,1.1],[91.933,1.16],[97.467,1.1],[104.5,1.16],[106.433,1.1],[110.933,1.16],[113.15,1.1],[117.8,1.16],[121.967,1.1]] /*@end-punch*/;
+      const PUNCH = /*@punch*/ [[8.167,1.1],[11.067,1.16],[14.967,1.1],[17.933,1.16],[26.133,1.1],[33.9,1.16],[40.033,1.1],[44.267,1.16],[52.433,1.1],[54.233,1.16],[57.933,1.1],[91.933,1.16],[98.998,1.1],[104.5,1.16],[106.433,1.1],[110.933,1.16],[113.15,1.1],[117.8,1.16],[121.967,1.1]] /*@end-punch*/;
       PUNCH.forEach(([t, from]) => {
         tl.fromTo("#footage-cam", { scale: from }, { scale: 1, duration: 0.55, ease: "expo.out", immediateRender: false }, t);
       });

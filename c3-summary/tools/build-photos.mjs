@@ -31,13 +31,16 @@ const scenes = [
     ["16-wsl-workshop-discussion.jpg", 87.4],
     ["17-wsl-mendaki-2030-group.jpg", 89.6], // "help our teams focus on what matters most"
   ]],
-  // innovation (1:32-1:41): the SUTD class photos around the MENDAKI kiosk footage (95.43-97.47 s)
-  ["photos-innovation-a", 91.933, 95.433, [
+  // innovation (1:32-1:41): SUTD class, three "new ideas" photos on the beat, then the MENDAKI kiosk
+  // footage (moved to 96.96-99.0 s in index.html, on "embracing digitalisation"), then the SUTD selfie
+  ["photos-innovation-a", 91.933, 96.964, [
     ["19-innovation-ai-programme-cohort.jpg", 91.933], // "as the way we work continues to evolve, so do we"
+    ["21-innovation-new-ideas-img0142.jpg", 95.361], // "trying new ideas"
+    ["22-innovation-new-ideas-img0150.jpg", 95.895],
+    ["23-innovation-new-ideas-img0153.jpg", 96.43],
   ]],
-  ["photos-innovation-b", 97.467, 101.5, [
-    ["20-innovation-ai-programme-selfie.jpg", 97.467, "portrait"], // "and finding better ways"
-    ["18-satellite-centre-cck-mural.jpg", 99.2], // "to serve our community"
+  ["photos-innovation-b", 98.998, 101.5, [
+    ["20-innovation-ai-programme-selfie.jpg", 98.998, "portrait"], // "and finding better ways to serve our community"
   ]],
 ];
 

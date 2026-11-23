@@ -17,20 +17,50 @@
     #root .card::after { content: ""; position: absolute; inset: 0; background: #ffffff; opacity: var(--flash); }
   </style>
   <div id="root" data-composition-id="photos-innovation-a" data-width="1920" data-height="1080">
-    <div id="pinnov-b01" class="clip backdrop" data-start="0" data-duration="3.5" data-track-index="0">
+    <div id="pinnov-b01" class="clip backdrop" data-start="0" data-duration="3.428" data-track-index="0">
       <img id="pinnov-bi01" src="assets/photos/backdrop/19-innovation-ai-programme-cohort.jpg" alt="" />
     </div>
-    <div id="pinnov-p01" class="clip card-host" data-start="0" data-duration="3.5" data-track-index="1" style="z-index: 10">
+    <div id="pinnov-p01" class="clip card-host" data-start="0" data-duration="5.031" data-track-index="1" style="z-index: 10">
       <div class="card" id="pinnov-c01" style="left: 297px; top: 89px; width: 1414px; height: 810px"><img id="pinnov-i01" src="assets/photos/19-innovation-ai-programme-cohort.jpg" alt="" /></div>
+    </div>
+    <div id="pinnov-b02" class="clip backdrop" data-start="3.428" data-duration="0.534" data-track-index="0">
+      <img id="pinnov-bi02" src="assets/photos/backdrop/21-innovation-new-ideas-img0142.jpg" alt="" />
+    </div>
+    <div id="pinnov-p02" class="clip card-host" data-start="3.428" data-duration="1.603" data-track-index="2" style="z-index: 11">
+      <div class="card" id="pinnov-c02" style="left: 223px; top: 97px; width: 1414px; height: 810px"><img id="pinnov-i02" src="assets/photos/21-innovation-new-ideas-img0142.jpg" alt="" /></div>
+    </div>
+    <div id="pinnov-b03" class="clip backdrop" data-start="3.962" data-duration="0.535" data-track-index="0">
+      <img id="pinnov-bi03" src="assets/photos/backdrop/22-innovation-new-ideas-img0150.jpg" alt="" />
+    </div>
+    <div id="pinnov-p03" class="clip card-host" data-start="3.962" data-duration="1.069" data-track-index="1" style="z-index: 12">
+      <div class="card" id="pinnov-c03" style="left: 273px; top: 75px; width: 1414px; height: 810px"><img id="pinnov-i03" src="assets/photos/22-innovation-new-ideas-img0150.jpg" alt="" /></div>
+    </div>
+    <div id="pinnov-b04" class="clip backdrop" data-start="4.497" data-duration="0.534" data-track-index="0">
+      <img id="pinnov-bi04" src="assets/photos/backdrop/23-innovation-new-ideas-img0153.jpg" alt="" />
+    </div>
+    <div id="pinnov-p04" class="clip card-host" data-start="4.497" data-duration="0.534" data-track-index="2" style="z-index: 13">
+      <div class="card" id="pinnov-c04" style="left: 209px; top: 85px; width: 1414px; height: 810px"><img id="pinnov-i04" src="assets/photos/23-innovation-new-ideas-img0153.jpg" alt="" /></div>
     </div>
   </div>
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#pinnov-c01", { opacity: 0, scale: 1.18, rotation: 12, y: 0 }, { opacity: 1, scale: 1, rotation: 3, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 0);
-      tl.fromTo("#pinnov-i01", { scale: 1 }, { scale: 1.05, duration: 4.1, ease: "none" }, 0);
-      tl.fromTo("#pinnov-bi01", { scale: 1.08 }, { scale: 1.16, duration: 3.5, ease: "none" }, 0);
+      tl.fromTo("#pinnov-i01", { scale: 1 }, { scale: 1.05, duration: 4.028, ease: "none" }, 0);
+      tl.fromTo("#pinnov-bi01", { scale: 1.08 }, { scale: 1.16, duration: 3.428, ease: "none" }, 0);
       tl.fromTo("#pinnov-c01", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 0.08);
+      tl.fromTo("#pinnov-c02", { opacity: 0, scale: 1.32, rotation: -11.4, y: -70 }, { opacity: 1, scale: 1, rotation: -2.4, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 3.428);
+      tl.fromTo("#pinnov-i02", { scale: 1 }, { scale: 1.05, duration: 1.134, ease: "none" }, 3.428);
+      tl.fromTo("#pinnov-bi02", { scale: 1.08 }, { scale: 1.16, duration: 0.534, ease: "none" }, 3.428);
+      tl.fromTo("#pinnov-c02", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 3.508);
+      tl.fromTo("#pinnov-c03", { opacity: 0, scale: 1.32, rotation: 10.6, y: -70 }, { opacity: 1, scale: 1, rotation: 1.6, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 3.962);
+      tl.fromTo("#pinnov-i03", { scale: 1 }, { scale: 1.05, duration: 1.135, ease: "none" }, 3.962);
+      tl.fromTo("#pinnov-bi03", { scale: 1.08 }, { scale: 1.16, duration: 0.535, ease: "none" }, 3.962);
+      tl.fromTo("#pinnov-c03", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 4.042);
+      tl.fromTo("#pinnov-c04", { opacity: 0, scale: 1.32, rotation: -11.9, y: -70 }, { opacity: 1, scale: 1, rotation: -2.9, y: 0, duration: 0.42, ease: "back.out(1.5)" }, 4.497);
+      tl.fromTo("#pinnov-i04", { scale: 1 }, { scale: 1.05, duration: 1.134, ease: "none" }, 4.497);
+      tl.fromTo("#pinnov-bi04", { scale: 1.08 }, { scale: 1.16, duration: 0.534, ease: "none" }, 4.497);
+      tl.fromTo("#pinnov-c04", { "--flash": 0.75 }, { "--flash": 0, duration: 0.28, ease: "power2.out" }, 4.577);
       window.__timelines["photos-innovation-a"] = tl;
     })();
   </script>

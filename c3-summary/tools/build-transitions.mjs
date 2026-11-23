@@ -11,12 +11,18 @@ const r = (x) => Math.round(x * 1000) / 1000;
 const idxHtml = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const photoWins = [...idxHtml.matchAll(/id="photos-[a-z-]+"[^>]*data-start="([\d.]+)" data-duration="([\d.]+)"/g)].map((m) => [+m[1], +m[1] + +m[2]]);
 const inPhotos = (t) => photoWins.some(([a, b]) => t > a + 0.1 && t < b - 0.1);
+// 1:35-1:39 is rearranged (new photos, then the kiosk clip moved to 96.96 s): the edit's own cuts
+// there are hidden, and the kiosk clip's in and out points get the transitions instead
+const REARRANGED = [95.2, 99.4], EXTRA = [96.964, 98.998];
 const cuts = [];
 for (const s of track) {
+  if (s.start > REARRANGED[0] && s.start < REARRANGED[1]) continue;
   if (s.start < 0.5 || s.start > 127.2 || inPhotos(s.start)) continue;
   if (cuts.length && s.start - cuts[cuts.length - 1] < 0.3) continue;
   cuts.push(r(s.start));
 }
+for (const t of EXTRA) cuts.push(t);
+cuts.sort((a, b) => a - b);
 // the photo stretches (60.2-91.93 s, 99.2-101.5 s) bring their own card slams; the cuts
 // into and out of them still get a transition
 const KINDS = ["wipe", "flash", "slice", "punch"];
