@@ -7,9 +7,13 @@ import { readFileSync, writeFileSync } from "node:fs";
 const track = JSON.parse(readFileSync(new URL("../assets/character-track.json", import.meta.url), "utf8")).shots;
 const r = (x) => Math.round(x * 1000) / 1000;
 // every cut, except the very start and end and doubles a frame apart
+// photo sections (they bring their own card slams); cuts strictly inside them are skipped
+const idxHtml = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+const photoWins = [...idxHtml.matchAll(/id="photos-[a-z]+"[^>]*data-start="([\d.]+)" data-duration="([\d.]+)"/g)].map((m) => [+m[1], +m[1] + +m[2]]);
+const inPhotos = (t) => photoWins.some(([a, b]) => t > a + 0.1 && t < b - 0.1);
 const cuts = [];
 for (const s of track) {
-  if (s.start < 0.5 || s.start > 128.5) continue;
+  if (s.start < 0.5 || s.start > 127.2 || inPhotos(s.start)) continue;
   if (cuts.length && s.start - cuts[cuts.length - 1] < 0.3) continue;
   cuts.push(r(s.start));
 }
@@ -88,7 +92,7 @@ let index = readFileSync(indexUrl, "utf8");
 index = index.replace(
   /(<!-- transitions:start -->)[\s\S]*?(\s*<!-- transitions:end -->)/,
   `$1\n      <div id="transitions" data-composition-id="transitions" data-composition-src="compositions/transitions.html" ` +
-    `data-start="0" data-duration="129.1" data-track-index="2" data-track-kind="graphics" ` +
+    `data-start="0" data-duration="127.472" data-track-index="2" data-track-kind="graphics" ` +
     `data-width="1920" data-height="1080" data-layout-allow-occlusion style="z-index: 5"></div>$2`,
 );
 index = index.replace(/\/\*@punch\*\/[\s\S]*?\/\*@end-punch\*\//, () => `/*@punch*/ ${JSON.stringify(punch)} /*@end-punch*/`);

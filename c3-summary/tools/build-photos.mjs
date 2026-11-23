@@ -31,7 +31,10 @@ const scenes = [
     ["16-wsl-workshop-discussion.jpg", 87.4],
     ["17-wsl-mendaki-2030-group.jpg", 89.6], // "help our teams focus on what matters most"
   ]],
-  ["photos-community", 99.2, 101.5, [
+  // innovation (1:32-1:41): the AI programme photos, then the community mural
+  ["photos-innovation", 91.933, 101.5, [
+    ["19-innovation-ai-programme-cohort.jpg", 91.933], // "as the way we work continues to evolve, so do we"
+    ["20-innovation-ai-programme-selfie.jpg", 95.43, "portrait"], // "trying new ideas, embracing digitalisation"
     ["18-satellite-centre-cck-mural.jpg", 99.2], // "finding better ways to serve our community"
   ]],
 ];
@@ -57,7 +60,7 @@ for (const [id, start, end, photos] of scenes) {
   const pre = id.replace("photos-", "p").slice(0, 6);
   const els = [];
   const tweens = [];
-  photos.forEach(([file, from], i) => {
+  photos.forEach(([file, from, shape], i) => {
     const s = r(from - start);
     const e = r((photos[i + 1] ? photos[i + 1][1] : end) - start);
     const d = r(e - s);
@@ -65,7 +68,9 @@ for (const [id, start, end, photos] of scenes) {
     const rot = TILT[k % TILT.length], [nx, ny] = NUDGE[k % NUDGE.length];
     k++;
     const cx = 960 + nx, cy = 490 + ny;
-    layout[file] = { cx, cy, k: K, rot, start: r(from), end: r(from + d) };
+    // landscape cards are the photo at K of full frame; portrait (3:4) cards are as tall
+    const cw = shape === "portrait" ? Math.round(1080 * K * 0.75) : Math.round(1920 * K), chh = Math.round(1080 * K);
+    layout[file] = { cx, cy, w: cw, h: chh, rot, start: r(from), end: r(from + d) };
     // the blurred backdrop changes with the photo; the card stays until the scene ends,
     // so the previous one peeks out from under the next
     els.push(
@@ -74,7 +79,7 @@ for (const [id, start, end, photos] of scenes) {
     );
     els.push(
       `    <div id="${pre}-p${n}" class="clip card-host" data-start="${s}" data-duration="${r(end - start - s)}" data-track-index="${1 + (i % 2)}" style="z-index: ${10 + i}">\n` +
-        `      <div class="card" id="${pre}-c${n}" style="left: ${cx - (1920 * K) / 2 - 16}px; top: ${cy - (1080 * K) / 2 - 16}px">` +
+        `      <div class="card" id="${pre}-c${n}" style="left: ${cx - cw / 2 - 16}px; top: ${cy - chh / 2 - 16}px; width: ${cw + 32}px; height: ${chh + 32}px">` +
         `<img id="${pre}-i${n}" src="assets/photos/${file}" alt="" /></div>\n    </div>`,
     );
     const first = i === 0;
@@ -97,8 +102,6 @@ for (const [id, start, end, photos] of scenes) {
     #root .card-host { position: absolute; inset: 0; }
     #root .card {
       position: absolute;
-      width: ${Math.round(1920 * K) + 32}px;
-      height: ${Math.round(1080 * K) + 32}px;
       padding: 16px;
       background: #ffffff;
       border-radius: 6px;

@@ -1,0 +1,206 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Poppins", sans-serif; background: #1a1b1e; }
+    #root .ph { position: absolute; inset: 0; overflow: hidden; }
+    #root .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #root .title { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    #root .title.dark { background: #1a1b1e; }
+    #root .title.yellow { background: #fdd901; }
+    #root .kicker { font-size: 30px; font-weight: 600; letter-spacing: 0.32em; color: #26b6c6; margin-bottom: 18px; }
+    #root .big { font-size: 150px; font-weight: 800; line-height: 1; color: #fff; text-align: center; white-space: nowrap; }
+    #root .big.dark { color: #1a1b1e; }
+    #root .big span { display: inline-block; }
+    #root .y { color: #fdd901; }
+    #root .t { color: #1a1b1e; background: #fff; padding: 0 0.25em; border-radius: 18px; box-shadow: 0 16px 0 #26b6c6; }
+    #root .conf { position: absolute; width: 34px; height: 34px; border-radius: 8px; }
+    #root .conf.c0 { background: #26b6c6; } #root .conf.c1 { background: #ffffff; border-radius: 50%; } #root .conf.c2 { background: #1a1b1e; }
+    #root .lbl-host { position: absolute; inset: 0; pointer-events: none; }
+    #root .lbl { position: absolute; left: 110px; bottom: 96px; display: flex; align-items: center; gap: 16px; padding: 14px 30px 16px 24px;
+      background: #fdd901; color: #1a1b1e; font-size: 38px; font-weight: 700; border-radius: 999px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
+    #root .lbl .dot { width: 18px; height: 18px; border-radius: 50%; background: #26b6c6; }
+    #root .table { position: absolute; inset: 0; background:
+      radial-gradient(circle at 20% 25%, rgba(255,255,255,0.35) 0 60px, transparent 61px),
+      radial-gradient(circle at 85% 75%, rgba(38,182,198,0.35) 0 90px, transparent 91px),
+      repeating-linear-gradient(135deg, #fdd901 0 46px, #f6cf00 46px 92px); }
+    #root .pol-host { position: absolute; inset: 0; }
+    #root .pol { position: absolute; width: 760px; height: 660px; padding: 22px 22px 0; background: #fff; border-radius: 6px;
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.35); }
+    #root .pol img { display: block; width: 716px; height: 537px; object-fit: cover; }
+    #root .pol .cap { height: 101px; display: flex; align-items: center; justify-content: center; font-size: 38px; font-weight: 700; color: #1a1b1e; }
+    #root .mosaic { position: absolute; inset: 0; --dim: 0; transform-origin: 50% 50%; background: #1a1b1e; }
+    #root .tile { position: absolute; width: 640px; height: 540px; overflow: hidden; border: 6px solid #1a1b1e; }
+    #root .tile img { width: 100%; height: 100%; object-fit: cover; }
+    #root .mosaic::after { content: ""; position: absolute; inset: 0; background: #1a1b1e; opacity: var(--dim); }
+    #root .thanks { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    #root .thanks .k { font-size: 40px; font-weight: 600; letter-spacing: 0.28em; color: #26b6c6; margin-bottom: 20px; }
+    #root .thanks .big { font-size: 96px; }
+  </style>
+  <div id="root" data-composition-id="montage" data-width="1920" data-height="1080">
+    <div id="mt-t1" class="clip title dark" data-start="0" data-duration="2.162" data-track-index="3">
+      <div class="kicker" id="mt-t1k">2026 · BEHIND EVERY PROGRAMME</div>
+      <div class="big" id="mt-t1w"><span id="mt-t1a">THE</span> <span class="y" id="mt-t1b">HARD WORK</span></div></div>
+    <div id="mt-h01" class="clip ph" data-start="2.162" data-duration="1.291" data-track-index="0" style="z-index: 10"><img id="mt-h01-i" src="assets/montage/hard-01-symposium.jpg" alt="" /></div>
+    <div id="mt-l01" class="clip lbl-host" data-start="2.162" data-duration="4.296" data-track-index="2" style="z-index: 60"><div class="lbl" id="mt-l01-t"><span class="dot"></span>MENDAKI SYMPOSIUM 2026</div></div>
+    <div id="mt-h02" class="clip ph" data-start="3.253" data-duration="1.269" data-track-index="1" style="z-index: 11"><img id="mt-h02-i" src="assets/montage/hard-02-symposium.jpg" alt="" /></div>
+    <div id="mt-h03" class="clip ph" data-start="4.322" data-duration="1.268" data-track-index="0" style="z-index: 12"><img id="mt-h03-i" src="assets/montage/hard-03-symposium.jpg" alt="" /></div>
+    <div id="mt-h04" class="clip ph" data-start="5.39" data-duration="1.268" data-track-index="1" style="z-index: 13"><img id="mt-h04-i" src="assets/montage/hard-04-symposium.jpg" alt="" /></div>
+    <div id="mt-h05" class="clip ph" data-start="6.458" data-duration="1.268" data-track-index="0" style="z-index: 14"><img id="mt-h05-i" src="assets/montage/hard-05-connections.jpg" alt="" /></div>
+    <div id="mt-l05" class="clip lbl-host" data-start="6.458" data-duration="4.806" data-track-index="2" style="z-index: 60"><div class="lbl" id="mt-l05-t"><span class="dot"></span>MAKING CONNECTIONS</div></div>
+    <div id="mt-h06" class="clip ph" data-start="7.526" data-duration="1.268" data-track-index="1" style="z-index: 15"><img id="mt-h06-i" src="assets/montage/hard-06-connections.jpg" alt="" /></div>
+    <div id="mt-h07" class="clip ph" data-start="8.594" data-duration="1.802" data-track-index="0" style="z-index: 16"><img id="mt-h07-i" src="assets/montage/hard-07-connections.jpg" alt="" /></div>
+    <div id="mt-h08" class="clip ph" data-start="10.196" data-duration="1.268" data-track-index="1" style="z-index: 17"><img id="mt-h08-i" src="assets/montage/hard-08-connections.jpg" alt="" /></div>
+    <div id="mt-h09" class="clip ph" data-start="11.264" data-duration="1.291" data-track-index="0" style="z-index: 18"><img id="mt-h09-i" src="assets/montage/hard-09-wacana.jpg" alt="" /></div>
+    <div id="mt-l09" class="clip lbl-host" data-start="11.264" data-duration="4.296" data-track-index="2" style="z-index: 60"><div class="lbl" id="mt-l09-t"><span class="dot"></span>WACANA KITA</div></div>
+    <div id="mt-h10" class="clip ph" data-start="12.355" data-duration="1.269" data-track-index="1" style="z-index: 19"><img id="mt-h10-i" src="assets/montage/hard-10-wacana.jpg" alt="" /></div>
+    <div id="mt-h11" class="clip ph" data-start="13.424" data-duration="1.268" data-track-index="0" style="z-index: 20"><img id="mt-h11-i" src="assets/montage/hard-11-wacana.jpg" alt="" /></div>
+    <div id="mt-h12" class="clip ph" data-start="14.492" data-duration="1.268" data-track-index="1" style="z-index: 21"><img id="mt-h12-i" src="assets/montage/hard-12-wacana.jpg" alt="" /></div>
+    <div id="mt-h13" class="clip ph" data-start="15.56" data-duration="1.268" data-track-index="0" style="z-index: 22"><img id="mt-h13-i" src="assets/montage/hard-13-youth.jpg" alt="" /></div>
+    <div id="mt-l13" class="clip lbl-host" data-start="15.56" data-duration="4.296" data-track-index="2" style="z-index: 60"><div class="lbl" id="mt-l13-t"><span class="dot"></span>YOUTH @ M3+</div></div>
+    <div id="mt-h14" class="clip ph" data-start="16.628" data-duration="1.268" data-track-index="1" style="z-index: 23"><img id="mt-h14-i" src="assets/montage/hard-14-youth.jpg" alt="" /></div>
+    <div id="mt-h15" class="clip ph" data-start="17.696" data-duration="1.268" data-track-index="0" style="z-index: 24"><img id="mt-h15-i" src="assets/montage/hard-15-youth.jpg" alt="" /></div>
+    <div id="mt-h16" class="clip ph" data-start="18.764" data-duration="1.292" data-track-index="1" style="z-index: 25"><img id="mt-h16-i" src="assets/montage/hard-16-youth.jpg" alt="" /></div>
+    <div id="mt-h17" class="clip ph" data-start="19.856" data-duration="1.268" data-track-index="0" style="z-index: 26"><img id="mt-h17-i" src="assets/montage/hard-17-ri.jpg" alt="" /></div>
+    <div id="mt-l17" class="clip lbl-host" data-start="19.856" data-duration="6.408" data-track-index="2" style="z-index: 60"><div class="lbl" id="mt-l17-t"><span class="dot"></span>RAIKAN ILMU @ HEARTLANDS</div></div>
+    <div id="mt-h18" class="clip ph" data-start="20.924" data-duration="1.268" data-track-index="1" style="z-index: 27"><img id="mt-h18-i" src="assets/montage/hard-18-ri.jpg" alt="" /></div>
+    <div id="mt-h19" class="clip ph" data-start="21.992" data-duration="1.268" data-track-index="0" style="z-index: 28"><img id="mt-h19-i" src="assets/montage/hard-19-ri.jpg" alt="" /></div>
+    <div id="mt-h20" class="clip ph" data-start="23.06" data-duration="1.268" data-track-index="1" style="z-index: 29"><img id="mt-h20-i" src="assets/montage/hard-20-ri.jpg" alt="" /></div>
+    <div id="mt-h21" class="clip ph" data-start="24.128" data-duration="1.268" data-track-index="0" style="z-index: 30"><img id="mt-h21-i" src="assets/montage/hard-21-ri.jpg" alt="" /></div>
+    <div id="mt-h22" class="clip ph" data-start="25.196" data-duration="1.268" data-track-index="1" style="z-index: 31"><img id="mt-h22-i" src="assets/montage/hard-22-ri.jpg" alt="" /></div>
+    <div id="mt-t2" class="clip title yellow" data-start="26.264" data-duration="2.46" data-track-index="3" style="z-index: 70">
+      <div class="big dark" id="mt-t2w"><span id="mt-t2a">...AND THE</span> <span id="mt-t2b" class="t">FUN!</span></div>
+      <div class="conf c0" id="mt-cf0" style="left: 40px; top: 40px"></div><div class="conf c1" id="mt-cf1" style="left: 177px; top: 311px"></div><div class="conf c2" id="mt-cf2" style="left: 314px; top: 582px"></div><div class="conf c0" id="mt-cf3" style="left: 451px; top: 853px"></div><div class="conf c1" id="mt-cf4" style="left: 588px; top: 144px"></div><div class="conf c2" id="mt-cf5" style="left: 725px; top: 415px"></div><div class="conf c0" id="mt-cf6" style="left: 862px; top: 686px"></div><div class="conf c1" id="mt-cf7" style="left: 999px; top: 957px"></div><div class="conf c2" id="mt-cf8" style="left: 1136px; top: 248px"></div><div class="conf c0" id="mt-cf9" style="left: 1273px; top: 519px"></div><div class="conf c1" id="mt-cf10" style="left: 1410px; top: 790px"></div><div class="conf c2" id="mt-cf11" style="left: 1547px; top: 81px"></div><div class="conf c0" id="mt-cf12" style="left: 1684px; top: 352px"></div><div class="conf c1" id="mt-cf13" style="left: 1821px; top: 623px"></div></div>
+    <div id="mt-table" class="clip table" data-start="28.424" data-duration="20.74" data-track-index="4" style="z-index: 80"></div>
+    <div id="mt-f01" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="28.424" data-duration="20.74" data-track-index="5" style="z-index: 90"><div class="pol" id="mt-f01-c" style="left: 180px; top: 140px"><img src="assets/montage/fun-01-potluck.jpg" alt="" /><div class="cap">SRC Potluck</div></div></div>
+    <div id="mt-f02" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="29.492" data-duration="19.672" data-track-index="6" style="z-index: 91"><div class="pol" id="mt-f02-c" style="left: 960px; top: 100px"><img src="assets/montage/fun-02-potluck.jpg" alt="" /><div class="cap">SRC Potluck</div></div></div>
+    <div id="mt-f03" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="30.56" data-duration="18.604" data-track-index="5" style="z-index: 92"><div class="pol" id="mt-f03-c" style="left: 550px; top: 230px"><img src="assets/montage/fun-03-potluck.jpg" alt="" /><div class="cap">SRC Potluck</div></div></div>
+    <div id="mt-f04" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="31.628" data-duration="17.536" data-track-index="6" style="z-index: 93"><div class="pol" id="mt-f04-c" style="left: 90px; top: 310px"><img src="assets/montage/fun-04-potluck.jpg" alt="" /><div class="cap">SRC Potluck</div></div></div>
+    <div id="mt-f05" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="32.696" data-duration="16.468" data-track-index="5" style="z-index: 94"><div class="pol" id="mt-f05-c" style="left: 1050px; top: 320px"><img src="assets/montage/fun-05-potluck.jpg" alt="" /><div class="cap">SRC Potluck</div></div></div>
+    <div id="mt-f06" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="33.764" data-duration="15.4" data-track-index="6" style="z-index: 95"><div class="pol" id="mt-f06-c" style="left: 600px; top: 70px"><img src="assets/montage/fun-06-bbq.jpg" alt="" /><div class="cap">SRC BBQ</div></div></div>
+    <div id="mt-f07" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="34.856" data-duration="14.308" data-track-index="5" style="z-index: 96"><div class="pol" id="mt-f07-c" style="left: 320px; top: 230px"><img src="assets/montage/fun-07-bbq.jpg" alt="" /><div class="cap">SRC BBQ</div></div></div>
+    <div id="mt-f08" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="35.924" data-duration="13.24" data-track-index="6" style="z-index: 97"><div class="pol" id="mt-f08-c" style="left: 840px; top: 230px"><img src="assets/montage/fun-08-bbq.jpg" alt="" /><div class="cap">SRC BBQ</div></div></div>
+    <div id="mt-f09" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="36.992" data-duration="12.172" data-track-index="5" style="z-index: 98"><div class="pol" id="mt-f09-c" style="left: 180px; top: 140px"><img src="assets/montage/fun-09-bbq.jpg" alt="" /><div class="cap">SRC BBQ</div></div></div>
+    <div id="mt-f10" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="38.06" data-duration="11.104" data-track-index="6" style="z-index: 99"><div class="pol" id="mt-f10-c" style="left: 960px; top: 100px"><img src="assets/montage/fun-10-relay.jpg" alt="" /><div class="cap">SRC Relay Rumble</div></div></div>
+    <div id="mt-f11" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="39.128" data-duration="10.036" data-track-index="5" style="z-index: 100"><div class="pol" id="mt-f11-c" style="left: 550px; top: 230px"><img src="assets/montage/fun-11-relay.jpg" alt="" /><div class="cap">SRC Relay Rumble</div></div></div>
+    <div id="mt-f12" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="40.196" data-duration="8.968" data-track-index="6" style="z-index: 101"><div class="pol" id="mt-f12-c" style="left: 90px; top: 310px"><img src="assets/montage/fun-12-relay.jpg" alt="" /><div class="cap">SRC Relay Rumble</div></div></div>
+    <div id="mt-f13" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="41.264" data-duration="7.9" data-track-index="5" style="z-index: 102"><div class="pol" id="mt-f13-c" style="left: 1050px; top: 320px"><img src="assets/montage/fun-13-relay.jpg" alt="" /><div class="cap">SRC Relay Rumble</div></div></div>
+    <div id="mt-f14" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="42.356" data-duration="6.808" data-track-index="6" style="z-index: 103"><div class="pol" id="mt-f14-c" style="left: 600px; top: 70px"><img src="assets/montage/fun-14-relay.jpg" alt="" /><div class="cap">SRC Relay Rumble</div></div></div>
+    <div id="mt-f15" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="43.424" data-duration="5.74" data-track-index="5" style="z-index: 104"><div class="pol" id="mt-f15-c" style="left: 320px; top: 230px"><img src="assets/montage/fun-15-cny.jpg" alt="" /><div class="cap">SRC CNY Tour</div></div></div>
+    <div id="mt-f16" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="44.492" data-duration="4.672" data-track-index="6" style="z-index: 105"><div class="pol" id="mt-f16-c" style="left: 840px; top: 230px"><img src="assets/montage/fun-16-cny.jpg" alt="" /><div class="cap">SRC CNY Tour</div></div></div>
+    <div id="mt-f17" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="45.56" data-duration="3.604" data-track-index="5" style="z-index: 106"><div class="pol" id="mt-f17-c" style="left: 180px; top: 140px"><img src="assets/montage/fun-17-cny.jpg" alt="" /><div class="cap">SRC CNY Tour</div></div></div>
+    <div id="mt-f18" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="46.628" data-duration="2.536" data-track-index="6" style="z-index: 107"><div class="pol" id="mt-f18-c" style="left: 960px; top: 100px"><img src="assets/montage/fun-18-cny.jpg" alt="" /><div class="cap">SRC CNY Tour</div></div></div>
+    <div id="mt-f19" class="clip pol-host" data-layout-allow-overlap data-layout-allow-occlusion data-start="47.696" data-duration="1.468" data-track-index="5" style="z-index: 108"><div class="pol" id="mt-f19-c" style="left: 550px; top: 230px"><img src="assets/montage/fun-19-cny.jpg" alt="" /><div class="cap">SRC CNY Tour</div></div></div>
+    <div id="mt-mosaic" class="clip mosaic" data-start="48.764" data-duration="9.97" data-track-index="3" style="z-index: 120">
+      <div class="tile" id="mt-m0" style="left: 0px; top: 0px"><img src="assets/montage/hard-01-symposium.jpg" alt="" /></div>
+      <div class="tile" id="mt-m1" style="left: 640px; top: 0px"><img src="assets/montage/fun-10-relay.jpg" alt="" /></div>
+      <div class="tile" id="mt-m2" style="left: 1280px; top: 0px"><img src="assets/montage/hard-17-ri.jpg" alt="" /></div>
+      <div class="tile" id="mt-m3" style="left: 0px; top: 540px"><img src="assets/montage/fun-01-potluck.jpg" alt="" /></div>
+      <div class="tile" id="mt-m4" style="left: 640px; top: 540px"><img src="assets/montage/hard-05-connections.jpg" alt="" /></div>
+      <div class="tile" id="mt-m5" style="left: 1280px; top: 540px"><img src="assets/montage/fun-15-cny.jpg" alt="" /></div>
+      <div class="thanks" id="mt-thanks" data-layout-allow-occlusion><div class="k" id="mt-tk">HARD WORK. GREAT FUN.</div><div class="big" id="mt-tb">THANK YOU, <span class="y">TEAM MENDAKI!</span></div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#mt-t1k", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.076);
+      tl.fromTo("#mt-t1a", { opacity: 0, scale: 1.8, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0.56);
+      tl.fromTo("#mt-t1b", { opacity: 0, scale: 1.8, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 1.094);
+      tl.fromTo("#mt-h01-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 2.162);
+      tl.fromTo("#mt-h01-i", { scale: 1 }, { scale: 1.1, duration: 1.291, ease: "none", immediateRender: false }, 2.482);
+      tl.fromTo("#mt-l01-t", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 2.262);
+      tl.fromTo("#mt-h02-i", { xPercent: -100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 3.253);
+      tl.fromTo("#mt-h02-i", { scale: 1 }, { scale: 1.1, duration: 1.269, ease: "none", immediateRender: false }, 3.573);
+      tl.fromTo("#mt-h03-i", { scale: 1.35, opacity: 0 }, { scale: 1.06, opacity: 1, duration: 0.3, ease: "expo.out" }, 4.322);
+      tl.fromTo("#mt-h03-i", { scale: 1.06 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 4.642);
+      tl.fromTo("#mt-h04-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 5.39);
+      tl.fromTo("#mt-h04-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 5.71);
+      tl.fromTo("#mt-h05-i", { xPercent: -100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 6.458);
+      tl.fromTo("#mt-h05-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 6.778);
+      tl.fromTo("#mt-l05-t", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 6.558);
+      tl.fromTo("#mt-h06-i", { scale: 1.35, opacity: 0 }, { scale: 1.06, opacity: 1, duration: 0.3, ease: "expo.out" }, 7.526);
+      tl.fromTo("#mt-h06-i", { scale: 1.06 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 7.846);
+      tl.fromTo("#mt-h07-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 8.594);
+      tl.fromTo("#mt-h07-i", { scale: 1 }, { scale: 1.1, duration: 1.802, ease: "none", immediateRender: false }, 8.914);
+      tl.fromTo("#mt-h08-i", { xPercent: -100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 10.196);
+      tl.fromTo("#mt-h08-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 10.516);
+      tl.fromTo("#mt-h09-i", { scale: 1.35, opacity: 0 }, { scale: 1.06, opacity: 1, duration: 0.3, ease: "expo.out" }, 11.264);
+      tl.fromTo("#mt-h09-i", { scale: 1.06 }, { scale: 1.1, duration: 1.291, ease: "none", immediateRender: false }, 11.584);
+      tl.fromTo("#mt-l09-t", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 11.364);
+      tl.fromTo("#mt-h10-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 12.355);
+      tl.fromTo("#mt-h10-i", { scale: 1 }, { scale: 1.1, duration: 1.269, ease: "none", immediateRender: false }, 12.675);
+      tl.fromTo("#mt-h11-i", { xPercent: -100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 13.424);
+      tl.fromTo("#mt-h11-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 13.744);
+      tl.fromTo("#mt-h12-i", { scale: 1.35, opacity: 0 }, { scale: 1.06, opacity: 1, duration: 0.3, ease: "expo.out" }, 14.492);
+      tl.fromTo("#mt-h12-i", { scale: 1.06 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 14.812);
+      tl.fromTo("#mt-h13-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 15.56);
+      tl.fromTo("#mt-h13-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 15.88);
+      tl.fromTo("#mt-l13-t", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 15.66);
+      tl.fromTo("#mt-h14-i", { xPercent: -100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 16.628);
+      tl.fromTo("#mt-h14-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 16.948);
+      tl.fromTo("#mt-h15-i", { scale: 1.35, opacity: 0 }, { scale: 1.06, opacity: 1, duration: 0.3, ease: "expo.out" }, 17.696);
+      tl.fromTo("#mt-h15-i", { scale: 1.06 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 18.016);
+      tl.fromTo("#mt-h16-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 18.764);
+      tl.fromTo("#mt-h16-i", { scale: 1 }, { scale: 1.1, duration: 1.292, ease: "none", immediateRender: false }, 19.084);
+      tl.fromTo("#mt-h17-i", { xPercent: -100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 19.856);
+      tl.fromTo("#mt-h17-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 20.176);
+      tl.fromTo("#mt-l17-t", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 19.956);
+      tl.fromTo("#mt-h18-i", { scale: 1.35, opacity: 0 }, { scale: 1.06, opacity: 1, duration: 0.3, ease: "expo.out" }, 20.924);
+      tl.fromTo("#mt-h18-i", { scale: 1.06 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 21.244);
+      tl.fromTo("#mt-h19-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 21.992);
+      tl.fromTo("#mt-h19-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 22.312);
+      tl.fromTo("#mt-h20-i", { xPercent: -100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 23.06);
+      tl.fromTo("#mt-h20-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 23.38);
+      tl.fromTo("#mt-h21-i", { scale: 1.35, opacity: 0 }, { scale: 1.06, opacity: 1, duration: 0.3, ease: "expo.out" }, 24.128);
+      tl.fromTo("#mt-h21-i", { scale: 1.06 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 24.448);
+      tl.fromTo("#mt-h22-i", { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: "power3.out" }, 25.196);
+      tl.fromTo("#mt-h22-i", { scale: 1 }, { scale: 1.1, duration: 1.268, ease: "none", immediateRender: false }, 25.516);
+      tl.fromTo("#mt-t2", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(80% at 50% 50%)", duration: 0.4, ease: "power3.out" }, 26.264);
+      tl.fromTo("#mt-t2a", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 26.364);
+      tl.fromTo("#mt-t2b", { opacity: 0, scale: 2.2, rotation: -12 }, { opacity: 1, scale: 1, rotation: -4, duration: 0.5, ease: "back.out(2.2)" }, 27.356);
+      tl.fromTo("#mt-cf0", { scale: 0, rotation: 0 }, { scale: 1, rotation: 160, duration: 0.7, ease: "expo.out" }, 27.356);
+      tl.fromTo("#mt-cf1", { scale: 0, rotation: 40 }, { scale: 1, rotation: 200, duration: 0.7, ease: "expo.out" }, 27.386);
+      tl.fromTo("#mt-cf2", { scale: 0, rotation: 80 }, { scale: 1, rotation: 240, duration: 0.7, ease: "expo.out" }, 27.416);
+      tl.fromTo("#mt-cf3", { scale: 0, rotation: 120 }, { scale: 1, rotation: 280, duration: 0.7, ease: "expo.out" }, 27.446);
+      tl.fromTo("#mt-cf4", { scale: 0, rotation: 160 }, { scale: 1, rotation: 320, duration: 0.7, ease: "expo.out" }, 27.476);
+      tl.fromTo("#mt-cf5", { scale: 0, rotation: 200 }, { scale: 1, rotation: 360, duration: 0.7, ease: "expo.out" }, 27.356);
+      tl.fromTo("#mt-cf6", { scale: 0, rotation: 240 }, { scale: 1, rotation: 400, duration: 0.7, ease: "expo.out" }, 27.386);
+      tl.fromTo("#mt-cf7", { scale: 0, rotation: 280 }, { scale: 1, rotation: 440, duration: 0.7, ease: "expo.out" }, 27.416);
+      tl.fromTo("#mt-cf8", { scale: 0, rotation: 320 }, { scale: 1, rotation: 480, duration: 0.7, ease: "expo.out" }, 27.446);
+      tl.fromTo("#mt-cf9", { scale: 0, rotation: 360 }, { scale: 1, rotation: 520, duration: 0.7, ease: "expo.out" }, 27.476);
+      tl.fromTo("#mt-cf10", { scale: 0, rotation: 400 }, { scale: 1, rotation: 560, duration: 0.7, ease: "expo.out" }, 27.356);
+      tl.fromTo("#mt-cf11", { scale: 0, rotation: 440 }, { scale: 1, rotation: 600, duration: 0.7, ease: "expo.out" }, 27.386);
+      tl.fromTo("#mt-cf12", { scale: 0, rotation: 480 }, { scale: 1, rotation: 640, duration: 0.7, ease: "expo.out" }, 27.416);
+      tl.fromTo("#mt-cf13", { scale: 0, rotation: 520 }, { scale: 1, rotation: 680, duration: 0.7, ease: "expo.out" }, 27.446);
+      tl.fromTo("#mt-f01-c", { opacity: 0, scale: 1.7, rotation: -35, y: -120 }, { opacity: 1, scale: 1, rotation: -7, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 28.424);
+      tl.fromTo("#mt-f02-c", { opacity: 0, scale: 1.7, rotation: 34, y: -120 }, { opacity: 1, scale: 1, rotation: 6, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 29.492);
+      tl.fromTo("#mt-f03-c", { opacity: 0, scale: 1.7, rotation: -31, y: -120 }, { opacity: 1, scale: 1, rotation: -3, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 30.56);
+      tl.fromTo("#mt-f04-c", { opacity: 0, scale: 1.7, rotation: 36, y: -120 }, { opacity: 1, scale: 1, rotation: 8, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 31.628);
+      tl.fromTo("#mt-f05-c", { opacity: 0, scale: 1.7, rotation: -37, y: -120 }, { opacity: 1, scale: 1, rotation: -9, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 32.696);
+      tl.fromTo("#mt-f06-c", { opacity: 0, scale: 1.7, rotation: 32, y: -120 }, { opacity: 1, scale: 1, rotation: 4, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 33.764);
+      tl.fromTo("#mt-f07-c", { opacity: 0, scale: 1.7, rotation: -33, y: -120 }, { opacity: 1, scale: 1, rotation: -5, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 34.856);
+      tl.fromTo("#mt-f08-c", { opacity: 0, scale: 1.7, rotation: 35, y: -120 }, { opacity: 1, scale: 1, rotation: 7, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 35.924);
+      tl.fromTo("#mt-f09-c", { opacity: 0, scale: 1.7, rotation: -35, y: -120 }, { opacity: 1, scale: 1, rotation: -7, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 36.992);
+      tl.fromTo("#mt-f10-c", { opacity: 0, scale: 1.7, rotation: 34, y: -120 }, { opacity: 1, scale: 1, rotation: 6, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 38.06);
+      tl.fromTo("#mt-f11-c", { opacity: 0, scale: 1.7, rotation: -31, y: -120 }, { opacity: 1, scale: 1, rotation: -3, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 39.128);
+      tl.fromTo("#mt-f12-c", { opacity: 0, scale: 1.7, rotation: 36, y: -120 }, { opacity: 1, scale: 1, rotation: 8, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 40.196);
+      tl.fromTo("#mt-f13-c", { opacity: 0, scale: 1.7, rotation: -37, y: -120 }, { opacity: 1, scale: 1, rotation: -9, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 41.264);
+      tl.fromTo("#mt-f14-c", { opacity: 0, scale: 1.7, rotation: 32, y: -120 }, { opacity: 1, scale: 1, rotation: 4, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 42.356);
+      tl.fromTo("#mt-f15-c", { opacity: 0, scale: 1.7, rotation: -33, y: -120 }, { opacity: 1, scale: 1, rotation: -5, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 43.424);
+      tl.fromTo("#mt-f16-c", { opacity: 0, scale: 1.7, rotation: 35, y: -120 }, { opacity: 1, scale: 1, rotation: 7, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 44.492);
+      tl.fromTo("#mt-f17-c", { opacity: 0, scale: 1.7, rotation: -35, y: -120 }, { opacity: 1, scale: 1, rotation: -7, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 45.56);
+      tl.fromTo("#mt-f18-c", { opacity: 0, scale: 1.7, rotation: 34, y: -120 }, { opacity: 1, scale: 1, rotation: 6, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 46.628);
+      tl.fromTo("#mt-f19-c", { opacity: 0, scale: 1.7, rotation: -31, y: -120 }, { opacity: 1, scale: 1, rotation: -3, y: 0, duration: 0.42, ease: "back.out(1.6)" }, 47.696);
+      tl.fromTo("#mt-m0", { scale: 0.4, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.38, ease: "back.out(1.5)" }, 48.764);
+      tl.fromTo("#mt-m1", { scale: 0.4, opacity: 0, rotation: 8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.38, ease: "back.out(1.5)" }, 49.298);
+      tl.fromTo("#mt-m2", { scale: 0.4, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.38, ease: "back.out(1.5)" }, 49.832);
+      tl.fromTo("#mt-m3", { scale: 0.4, opacity: 0, rotation: 8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.38, ease: "back.out(1.5)" }, 50.39);
+      tl.fromTo("#mt-m4", { scale: 0.4, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.38, ease: "back.out(1.5)" }, 50.924);
+      tl.fromTo("#mt-m5", { scale: 0.4, opacity: 0, rotation: 8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.38, ease: "back.out(1.5)" }, 51.458);
+      tl.fromTo("#mt-mosaic", { "--dim": 0 }, { "--dim": 0.62, duration: 0.5, ease: "power2.out" }, 54.028);
+      tl.fromTo("#mt-tk", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 54.128);
+      tl.fromTo("#mt-tb", { opacity: 0, scale: 1.4, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 55.196);
+      tl.fromTo("#mt-mosaic", { scale: 1 }, { scale: 1.06, duration: 5.341, ease: "none", immediateRender: false }, 54.128);
+      window.__timelines["montage"] = tl;
+    })();
+  </script>
+</template>

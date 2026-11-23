@@ -4,3 +4,9 @@ assets/footage.mp4
 renders/
 .hyperframes/
 node_modules/
+# Staff event photos stay local (not pushed to GitHub)
+assets/montage/
+assets/photos/19-innovation-*.jpg
+assets/photos/20-innovation-*.jpg
+assets/photos/backdrop/19-innovation-*.jpg
+assets/photos/backdrop/20-innovation-*.jpg

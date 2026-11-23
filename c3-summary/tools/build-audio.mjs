@@ -29,13 +29,15 @@ for (const p of pts) {
   while (env.length && env[env.length - 1].t >= p.t) env.pop();
   env.push(p);
 }
-env.push({ t: 127.0, v: env[env.length - 1].v }, { t: 127.47, v: FULL }, { t: 132.5, v: FULL });
+// full for the montage and the end card (the track fades itself out)
+env.push({ t: 127.0, v: env[env.length - 1].v }, { t: 127.47, v: FULL }, { t: 194.25, v: FULL });
 const automation = { version: 1, lanes: [{ target: "volume", points: env.filter((p, i) => i === 0 || p.t > env[i - 1].t) }] };
 if (automation.lanes[0].points.length > 512) throw new Error("too many volume points");
 
 // sound effects
 const cues = JSON.parse(readFileSync(new URL("../assets/transition-cues.json", import.meta.url), "utf8")).whoosh;
-cues.push([2.55, "whoosh-short", 0.3], [127.05, "whoosh", 0.3], [128.0, "impact-bass-1", 0.55], [128.12, "sparkle", 0.32]);
+cues.push([2.55, "whoosh-short", 0.3], [127.05, "whoosh", 0.3], [186.2, "impact-bass-1", 0.55], [186.32, "sparkle", 0.32]);
+cues.push(...JSON.parse(readFileSync(new URL("../assets/montage-cues.json", import.meta.url), "utf8")));
 // a pop for each sticker keyword as it lands (same timing as tools/dimension.template.html)
 for (const f of readdirSync(new URL("../compositions/", import.meta.url)).filter((f) => /^dim-\d\d[a-z]?\.html$/.test(f))) {
   const html = readFileSync(new URL(`../compositions/${f}`, import.meta.url), "utf8");
@@ -50,9 +52,9 @@ for (const f of readdirSync(new URL("../compositions/", import.meta.url)).filter
 cues.sort((a, b) => a[0] - b[0]);
 const DUR = { whoosh: 0.57, "whoosh-short": 0.57, pop: 0.72, "impact-bass-1": 2.12, sparkle: 1.8 };
 // two lanes so overlapping effects never share one
-const laneEnd = [0, 0];
+const laneEnd = [0, 0, 0];
 const sfx = cues.map(([t, name, vol], i) => {
-  const lane = laneEnd[0] <= t ? 0 : 1;
+  const lane = laneEnd[0] <= t ? 0 : laneEnd[1] <= t ? 1 : 2;
   laneEnd[lane] = t + DUR[name];
   return `      <audio id="sfx-${String(i + 1).padStart(3, "0")}" class="clip" src="assets/sfx/${name}.mp3" data-start="${r(Math.max(0, t))}" ` +
     `data-duration="${DUR[name]}" data-track-index="${8 + lane}" data-volume="${vol}"></audio>`;
@@ -63,7 +65,7 @@ const music = `      <audio
         class="clip"
         src="assets/music/adventure-edit.m4a"
         data-start="0"
-        data-duration="132.5"
+        data-duration="194.25"
         data-media-start="0"
         data-track-index="7"
         data-timeline-role="music"

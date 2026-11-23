@@ -1,0 +1,66 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: radial-gradient(1200px 760px at 50% 48%, #2a2c31 0%, #1a1b1e 58%, #111214 100%);
+    }
+    #root .arc {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 50%;
+      border: 3px solid rgba(38, 182, 198, 0.35);
+    }
+    #root .glow {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: 1300px;
+      height: 1000px;
+      margin: -500px 0 0 -650px;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(253, 217, 1, 0.22) 0%, rgba(253, 217, 1, 0) 70%);
+    }
+    #root .lockup {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #root .logo {
+      width: 860px;
+      height: auto;
+    }
+    #root .fade {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <div class="arc" id="ec-arc1" data-layout-ignore style="width: 1500px; height: 1500px; margin: -750px 0 0 -750px"></div>
+    <div class="arc" id="ec-arc2" data-layout-ignore style="width: 1900px; height: 1900px; margin: -950px 0 0 -950px; border-color: rgba(253, 217, 1, 0.22)"></div>
+    <div class="glow" id="ec-glow" data-layout-ignore></div>
+    <div class="lockup">
+      <img class="logo" id="ec-logo" src="assets/mendaki-logo-sb-yellow.png" alt="Yayasan MENDAKI, Sentiasa Bersamamu" />
+    </div>
+    <div class="fade" id="ec-fade" data-layout-ignore></div>
+  </div>
+  <script>
+    (function () {
+      // starts as the song's drums stop (186.21 s); the vocal tag carries it to the end
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#ec-logo", { opacity: 0, scale: 1.4, filter: "blur(18px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0.02);
+      tl.fromTo(["#ec-arc1", "#ec-arc2"], { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.4, ease: "expo.out", stagger: 0.1 }, 0.05);
+      tl.fromTo("#ec-glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 0.1);
+      tl.fromTo("#ec-logo", { y: 0 }, { y: -4, scale: 1.03, duration: 6.5, ease: "none", immediateRender: false }, 0.6);
+      tl.fromTo("#ec-fade", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power1.in" }, 6.8);
+      window.__timelines["endcard"] = tl;
+    })();
+  </script>
+</template>

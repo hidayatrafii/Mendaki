@@ -2,7 +2,8 @@
  "01-awards-congratulations.jpg": {
   "cx": 920,
   "cy": 484,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -3.2,
   "start": 60.2,
   "end": 62.668
@@ -10,7 +11,8 @@
  "02-awards-best-employee.jpg": {
   "cx": 996,
   "cy": 500,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 2.6,
   "start": 62.668,
   "end": 64.293
@@ -18,7 +20,8 @@
  "03-awards-handover-1.jpg": {
   "cx": 942,
   "cy": 476,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -1.8,
   "start": 64.293,
   "end": 66.429
@@ -26,7 +29,8 @@
  "04-awards-handover-2.jpg": {
   "cx": 1004,
   "cy": 494,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 3,
   "start": 66.429,
   "end": 68.029
@@ -34,7 +38,8 @@
  "05-awards-best-employee-2.jpg": {
   "cx": 930,
   "cy": 502,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -2.4,
   "start": 68.029,
   "end": 69.6
@@ -42,7 +47,8 @@
  "06-coffee-with-management-team.jpg": {
   "cx": 980,
   "cy": 480,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 1.6,
   "start": 69.6,
   "end": 72.302
@@ -50,7 +56,8 @@
  "07-health-screening-bp-1.jpg": {
   "cx": 916,
   "cy": 490,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -2.9,
   "start": 72.302,
   "end": 73.37
@@ -58,7 +65,8 @@
  "08-health-screening-bp-2.jpg": {
   "cx": 920,
   "cy": 484,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -3.2,
   "start": 73.37,
   "end": 74.438
@@ -66,7 +74,8 @@
  "09-health-screening-blood-test.jpg": {
   "cx": 996,
   "cy": 500,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 2.6,
   "start": 74.438,
   "end": 76.597
@@ -74,7 +83,8 @@
  "10-health-screening-briefing.jpg": {
   "cx": 942,
   "cy": 476,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -1.8,
   "start": 76.597,
   "end": 78.17
@@ -82,7 +92,8 @@
  "11-coffee-with-management-fun.jpg": {
   "cx": 1004,
   "cy": 494,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 3,
   "start": 78.17,
   "end": 79.802
@@ -90,7 +101,8 @@
  "12-coffee-with-management-chat.jpg": {
   "cx": 930,
   "cy": 502,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -2.4,
   "start": 79.802,
   "end": 81.427
@@ -98,7 +110,8 @@
  "13-satellite-centre-genogram.jpg": {
   "cx": 980,
   "cy": 480,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 1.6,
   "start": 81.427,
   "end": 83.563
@@ -106,7 +119,8 @@
  "14-satellite-centre-discussion.jpg": {
   "cx": 916,
   "cy": 490,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -2.9,
   "start": 83.563,
   "end": 85.7
@@ -114,7 +128,8 @@
  "15-cliftonstrengths-wall.jpg": {
   "cx": 920,
   "cy": 484,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -3.2,
   "start": 85.7,
   "end": 87.302
@@ -122,7 +137,8 @@
  "16-wsl-workshop-discussion.jpg": {
   "cx": 996,
   "cy": 500,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 2.6,
   "start": 87.302,
   "end": 89.438
@@ -130,17 +146,37 @@
  "17-wsl-mendaki-2030-group.jpg": {
   "cx": 942,
   "cy": 476,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": -1.8,
   "start": 89.438,
   "end": 91.933
  },
- "18-satellite-centre-cck-mural.jpg": {
+ "19-innovation-ai-programme-cohort.jpg": {
   "cx": 1004,
   "cy": 494,
-  "k": 0.72,
+  "w": 1382,
+  "h": 778,
   "rot": 3,
-  "start": 99.2,
+  "start": 91.933,
+  "end": 95.336
+ },
+ "20-innovation-ai-programme-selfie.jpg": {
+  "cx": 930,
+  "cy": 502,
+  "w": 583,
+  "h": 778,
+  "rot": -2.4,
+  "start": 95.336,
+  "end": 99.098
+ },
+ "18-satellite-centre-cck-mural.jpg": {
+  "cx": 980,
+  "cy": 480,
+  "w": 1382,
+  "h": 778,
+  "rot": 1.6,
+  "start": 99.098,
   "end": 101.5
  }
 }
