@@ -3,47 +3,47 @@
   "output_dir": "exports/mou_template/out",
   "cover": {
     "pill": "MOU Signing - 24 November 2026",
-    "headline_white": "Igniting",
-    "headline_yellow": "curiosity.",
-    "lead": "Yayasan MENDAKI and NUS High School of Math and Science (NUSHS) sign a [three]-year MOU to [purpose of the partnership] for our community.",
+    "headline_white": "Opening doors",
+    "headline_yellow": "to STEM.",
+    "lead": "Yayasan MENDAKI and NUS High School of Mathematics and Science sign a three-year MOU to widen access and exposure to STEM for Malay/Muslim students.",
     "photo": ""
   },
   "about": {
-    "definition": "Memorandum of Understanding (MOU) is a formal agreement between organisations that sets out shared goals and how they will work together.",
     "pill": "MENDAKI x NUS High School MOU",
-    "body": "From *[2026 to 20XX],* NUSHS's [expertise in math and science education] meets MENDAKI's community reach to [create opportunities for our students].",
-    "areas_label": "[Four] key areas of collaboration",
+    "headline_white": "More than a",
+    "headline_yellow": "scholarship.",
+    "body": "Over *three years,* NUS High School's expertise in mathematics, science and research meets MENDAKI's community and professional networks.",
+    "areas_label": "Three areas of collaboration",
     "areas": [
-      "[Area of collaboration 1]",
-      "[Area of collaboration 2]",
-      "[Area of collaboration 3]",
-      "[Area of collaboration 4]"
+      "Scholarships for STEM",
+      "Talent engagement & mentoring with MENDAKI's professional networks",
+      "STEM enrichment, engagement sessions & outreach for students and youths"
     ]
   },
   "impact": {
-    "pill": "Over [3] years",
-    "big_number": "[0,000]",
-    "headline": "[who] will benefit",
+    "pill": "Every year, up to",
+    "big_number": "10",
+    "headline": "scholarships for STEM",
     "stats": [
       {
-        "number": "[000]",
-        "label": "[beneficiaries] a year",
-        "desc": "[Programme or support offered]"
+        "number": "$1,500",
+        "label": "per scholarship",
+        "desc": "Funded by Temasek Foundation through the Tay Eng Soon Endowment"
       },
       {
-        "number": "[000]",
-        "label": "[beneficiaries] a year",
-        "desc": "[Programme or support offered]"
+        "number": "+1 year",
+        "label": "renewal",
+        "desc": "Subject to renewal requirements set by NUS High School"
       },
       {
-        "number": "[000+]",
-        "label": "[beneficiaries] a year",
-        "desc": "[Programme or support offered]"
+        "number": "Year 1",
+        "label": "full-time students",
+        "desc": "Singapore Citizens & PRs enrolled at NUS High School"
       },
       {
-        "number": "[000+]",
-        "label": "[beneficiaries] a year",
-        "desc": "[Programme or support offered]"
+        "number": "3 years",
+        "label": "of partnership",
+        "desc": "Mentoring & talent engagement with MENDAKI's professional communities"
       }
     ]
   },
@@ -53,11 +53,11 @@
     "headline_yellow": "boardroom.",
     "photo_left": "",
     "photo_right": "",
-    "caption": "After the signing, the MENDAKI delegation toured the NUS High School campus, led by NUSHS representatives, to [see how students learn and create]."
+    "caption": "After the signing, the MENDAKI delegation toured the NUS High School campus, led by NUS High School representatives."
   },
   "quote": {
     "photo": "",
-    "text": "[Quote from the speaker, one to three lines.]",
+    "text": "A scholarship can open a door, but what happens after that door opens matters just as much.",
     "attribution": "Mr Feroz Akber, Chief Executive Officer, Yayasan MENDAKI",
     "tagline": "With You, Every Step Forward."
   }

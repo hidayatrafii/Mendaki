@@ -84,16 +84,17 @@ def slides(c):
       <div class="lead" style="top:660px">{t(cv['lead'])}</div>
       {photo(cv['photo'], '', 'GROUP PHOTO (landscape)').replace('class=" ph', 'style="left:82px;top:845px;width:1116px;height:627px" class="ph')}
     """)
-    # 2 What is an MOU
+    # 2 About the partnership
+    n = len(ab["areas"][:4])
+    bar_h, step = (120, 165) if n <= 3 else (100, 128)
     areas = "".join(
-        f'<div class="area" style="top:{978 + i * 135}px"><div class="n">{i + 1}</div>'
+        f'<div class="area" style="top:{905 + i * step}px;height:{bar_h}px"><div class="n">{i + 1}</div>'
         f'<div class="bar card cushion">{t(a)}</div></div>' for i, a in enumerate(ab["areas"][:4]))
     s.append(f"""
-      <div class="head" style="top:170px;left:128px;font-size:118px">What is an <i class="y">MOU</i> <span class="y">?</span></div>
-      <div class="box card cushion lead" style="top:355px;height:166px;padding:0 70px;left:90px;right:90px">{t(ab['definition'])}</div>
-      <div class="pill" style="top:604px;left:104px;height:64px;font-size:36px">{t(ab['pill'])}</div>
-      <div class="lead" style="top:700px;left:90px;right:90px">{t(ab['body'])}</div>
-      <div class="caps" style="top:892px">{t(ab['areas_label'])}</div>
+      <div class="pill" style="top:150px">{t(ab['pill'])}</div>
+      <div class="head" style="top:238px;font-size:132px">{t(ab['headline_white'])}<span class="l2">{t(ab['headline_yellow'])}</span></div>
+      <div class="box card cushion lead" style="top:580px;height:180px;padding:0 70px"><div>{t(ab['body'])}</div></div>
+      <div class="caps" style="top:815px">{t(ab['areas_label'])}</div>
       {areas}
     """)
     # 3 Impact
