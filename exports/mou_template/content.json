@@ -23,14 +23,15 @@
       {
         "icon": "people",
         "title": "Mentoring & networks",
-        "outcome": "Students learn from professionals in MENDAKI's networks and explore career pathways"
+        "outcome": "Students learn from professionals in MENDAKI's networks"
       },
       {
         "icon": "flask",
         "title": "Enrichment & outreach",
         "outcome": "More youths get to discover maths, science and technology"
       }
-    ]
+    ],
+    "photo": ""
   },
   "impact": {
     "label": "Scholarships for STEM",

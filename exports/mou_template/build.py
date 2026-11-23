@@ -78,9 +78,15 @@ body {{ background: #000; }}
 .flow .ftitle {{ width: 270px; margin-left: 28px; font-family: Playfair; font-weight: 900; font-size: 33px; line-height: 1.12; flex: none; }}
 .flow .arrow {{ width: 62px; flex: none; margin: 0 22px 0 4px; }}
 .flow .fout {{ flex: 1; font-size: 26px; line-height: 1.38; color: #DDE3F5; letter-spacing: .4px; }}
-.mini {{ position: absolute; top: 1223px; width: 352px; height: 200px; border-radius: 26px; padding: 24px 28px; }}
+.mini {{ position: absolute; top: 1234px; width: 352px; height: 186px; border-radius: 26px; padding: 24px 28px; }}
 .mini .num {{ font-family: Playfair; font-weight: 900; font-size: 72px; line-height: 1; color: #F3CF45; }}
 .mini .lab {{ font-size: 24px; line-height: 1.35; margin-top: 12px; color: #DDE3F5; }}
+.arrows {{ position: absolute; left: 0; top: 0; width: 1280px; height: 1600px; }}
+.call {{ position: absolute; left: 680px; width: 510px; height: 156px; border-radius: 24px; display: flex; align-items: center; gap: 18px; padding: 0 24px; }}
+.call .ico {{ width: 66px; height: 66px; border-radius: 50%; background: #F3CF45; flex: none; display: flex; align-items: center; justify-content: center; }}
+.call .ico svg {{ width: 38px; height: 38px; }}
+.call .ctitle {{ font-family: Playfair; font-weight: 900; font-size: 27px; line-height: 1.1; }}
+.call .cout {{ font-size: 21px; line-height: 1.32; color: #DDE3F5; margin-top: 6px; }}
 .tag {{ position: absolute; right: 75px; bottom: 82px; font-family: Playfair; font-weight: 700; font-size: 37px; }}
 """
 
@@ -105,26 +111,32 @@ def slides(c):
       <div class="lead" style="top:660px">{t(cv['lead'])}</div>
       {photo(cv['photo'], '', 'GROUP PHOTO (landscape)').replace('class=" ph', 'style="left:82px;top:845px;width:1116px;height:627px" class="ph')}
     """)
-    # 2 About the MOU: context, area -> outcome rows, scholarship figures
-    rows = "".join(
-        f'<div class="flow card" style="top:{730 + i * 142}px;height:126px">'
+    # 2 About the MOU: context, MOU photo with arrows out to what it helps, scholarship figures
+    cy = [700, 875, 1050]  # callout centre lines
+    calls = "".join(
+        f'<div class="call card" style="top:{y - 78}px">'
         f'<div class="ico">{ICONS.get(ar["icon"], "")}</div>'
-        f'<div class="ftitle">{t(ar["title"])}</div>'
-        f'<div class="arrow">{ARROW}</div>'
-        f'<div class="fout">{t(ar["outcome"])}</div></div>'
-        for i, ar in enumerate(ab["areas"][:3]))
+        f'<div><div class="ctitle">{t(ar["title"])}</div><div class="cout">{t(ar["outcome"])}</div></div></div>'
+        for y, ar in zip(cy, ab["areas"][:3]))
+    arrows = "".join(
+        f'<path d="M566,{sy} C618,{sy} 618,{y} 668,{y}" marker-end="url(#ah)"/>'
+        for sy, y in zip([800, 875, 950], cy))
+    svg = ('<svg class="arrows" viewBox="0 0 1280 1600"><defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" '
+           'markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#F3CF45"/></marker></defs>'
+           f'<g fill="none" stroke="#F3CF45" stroke-width="4" stroke-linecap="round">{arrows}</g></svg>')
     boxes = "".join(
         f'<div class="mini card" style="left:{90 + i * 374}px"><div class="num">{t(st["number"])}</div>'
         f'<div class="lab">{t(st["label"])}</div></div>' for i, st in enumerate(im["stats"][:3]))
     s.append(f"""
-      <div class="pill" style="top:110px">{t(ab['pill'])}</div>
-      <div class="head" style="top:196px;font-size:112px">{t(ab['headline_white'])}<span class="l2">{t(ab['headline_yellow'])}</span></div>
-      <div class="lead" style="top:476px;left:90px;right:90px;text-align:left;font-size:29px;letter-spacing:1px">{t(ab['body'])}</div>
-      <div class="caps" style="top:668px;left:92px">{t(ab['areas_label'])}</div>
-      {rows}
-      <div class="caps" style="top:1168px;left:92px">{t(im['label'])}</div>
+      <div class="pill" style="top:96px">{t(ab['pill'])}</div>
+      <div class="head" style="top:176px;font-size:104px">{t(ab['headline_white'])}<span class="l2">{t(ab['headline_yellow'])}</span></div>
+      <div class="lead" style="top:428px;left:90px;right:90px;text-align:left;font-size:28px;letter-spacing:.8px">{t(ab['body'])}</div>
+      {photo(ab.get('photo', ''), '', 'MOU PHOTO').replace('class=" ph', 'style="left:90px;top:610px;width:476px;height:530px;border-radius:26px" class="ph')}
+      {svg}
+      {calls}
+      <div class="caps" style="top:1180px;left:92px">{t(im['label'])}</div>
       {boxes}
-      <div class="lead" style="top:1446px;left:90px;right:90px;text-align:left;font-size:23px;letter-spacing:.5px;color:#ACB8E0;line-height:1.4">{t(im['note'])}</div>
+      <div class="lead" style="top:1440px;left:90px;right:90px;text-align:left;font-size:22px;letter-spacing:.5px;color:#ACB8E0;line-height:1.4">{t(im['note'])}</div>
     """)
     # 4 Learning journey: two photos + caption
     s.append(f"""
