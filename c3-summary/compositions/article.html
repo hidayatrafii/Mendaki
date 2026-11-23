@@ -20,12 +20,13 @@
       background: linear-gradient(90deg, rgba(26, 27, 30, 0.35) 0%, rgba(26, 27, 30, 0.55) 52%, rgba(26, 27, 30, 0.88) 100%);
     }
     /* the article as a clipping laid on the table */
+    /* the whole screenshot, uncropped, Berita Harian masthead included */
     #root .clip-card {
       position: absolute;
-      left: 110px;
-      top: 70px;
-      width: 1000px;
-      height: 902px;
+      left: 90px;
+      top: 120px;
+      width: 1188px;
+      height: 840px;
       padding: 14px;
       background: #ffffff;
       border-radius: 8px;
@@ -42,7 +43,7 @@
       display: block;
       width: 100%;
       height: auto;
-      transform-origin: 50% 12%;
+      transform-origin: 50% 18%;
     }
     /* the highlighter stroke over the headline */
     #root .hl {
@@ -56,10 +57,10 @@
     }
     #root .side {
       position: absolute;
-      left: 1180px;
+      left: 1340px;
       top: 0;
       bottom: 0;
-      width: 640px;
+      width: 500px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -91,16 +92,16 @@
       color: rgba(255, 255, 255, 0.85);
     }
     #root .l1 {
-      margin-top: 44px;
-      font-size: 44px;
+      margin-top: 40px;
+      font-size: 36px;
       font-weight: 600;
       line-height: 1.2;
     }
     #root .l2 {
       margin-top: 10px;
-      font-size: 64px;
+      font-size: 50px;
       font-weight: 800;
-      line-height: 1.08;
+      line-height: 1.1;
     }
     #root .l3 {
       margin-top: 20px;
@@ -108,9 +109,9 @@
       padding: 6px 22px 10px;
       background: #fdd901;
       color: #1a1b1e;
-      font-size: 64px;
+      font-size: 50px;
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.12;
       border-radius: 14px;
     }
   </style>
@@ -120,7 +121,7 @@
     <div class="clip-card" id="ar-card">
       <div class="page">
         <img id="ar-page" src="assets/photos/article-berita-harian.png" alt="Berita Harian: Lebih cepat, lebih berkesan: Mendaki manfaat AI siapkan laporan dalam masa nyata" />
-        <div class="hl" id="ar-hl" data-layout-ignore style="left: 4px; top: 58px; width: 960px; height: 132px"></div>
+        <div class="hl" id="ar-hl" data-layout-ignore style="left: 182px; top: 118px; width: 786px; height: 88px"></div>
       </div>
     </div>
     <div class="side" id="ar-side">
@@ -133,16 +134,16 @@
   </div>
   <script>
     (function () {
-      // host starts at 101.259 s, as the narration pauses and the music comes up (8.8 s)
+      // host starts at 102.33 s, in the music break after the narration pauses (7.7 s)
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#ar-bg", { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1.04, duration: 1.0, ease: "power2.out" }, 0);
-      tl.fromTo("#ar-bg", { scale: 1.04 }, { scale: 1.12, duration: 7.8, ease: "none", immediateRender: false }, 1.0);
+      tl.fromTo("#ar-bg", { scale: 1.04 }, { scale: 1.12, duration: 6.7, ease: "none", immediateRender: false }, 1.0);
       tl.fromTo("#ar-shade", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 0.1);
       // the clipping glides in and settles
       tl.fromTo("#ar-card", { opacity: 0, y: 70, rotation: -4.5, scale: 1.04 }, { opacity: 1, y: 0, rotation: -1.6, scale: 1, duration: 0.9, ease: "power3.out" }, 0.15);
       // the headline gets highlighted, then a slow push into the photo
       tl.fromTo("#ar-hl", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, 1.2);
-      tl.fromTo("#ar-page", { scale: 1 }, { scale: 1.08, duration: 6.6, ease: "none" }, 2.0);
+      tl.fromTo("#ar-page", { scale: 1 }, { scale: 1.05, duration: 5.4, ease: "none" }, 2.0);
       // the story, line by line
       tl.fromTo("#ar-tag", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, 0.9);
       tl.fromTo("#ar-src", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 1.15);
@@ -150,7 +151,7 @@
       tl.fromTo("#ar-l2", { opacity: 0, y: 24, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 3.2);
       tl.fromTo("#ar-l3", { opacity: 0, scale: 0.7, rotation: -3 }, { opacity: 1, scale: 1, rotation: -1.5, duration: 0.6, ease: "back.out(1.8)" }, 4.75);
       // clears just before the cut to the next scene
-      tl.to(["#ar-side", "#ar-card"], { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, 8.45);
+      tl.to(["#ar-side", "#ar-card"], { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, 7.4);
       window.__timelines["article"] = tl;
     })();
   </script>

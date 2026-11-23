@@ -43,7 +43,7 @@ if (automation.lanes[0].points.length > 512) throw new Error("too many volume po
 // sound effects
 const cues = JSON.parse(readFileSync(new URL("../assets/transition-cues.json", import.meta.url), "utf8")).whoosh;
 cues.push([2.55, "whoosh-short", 0.3], [135.618, "whoosh", 0.3], [194.768, "impact-bass-1", 0.55], [194.888, "sparkle", 0.32]);
-cues.push([101.2, "whoosh-short", 0.3], [102.45, "pop", 0.22], [106.0, "sparkle", 0.3]); // the article: in, headline highlight, "ready within an hour"
+cues.push([102.25, "whoosh-short", 0.3], [103.6, "pop", 0.22], [106.9, "sparkle", 0.3]); // the article: in, headline highlight, "ready within an hour"
 cues.push(...JSON.parse(readFileSync(new URL("../assets/montage-cues.json", import.meta.url), "utf8")));
 // a pop for each sticker keyword as it lands (same timing as tools/dimension.template.html)
 for (const f of readdirSync(new URL("../compositions/", import.meta.url)).filter((f) => /^dim-\d\d[a-z]?\.html$/.test(f))) {

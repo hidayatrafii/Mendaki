@@ -13,7 +13,7 @@ const photoWins = [...idxHtml.matchAll(/id="photos-[a-z-]+"[^>]*data-start="([\d
 const inPhotos = (t) => photoWins.some(([a, b]) => t > a + 0.1 && t < b - 0.1);
 // 1:35-1:39 is rearranged (new photos, then the kiosk clip moved to 96.96 s): the edit's own cuts
 // there are hidden, and the kiosk clip's in and out points get the transitions instead
-const REARRANGED = [95.2, 101.4], EXTRA = [96.509, 98.543];
+const REARRANGED = [95.2, 101.4], EXTRA = [95.361, 97.395];
 const cuts = [];
 for (const s of track) {
   if (s.start > REARRANGED[0] && s.start < REARRANGED[1]) continue;

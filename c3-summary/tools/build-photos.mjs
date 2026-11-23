@@ -31,17 +31,17 @@ const scenes = [
     ["16-wsl-workshop-discussion.jpg", 87.4],
     ["17-wsl-mendaki-2030-group.jpg", 89.6], // "help our teams focus on what matters most"
   ]],
-  // innovation (1:32-1:50): SUTD class, two Innovenge photos, the MENDAKI kiosk clip (96.51-98.54 s in
-  // index.html) on "embracing digitalisation", the third Innovenge photo and the SUTD selfie; then the
-  // Berita Harian article takes over for the music break (compositions/article.html)
-  ["photos-innovation-a", 91.933, 96.509, [
-    ["19-innovation-ai-programme-cohort.jpg", 91.933], // "as the way we work continues to evolve, so do we"
-    ["21-innovation-new-ideas-img0142.jpg", 93.225],
-    ["22-innovation-new-ideas-img0150.jpg", 94.827], // "trying new ideas"
+  // innovation (1:32-1:50): SUTD class photos, then the MENDAKI kiosk clip (95.36-97.40 s in
+  // index.html), then on "digitalisation" the three Innovenge photos, then the Berita Harian article
+  // over the music break (compositions/article.html)
+  ["photos-innovation-a", 91.933, 95.361, [
+    ["19-innovation-ai-programme-cohort.jpg", 91.933], // "as the way we work continues to evolve"
+    ["20-innovation-ai-programme-selfie.jpg", 93.759, "portrait"], // "so do we"
   ], "gentle"],
-  ["photos-innovation-b", 98.543, 101.6, [
-    ["23-innovation-new-ideas-img0153.jpg", 98.543], // "and finding better ways"
-    ["20-innovation-ai-programme-selfie.jpg", 100.168, "portrait"], // "to serve our community"
+  ["photos-innovation-b", 97.395, 102.627, [
+    ["21-innovation-new-ideas-img0142.jpg", 97.395], // "embracing digitalisation"
+    ["22-innovation-new-ideas-img0150.jpg", 99.1], // "and finding better ways"
+    ["23-innovation-new-ideas-img0153.jpg", 100.725], // "to serve our community"
   ], "gentle"],
 ];
 

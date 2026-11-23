@@ -159,42 +159,42 @@
   "h": 778,
   "rot": 3,
   "start": 91.933,
-  "end": 93.225
+  "end": 93.759
  },
- "21-innovation-new-ideas-img0142.jpg": {
+ "20-innovation-ai-programme-selfie.jpg": {
   "cx": 930,
   "cy": 502,
-  "w": 1382,
+  "w": 583,
   "h": 778,
   "rot": -2.4,
-  "start": 93.225,
-  "end": 94.827
+  "start": 93.759,
+  "end": 95.361
  },
- "22-innovation-new-ideas-img0150.jpg": {
+ "21-innovation-new-ideas-img0142.jpg": {
   "cx": 980,
   "cy": 480,
   "w": 1382,
   "h": 778,
   "rot": 1.6,
-  "start": 94.827,
-  "end": 96.509
+  "start": 97.395,
+  "end": 99.1
  },
- "23-innovation-new-ideas-img0153.jpg": {
+ "22-innovation-new-ideas-img0150.jpg": {
   "cx": 916,
   "cy": 490,
   "w": 1382,
   "h": 778,
   "rot": -2.9,
-  "start": 98.543,
-  "end": 100.168
+  "start": 99.1,
+  "end": 100.725
  },
- "20-innovation-ai-programme-selfie.jpg": {
+ "23-innovation-new-ideas-img0153.jpg": {
   "cx": 920,
   "cy": 484,
-  "w": 583,
+  "w": 1382,
   "h": 778,
   "rot": -3.2,
-  "start": 100.168,
-  "end": 101.6
+  "start": 100.725,
+  "end": 102.627
  }
 }
