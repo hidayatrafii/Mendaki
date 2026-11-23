@@ -64,7 +64,7 @@ body {{ background: #000; }}
 .stat .num {{ font-family: Playfair; font-weight: 900; font-size: 118px; line-height: 1; color: #F3CF45; }}
 .stat .lab {{ font-size: 30px; margin-top: 14px; line-height: 1.35; }}
 .stat .desc {{ font-size: 27px; color: #ACB8E0; text-align: center; line-height: 1.33; margin-top: 52px; letter-spacing: .8px; }}
-.quote {{ position: absolute; left: 128px; right: 128px; top: 1002px; padding: 30px 52px 34px; border-radius: 50% / 16px; }}
+.quote {{ position: absolute; left: 128px; right: 128px; top: 1002px; padding: 30px 52px 34px; border-radius: 26px; }}
 .quote p {{ font-size: 30px; line-height: 1.95; letter-spacing: 1.2px; }}
 .quote .att {{ color: #F3CF45; font-size: 29px; line-height: 1.5; margin-top: 4px; letter-spacing: 0; }}
 .qm {{ position: absolute; font-family: Caveat; font-weight: 400; font-size: 78px; color: #F3CF45; line-height: 1; }}
