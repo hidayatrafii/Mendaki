@@ -1,5 +1,5 @@
 {
- "about": "Camera shots of the avatar-free edit (cut times from scene detection). No presenter any more, so every box is null.",
+ "about": "Camera shots of the avatar-free edit (cut times from scene detection). No presenter any more, so every box is null. Shifted by 8.568 s after 101.259 s for the music break.",
  "shots": [
   {
    "start": 0,
@@ -138,72 +138,72 @@
   },
   {
    "start": 99.2,
-   "end": 101.5,
+   "end": 110.068,
    "box": null
   },
   {
-   "start": 101.5,
-   "end": 104.5,
+   "start": 110.068,
+   "end": 113.068,
    "box": null
   },
   {
-   "start": 104.5,
-   "end": 105.533,
+   "start": 113.068,
+   "end": 114.101,
    "box": null
   },
   {
-   "start": 105.533,
-   "end": 106.433,
+   "start": 114.101,
+   "end": 115.001,
    "box": null
   },
   {
-   "start": 106.433,
-   "end": 109.033,
+   "start": 115.001,
+   "end": 117.601,
    "box": null
   },
   {
-   "start": 109.033,
-   "end": 110.933,
+   "start": 117.601,
+   "end": 119.501,
    "box": null
   },
   {
-   "start": 110.933,
-   "end": 111.9,
+   "start": 119.501,
+   "end": 120.468,
    "box": null
   },
   {
-   "start": 111.9,
-   "end": 113.15,
+   "start": 120.468,
+   "end": 121.718,
    "box": null
   },
   {
-   "start": 113.15,
-   "end": 115.9,
+   "start": 121.718,
+   "end": 124.468,
    "box": null
   },
   {
-   "start": 115.9,
-   "end": 117.8,
+   "start": 124.468,
+   "end": 126.368,
    "box": null
   },
   {
-   "start": 117.8,
-   "end": 119.867,
+   "start": 126.368,
+   "end": 128.435,
    "box": null
   },
   {
-   "start": 119.867,
-   "end": 121.967,
+   "start": 128.435,
+   "end": 130.535,
    "box": null
   },
   {
-   "start": 121.967,
-   "end": 124.133,
+   "start": 130.535,
+   "end": 132.701,
    "box": null
   },
   {
-   "start": 124.133,
-   "end": 129.15,
+   "start": 132.701,
+   "end": 137.718,
    "box": null
   }
  ]

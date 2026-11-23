@@ -13,11 +13,11 @@ const photoWins = [...idxHtml.matchAll(/id="photos-[a-z-]+"[^>]*data-start="([\d
 const inPhotos = (t) => photoWins.some(([a, b]) => t > a + 0.1 && t < b - 0.1);
 // 1:35-1:39 is rearranged (new photos, then the kiosk clip moved to 96.96 s): the edit's own cuts
 // there are hidden, and the kiosk clip's in and out points get the transitions instead
-const REARRANGED = [95.2, 99.4], EXTRA = [96.964, 98.998];
+const REARRANGED = [95.2, 101.4], EXTRA = [96.509, 98.543];
 const cuts = [];
 for (const s of track) {
   if (s.start > REARRANGED[0] && s.start < REARRANGED[1]) continue;
-  if (s.start < 0.5 || s.start > 127.2 || inPhotos(s.start)) continue;
+  if (s.start < 0.5 || s.start > 135.768 || inPhotos(s.start)) continue;
   if (cuts.length && s.start - cuts[cuts.length - 1] < 0.3) continue;
   cuts.push(r(s.start));
 }
@@ -98,7 +98,7 @@ let index = readFileSync(indexUrl, "utf8");
 index = index.replace(
   /(<!-- transitions:start -->)[\s\S]*?(\s*<!-- transitions:end -->)/,
   `$1\n      <div id="transitions" data-composition-id="transitions" data-composition-src="compositions/transitions.html" ` +
-    `data-start="0" data-duration="127.472" data-track-index="2" data-track-kind="graphics" ` +
+    `data-start="0" data-duration="136.04" data-track-index="2" data-track-kind="graphics" ` +
     `data-width="1920" data-height="1080" data-layout-allow-occlusion style="z-index: 5"></div>$2`,
 );
 index = index.replace(/\/\*@punch\*\/[\s\S]*?\/\*@end-punch\*\//, () => `/*@punch*/ ${JSON.stringify(punch)} /*@end-punch*/`);

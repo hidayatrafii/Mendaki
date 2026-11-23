@@ -24,10 +24,10 @@ const cards = [
   ["Well-Being", "Flexibility", "Work-Life Balance", "Your Well-Being Matters", 70.0, 74.5],
   ["Safety", "Safe Workplace", "Awareness", "Support", 74.55, 81.45],
   ["Performance Enablement", "Better Processes", "Right Resources", "Working Smarter", 81.5, 91.9],
-  ["Agility & Innovation", "Innovation", "Digitalisation", "Continuous Improvement", 92.1, 101.4],
-  ["Commitment to Sector", "Serving Communities", "Making a Difference", "Shared Commitment", 101.5, 113.35],
-  ["Commitment to Organisation", "Shared Purpose", "Commitment", "Growing Together", 113.4, 117.6],
-  ["Purpose & Mission", "Empowering Communities", "Meaningful Work", "Lasting Impact", 117.7, 124.9],
+  ["Agility & Innovation", "Innovation", "Digitalisation", "Continuous Improvement", 92.1, 101.2],
+  ["Commitment to Sector", "Serving Communities", "Making a Difference", "Shared Commitment", 110.068, 121.918],
+  ["Commitment to Organisation", "Shared Purpose", "Commitment", "Growing Together", 121.968, 126.168],
+  ["Purpose & Mission", "Empowering Communities", "Meaningful Work", "Lasting Impact", 126.268, 133.468],
 ];
 
 // Keyword layouts, cycled card by card: slam (huge word, gold tag, outline fill),

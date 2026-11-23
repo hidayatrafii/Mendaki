@@ -168,7 +168,7 @@
   "h": 778,
   "rot": -2.4,
   "start": 93.225,
-  "end": 94.247
+  "end": 94.827
  },
  "22-innovation-new-ideas-img0150.jpg": {
   "cx": 980,
@@ -176,8 +176,8 @@
   "w": 1382,
   "h": 778,
   "rot": 1.6,
-  "start": 94.247,
-  "end": 95.361
+  "start": 94.827,
+  "end": 96.509
  },
  "23-innovation-new-ideas-img0153.jpg": {
   "cx": 916,
@@ -185,8 +185,8 @@
   "w": 1382,
   "h": 778,
   "rot": -2.9,
-  "start": 95.361,
-  "end": 96.964
+  "start": 98.543,
+  "end": 100.168
  },
  "20-innovation-ai-programme-selfie.jpg": {
   "cx": 920,
@@ -194,7 +194,7 @@
   "w": 583,
   "h": 778,
   "rot": -3.2,
-  "start": 98.998,
-  "end": 101.5
+  "start": 100.168,
+  "end": 101.6
  }
 }

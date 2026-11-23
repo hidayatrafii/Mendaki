@@ -14,7 +14,7 @@ const place = (start, end, prefY) => {
 
 const files = {
   "opening.html": { a: place(3.0, 6.7, 300) }, // scene starts at 0 s; "2026" shows until the crowd shot
-  "outro.html": { a: place(125.6, 127.45, 250) }, // "One MENDAKI." shows 125.87-127.47 s
+  "outro.html": { a: place(134.168, 136.018, 250) }, // "One MENDAKI." shows 125.87-127.47 s
 };
 
 for (const [file, data] of Object.entries(files)) {
