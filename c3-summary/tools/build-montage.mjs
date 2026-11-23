@@ -22,6 +22,8 @@ const LABEL = {
   symposium: "MENDAKI SYMPOSIUM 2026", connections: "MAKING CONNECTIONS", wacana: "WACANA KITA", youth: "YOUTH @ M3+",
   ri: "RAIKAN ILMU @ HEARTLANDS", potluck: "SRC Potluck", bbq: "SRC BBQ", relay: "SRC Relay Rumble", cny: "SRC CNY Tour",
 };
+// the four Raikan Ilmu Key Events (RIKE) carry a heading above their own name
+const KICK = { symposium: "RAIKAN ILMU KEY EVENTS", connections: "RAIKAN ILMU KEY EVENTS", wacana: "RAIKAN ILMU KEY EVENTS", youth: "RAIKAN ILMU KEY EVENTS" };
 const ev = (f) => f.replace(/\.jpg$/, "").split("-").slice(2).join("-");
 const els = [], tw = [], cues = [];
 const cue = (b, name, vol) => cues.push([r(START + at(b)), name, vol]);
@@ -55,7 +57,7 @@ HARD.forEach((f, i) => {
     const until = at(4 + (n < 0 ? HARD.length : i + n) * 2);
     const lid = `mt-l${String(i + 1).padStart(2, "0")}`;
     els.push(`    <div id="${lid}" class="clip lbl-host" data-start="${s}" data-duration="${r(until - s)}" data-track-index="2" style="z-index: 60">` +
-      `<div class="lbl" id="${lid}-t"><span class="dot"></span>${LABEL[lastEv]}</div></div>`);
+      `<div class="lbl-wrap" id="${lid}-t">${KICK[lastEv] ? `<div class="kick">${KICK[lastEv]}</div>` : ""}<div class="lbl"><span class="dot"></span>${LABEL[lastEv]}</div></div></div>`);
     tw.push(`      tl.fromTo("#${lid}-t", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, ${r(s + 0.1)});`);
   }
 });
@@ -115,7 +117,10 @@ writeFileSync(new URL("../compositions/montage.html", import.meta.url), `<templa
     #root .conf { position: absolute; width: 34px; height: 34px; border-radius: 8px; }
     #root .conf.c0 { background: #26b6c6; } #root .conf.c1 { background: #ffffff; border-radius: 50%; } #root .conf.c2 { background: #1a1b1e; }
     #root .lbl-host { position: absolute; inset: 0; pointer-events: none; }
-    #root .lbl { position: absolute; left: 110px; bottom: 96px; display: flex; align-items: center; gap: 16px; padding: 14px 30px 16px 24px;
+    #root .lbl-wrap { position: absolute; left: 110px; bottom: 96px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+    #root .kick { padding: 8px 18px 9px; background: #1a1b1e; color: #26b6c6; font-size: 31px; font-weight: 700; letter-spacing: 0.14em;
+      border-radius: 10px; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35); }
+    #root .lbl { position: relative; display: flex; align-items: center; gap: 16px; padding: 14px 30px 16px 24px;
       background: #fdd901; color: #1a1b1e; font-size: 38px; font-weight: 700; border-radius: 999px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
     #root .lbl .dot { width: 18px; height: 18px; border-radius: 50%; background: #26b6c6; }
     #root .table { position: absolute; inset: 0; background:
