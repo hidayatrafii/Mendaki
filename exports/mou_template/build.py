@@ -78,9 +78,9 @@ body {{ background: #000; }}
 .flow .ftitle {{ width: 270px; margin-left: 28px; font-family: Playfair; font-weight: 900; font-size: 33px; line-height: 1.12; flex: none; }}
 .flow .arrow {{ width: 62px; flex: none; margin: 0 22px 0 4px; }}
 .flow .fout {{ flex: 1; font-size: 26px; line-height: 1.38; color: #DDE3F5; letter-spacing: .4px; }}
-.mini {{ position: absolute; top: 660px; width: 537px; height: 218px; border-radius: 28px; padding: 26px 36px; }}
-.mini .num {{ font-family: Playfair; font-weight: 900; font-size: 92px; line-height: 1; color: #F3CF45; }}
-.mini .lab {{ font-size: 26px; line-height: 1.38; margin-top: 14px; color: #DDE3F5; }}
+.mini {{ position: absolute; top: 1223px; width: 352px; height: 200px; border-radius: 26px; padding: 24px 28px; }}
+.mini .num {{ font-family: Playfair; font-weight: 900; font-size: 72px; line-height: 1; color: #F3CF45; }}
+.mini .lab {{ font-size: 24px; line-height: 1.35; margin-top: 12px; color: #DDE3F5; }}
 .tag {{ position: absolute; right: 75px; bottom: 82px; font-family: Playfair; font-weight: 700; font-size: 37px; }}
 """
 
@@ -105,32 +105,26 @@ def slides(c):
       <div class="lead" style="top:660px">{t(cv['lead'])}</div>
       {photo(cv['photo'], '', 'GROUP PHOTO (landscape)').replace('class=" ph', 'style="left:82px;top:845px;width:1116px;height:627px" class="ph')}
     """)
-    # 2 About the partnership: context paragraph + area -> outcome rows
+    # 2 About the MOU: context, area -> outcome rows, scholarship figures
     rows = "".join(
-        f'<div class="flow card" style="top:{ab_top + i * 172}px">'
+        f'<div class="flow card" style="top:{730 + i * 142}px;height:126px">'
         f'<div class="ico">{ICONS.get(ar["icon"], "")}</div>'
         f'<div class="ftitle">{t(ar["title"])}</div>'
         f'<div class="arrow">{ARROW}</div>'
         f'<div class="fout">{t(ar["outcome"])}</div></div>'
-        for i, ar in enumerate(ab["areas"][:3]) for ab_top in [948])
-    s.append(f"""
-      <div class="pill" style="top:150px">{t(ab['pill'])}</div>
-      <div class="head" style="top:238px;font-size:132px">{t(ab['headline_white'])}<span class="l2">{t(ab['headline_yellow'])}</span></div>
-      <div class="box card cushion lead" style="top:575px;height:268px;padding:0 64px;font-size:29px;letter-spacing:1.4px"><div>{t(ab['body'])}</div></div>
-      <div class="caps" style="top:878px;left:92px">{t(ab['areas_label'])}</div>
-      {rows}
-    """)
-    # 3 Scholarship: number + paragraph + two boxes + photo
+        for i, ar in enumerate(ab["areas"][:3]))
     boxes = "".join(
-        f'<div class="mini card" style="left:{90 + i * 563}px"><div class="num">{t(st["number"])}</div>'
-        f'<div class="lab">{t(st["label"])}</div></div>' for i, st in enumerate(im["stats"][:2]))
+        f'<div class="mini card" style="left:{90 + i * 374}px"><div class="num">{t(st["number"])}</div>'
+        f'<div class="lab">{t(st["label"])}</div></div>' for i, st in enumerate(im["stats"][:3]))
     s.append(f"""
-      <div class="pill" style="top:130px">{t(im['pill'])}</div>
-      <div class="head" style="top:205px;font-size:150px;line-height:1;color:#F3CF45">{t(im['big_number'])}</div>
-      <div class="head" style="top:360px;font-size:76px;line-height:1.1;right:90px">{t(im['headline'])}</div>
-      <div class="lead" style="top:478px;left:90px;right:90px;text-align:left;letter-spacing:1px;font-size:29px">{t(im['body'])}</div>
+      <div class="pill" style="top:110px">{t(ab['pill'])}</div>
+      <div class="head" style="top:196px;font-size:112px">{t(ab['headline_white'])}<span class="l2">{t(ab['headline_yellow'])}</span></div>
+      <div class="lead" style="top:476px;left:90px;right:90px;text-align:left;font-size:29px;letter-spacing:1px">{t(ab['body'])}</div>
+      <div class="caps" style="top:668px;left:92px">{t(ab['areas_label'])}</div>
+      {rows}
+      <div class="caps" style="top:1168px;left:92px">{t(im['label'])}</div>
       {boxes}
-      {photo(im['photo'], '', 'PHOTO (landscape)').replace('class=" ph', 'style="left:90px;top:910px;width:1100px;height:570px;border-radius:26px" class="ph')}
+      <div class="lead" style="top:1446px;left:90px;right:90px;text-align:left;font-size:23px;letter-spacing:.5px;color:#ACB8E0;line-height:1.4">{t(im['note'])}</div>
     """)
     # 4 Learning journey: two photos + caption
     s.append(f"""
@@ -157,6 +151,8 @@ def main():
     out = ROOT / c.get("output_dir", "exports/mou_template/out")
     out.mkdir(parents=True, exist_ok=True)
     bodies = slides(c)
+    for old in out.glob("slide*.png"):
+        old.unlink()
     for i, body in enumerate(bodies, 1):
         (out / f"slide{i}.html").write_text(
             f"<html><head><meta charset='utf-8'><style>{CSS}</style></head><body><div class='slide'>{body}</div></body></html>")

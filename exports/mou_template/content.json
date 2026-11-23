@@ -12,7 +12,7 @@
     "pill": "About the MOU",
     "headline_white": "More than a",
     "headline_yellow": "scholarship.",
-    "body": "Over the next *three years,* MENDAKI and NUS High School will work together to widen access to STEM for Malay/Muslim students. NUS High School brings its expertise in mathematics, science and research, while MENDAKI brings its understanding of the community and its professional networks.",
+    "body": "Over *three years,* MENDAKI and NUS High School will widen access to STEM for Malay/Muslim students, bringing together NUS High School's expertise in mathematics, science and research with MENDAKI's community and professional networks.",
     "areas_label": "What the MOU will do",
     "areas": [
       {
@@ -33,21 +33,22 @@
     ]
   },
   "impact": {
-    "pill": "Every year, up to",
-    "big_number": "10",
-    "headline": "scholarships for STEM",
-    "body": "The Tay Eng Soon Endowment – MENDAKI Scholarship for STEM, funded by Temasek Foundation, supports Singapore Citizens and Permanent Residents enrolled as full-time Year 1 students at NUS High School.",
+    "label": "Scholarships for STEM",
     "stats": [
       {
+        "number": "Up to 10",
+        "label": "scholarships offered each year"
+      },
+      {
         "number": "$1,500",
-        "label": "Value of each scholarship"
+        "label": "value of each scholarship"
       },
       {
         "number": "1 year",
-        "label": "Renewable for one year, subject to NUS High School's requirements"
+        "label": "renewal, subject to NUS High School's requirements"
       }
     ],
-    "photo": ""
+    "note": "Tay Eng Soon Endowment – MENDAKI Scholarship for STEM, funded by Temasek Foundation, for Singapore Citizens and PRs enrolled as full-time Year 1 students at NUS High School."
   },
   "journey": {
     "pill": "Mekar Belia Learning Journeys",
