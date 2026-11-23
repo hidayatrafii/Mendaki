@@ -72,12 +72,29 @@ body {{ background: #000; }}
 .person .role {{ font-family: Outfit; font-weight: 500; font-size: 22px; letter-spacing: 3px; text-transform: uppercase; color: #F3CF45; }}
 .person .name {{ font-family: Playfair; font-weight: 900; font-size: 29px; line-height: 1.15; margin-top: 10px; white-space: nowrap; }}
 .person .ptitle {{ font-size: 23px; color: #ACB8E0; line-height: 1.35; margin-top: 8px; letter-spacing: .5px; }}
+.flow {{ position: absolute; left: 90px; right: 90px; height: 150px; border-radius: 26px; display: flex; align-items: center; padding: 0 34px; }}
+.flow .ico {{ width: 92px; height: 92px; border-radius: 50%; background: #F3CF45; flex: none; display: flex; align-items: center; justify-content: center; }}
+.flow .ico svg {{ width: 52px; height: 52px; }}
+.flow .ftitle {{ width: 270px; margin-left: 28px; font-family: Playfair; font-weight: 900; font-size: 33px; line-height: 1.12; flex: none; }}
+.flow .arrow {{ width: 62px; flex: none; margin: 0 22px 0 4px; }}
+.flow .fout {{ flex: 1; font-size: 26px; line-height: 1.38; color: #DDE3F5; letter-spacing: .4px; }}
+.mini {{ position: absolute; top: 660px; width: 537px; height: 218px; border-radius: 28px; padding: 26px 36px; }}
+.mini .num {{ font-family: Playfair; font-weight: 900; font-size: 92px; line-height: 1; color: #F3CF45; }}
+.mini .lab {{ font-size: 26px; line-height: 1.38; margin-top: 14px; color: #DDE3F5; }}
 .tag {{ position: absolute; right: 75px; bottom: 82px; font-family: Playfair; font-weight: 700; font-size: 37px; }}
 """
 
+_SV = '<svg viewBox="0 0 24 24" fill="none" stroke="#0E1D46" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'
+ICONS = {
+    "cap": _SV + '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v5"/></svg>',
+    "people": _SV + '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c3 .3 5.5 2.7 5.5 5.8"/></svg>',
+    "flask": _SV + '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.5 15h9"/></svg>',
+}
+ARROW = '<svg viewBox="0 0 48 24" fill="none" stroke="#F3CF45" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h40M34 4l9 8-9 8"/></svg>'
+
 
 def slides(c):
-    cv, ab, im, sg, q = c["cover"], c["about"], c["impact"], c["signing"], c["quote"]
+    cv, ab, im, lj, q = c["cover"], c["about"], c["impact"], c["journey"], c["quote"]
     logo = (HERE / "logo_white.png").as_uri()
     s = []
     # 1 Cover
@@ -88,41 +105,40 @@ def slides(c):
       <div class="lead" style="top:660px">{t(cv['lead'])}</div>
       {photo(cv['photo'], '', 'GROUP PHOTO (landscape)').replace('class=" ph', 'style="left:82px;top:845px;width:1116px;height:627px" class="ph')}
     """)
-    # 2 About the partnership
-    n = len(ab["areas"][:4])
-    bar_h, step = (120, 165) if n <= 3 else (100, 128)
-    areas = "".join(
-        f'<div class="area" style="top:{905 + i * step}px;height:{bar_h}px"><div class="n">{i + 1}</div>'
-        f'<div class="bar card cushion">{t(a)}</div></div>' for i, a in enumerate(ab["areas"][:4]))
+    # 2 About the partnership: context paragraph + area -> outcome rows
+    rows = "".join(
+        f'<div class="flow card" style="top:{ab_top + i * 172}px">'
+        f'<div class="ico">{ICONS.get(ar["icon"], "")}</div>'
+        f'<div class="ftitle">{t(ar["title"])}</div>'
+        f'<div class="arrow">{ARROW}</div>'
+        f'<div class="fout">{t(ar["outcome"])}</div></div>'
+        for i, ar in enumerate(ab["areas"][:3]) for ab_top in [948])
     s.append(f"""
       <div class="pill" style="top:150px">{t(ab['pill'])}</div>
       <div class="head" style="top:238px;font-size:132px">{t(ab['headline_white'])}<span class="l2">{t(ab['headline_yellow'])}</span></div>
-      <div class="box card cushion lead" style="top:580px;height:180px;padding:0 70px"><div>{t(ab['body'])}</div></div>
-      <div class="caps" style="top:815px">{t(ab['areas_label'])}</div>
-      {areas}
+      <div class="box card cushion lead" style="top:575px;height:268px;padding:0 64px;font-size:29px;letter-spacing:1.4px"><div>{t(ab['body'])}</div></div>
+      <div class="caps" style="top:878px;left:92px">{t(ab['areas_label'])}</div>
+      {rows}
     """)
-    # 3 Impact
-    pos = [(91, 586), (654, 586), (91, 1020), (652, 1020)]
-    stats = "".join(
-        f'<div class="stat card" style="left:{x}px;top:{y}px"><div class="num">{t(st["number"])}</div>'
-        f'<div class="lab">{t(st["label"])}</div><div class="desc">{t(st["desc"])}</div></div>'
-        for (x, y), st in zip(pos, im["stats"][:4]))
+    # 3 Scholarship: number + paragraph + two boxes + photo
+    boxes = "".join(
+        f'<div class="mini card" style="left:{90 + i * 563}px"><div class="num">{t(st["number"])}</div>'
+        f'<div class="lab">{t(st["label"])}</div></div>' for i, st in enumerate(im["stats"][:2]))
     s.append(f"""
-      <div class="pill" style="top:173px;left:80px">{t(im['pill'])}</div>
-      <div class="head" style="top:262px;font-size:170px;line-height:1;color:#F3CF45">{t(im['big_number'])}</div>
-      <div class="head" style="top:448px;font-size:82px;line-height:1.1;right:90px">{t(im['headline'])}</div>
-      {stats}
+      <div class="pill" style="top:130px">{t(im['pill'])}</div>
+      <div class="head" style="top:205px;font-size:150px;line-height:1;color:#F3CF45">{t(im['big_number'])}</div>
+      <div class="head" style="top:360px;font-size:76px;line-height:1.1;right:90px">{t(im['headline'])}</div>
+      <div class="lead" style="top:478px;left:90px;right:90px;text-align:left;letter-spacing:1px;font-size:29px">{t(im['body'])}</div>
+      {boxes}
+      {photo(im['photo'], '', 'PHOTO (landscape)').replace('class=" ph', 'style="left:90px;top:910px;width:1100px;height:570px;border-radius:26px" class="ph')}
     """)
-    # 4 Signing: photo + signatories / witnesses
-    ppl = "".join(
-        f'<div class="person card" style="left:{90 + (i % 2) * 560}px;top:{1028 + (i // 2) * 240}px">'
-        f'<div class="role">{t(pp["role"])}</div><div class="name">{t(pp["name"])}</div>'
-        f'<div class="ptitle">{t(pp["title"])}<br>{t(pp["org"])}</div></div>' for i, pp in enumerate(sg["people"][:4]))
+    # 4 Learning journey: two photos + caption
     s.append(f"""
-      <div class="pill" style="top:150px">{t(sg['pill'])}</div>
-      <div class="head" style="top:238px;font-size:140px">{t(sg['headline_white'])}<span class="l2">{t(sg['headline_yellow'])}</span></div>
-      {photo(sg['photo'], '', 'SIGNING PHOTO (landscape)').replace('class=" ph', 'style="left:90px;top:578px;width:1100px;height:420px;border-radius:26px" class="ph')}
-      {ppl}
+      <div class="pill" style="top:186px;left:84px">{t(lj['pill'])}</div>
+      <div class="head" style="top:268px">{t(lj['headline_white'])}<span class="l2">{t(lj['headline_yellow'])}</span></div>
+      {photo(lj['photo_left'], '', 'PHOTO 1 (portrait)').replace('class=" ph', 'style="left:93px;top:672px;width:534px;height:560px;border-radius:26px" class="ph')}
+      {photo(lj['photo_right'], '', 'PHOTO 2 (portrait)').replace('class=" ph', 'style="left:653px;top:672px;width:534px;height:560px;border-radius:26px" class="ph')}
+      <div class="lead" style="top:1280px;left:95px;right:95px;letter-spacing:0;font-size:29px;line-height:1.6">{t(lj['caption'])}</div>
     """)
     # 5 Quote
     s.append(f"""

@@ -2,82 +2,60 @@
   "_note": "Edit text here, then run: python3 exports/mou_template/build.py. Words wrapped in *asterisks* turn yellow. Leave a photo path empty to show a placeholder box.",
   "output_dir": "exports/mou_template/out",
   "cover": {
-    "pill": "MOU Signing - 24 November 2026",
+    "pill": "MENDAKI x NUS High School",
     "headline_white": "Opening doors",
     "headline_yellow": "to STEM.",
     "lead": "Yayasan MENDAKI and NUS High School of Mathematics and Science sign a three-year MOU to widen access and exposure to STEM for Malay/Muslim students.",
     "photo": ""
   },
   "about": {
-    "pill": "MENDAKI x NUS High School MOU",
+    "pill": "About the MOU",
     "headline_white": "More than a",
     "headline_yellow": "scholarship.",
-    "body": "Over *three years,* NUS High School's expertise in mathematics, science and research meets MENDAKI's community and professional networks.",
-    "areas_label": "Three areas of collaboration",
+    "body": "Over the next *three years,* MENDAKI and NUS High School will work together to widen access to STEM for Malay/Muslim students. NUS High School brings its expertise in mathematics, science and research, while MENDAKI brings its understanding of the community and its professional networks.",
+    "areas_label": "What the MOU will do",
     "areas": [
-      "Scholarships for STEM",
-      "Talent engagement & mentoring with MENDAKI's professional networks",
-      "STEM enrichment, engagement sessions & outreach for students and youths"
+      {
+        "icon": "cap",
+        "title": "STEM scholarships",
+        "outcome": "Financial support for students to pursue their interest in STEM"
+      },
+      {
+        "icon": "people",
+        "title": "Mentoring & networks",
+        "outcome": "Students learn from professionals in MENDAKI's networks and explore career pathways"
+      },
+      {
+        "icon": "flask",
+        "title": "Enrichment & outreach",
+        "outcome": "More youths get to discover maths, science and technology"
+      }
     ]
   },
   "impact": {
     "pill": "Every year, up to",
     "big_number": "10",
     "headline": "scholarships for STEM",
+    "body": "The Tay Eng Soon Endowment – MENDAKI Scholarship for STEM, funded by Temasek Foundation, supports Singapore Citizens and Permanent Residents enrolled as full-time Year 1 students at NUS High School.",
     "stats": [
       {
         "number": "$1,500",
-        "label": "per scholarship",
-        "desc": "Funded by Temasek Foundation through the Tay Eng Soon Endowment"
+        "label": "Value of each scholarship"
       },
       {
-        "number": "+1 year",
-        "label": "renewal",
-        "desc": "Subject to renewal requirements set by NUS High School"
-      },
-      {
-        "number": "Year 1",
-        "label": "full-time students",
-        "desc": "Singapore Citizens & PRs enrolled at NUS High School"
-      },
-      {
-        "number": "3 years",
-        "label": "of partnership",
-        "desc": "Mentoring & talent engagement with MENDAKI's professional communities"
+        "number": "1 year",
+        "label": "Renewable for one year, subject to NUS High School's requirements"
       }
-    ]
+    ],
+    "photo": ""
   },
-  "signing": {
-    "pill": "Signing of the MOU",
-    "headline_white": "Partners",
-    "headline_yellow": "in STEM.",
-    "photo": "",
-    "people": [
-      {
-        "role": "Signatory",
-        "name": "Dr Noraslinda Muhammad Zuber",
-        "title": "Deputy Chief Executive Officer",
-        "org": "Yayasan MENDAKI"
-      },
-      {
-        "role": "Signatory",
-        "name": "Mr Goh Hock Leong",
-        "title": "Deputy Principal (Academic)",
-        "org": "NUS High School"
-      },
-      {
-        "role": "Witness",
-        "name": "Mr Feroz Akber",
-        "title": "Chief Executive Officer",
-        "org": "Yayasan MENDAKI"
-      },
-      {
-        "role": "Witness",
-        "name": "Ms Soh Lai Leng Magdalen",
-        "title": "Principal",
-        "org": "NUS High School"
-      }
-    ]
+  "journey": {
+    "pill": "Mekar Belia Learning Journeys",
+    "headline_white": "Seeing what's",
+    "headline_yellow": "possible.",
+    "photo_left": "",
+    "photo_right": "",
+    "caption": "The MOU builds on MENDAKI's wider support for youths. Through Mekar Belia, about 240 students, parents and mentors visited Mediacorp, the Cross Island Line–Punggol Extension Project Information Centre, Singapore General Hospital and Universal Robots."
   },
   "quote": {
     "photo": "",
