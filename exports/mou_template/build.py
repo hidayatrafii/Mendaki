@@ -87,11 +87,12 @@ body {{ background: #000; }}
 .call .ico svg {{ width: 38px; height: 38px; }}
 .call .ctitle {{ font-family: Playfair; font-weight: 900; font-size: 27px; line-height: 1.1; }}
 .call .cout {{ font-size: 21px; line-height: 1.32; color: #DDE3F5; margin-top: 6px; }}
-.col {{ position: absolute; top: 1150px; width: 352px; height: 340px; border-radius: 26px; padding: 30px 28px; }}
+.col {{ position: absolute; top: 1240px; width: 352px; height: 236px; border-radius: 26px; padding: 30px 30px; }}
+.col .num {{ font-family: Playfair; font-weight: 900; font-size: 58px; line-height: 1; color: #F3CF45; white-space: nowrap; }}
 .col .ico {{ width: 72px; height: 72px; border-radius: 50%; background: #F3CF45; display: flex; align-items: center; justify-content: center; }}
 .col .ico svg {{ width: 42px; height: 42px; }}
 .col .ctitle {{ font-family: Playfair; font-weight: 900; font-size: 30px; line-height: 1.12; margin-top: 20px; }}
-.col .cout {{ font-size: 22px; line-height: 1.4; color: #DDE3F5; margin-top: 10px; }}
+.col .cout {{ font-size: 26px; line-height: 1.4; color: #DDE3F5; margin-top: 16px; }}
 .tag {{ position: absolute; right: 75px; bottom: 82px; font-family: Playfair; font-weight: 700; font-size: 37px; }}
 """
 
@@ -119,14 +120,13 @@ def slides(c):
     # 2 About the MOU: context, landscape MOU photo, three area cards below
     calls = "".join(
         f'<div class="col card" style="left:{90 + i * 374}px">'
-        f'<div class="ico">{ICONS.get(ar["icon"], "")}</div>'
-        f'<div class="ctitle">{t(ar["title"])}</div><div class="cout">{t(ar["outcome"])}</div></div>'
+        f'<div class="num">{t(ar["number"])}</div><div class="cout">{t(ar["label"])}</div></div>'
         for i, ar in enumerate(ab["areas"][:3]))
     s.append(f"""
       <div class="pill" style="top:96px">{t(ab['pill'])}</div>
       <div class="head" style="top:176px;font-size:104px">{t(ab['headline_white'])}<span class="l2">{t(ab['headline_yellow'])}</span></div>
       <div class="lead" style="top:428px;left:90px;right:90px;text-align:left;font-size:28px;letter-spacing:.8px">{t(ab['body'])}</div>
-      {photo(ab.get('photo', ''), '', 'MOU PHOTO (landscape)').replace('class=" ph', 'style="left:90px;top:600px;width:1100px;height:520px;border-radius:26px" class="ph')}
+      {photo(ab.get('photo', ''), '', 'MOU PHOTO (landscape)').replace('class=" ph', 'style="left:90px;top:600px;width:1100px;height:600px;border-radius:26px" class="ph')}
       {calls}
     """)
     # 4 Learning journey: two photos + caption

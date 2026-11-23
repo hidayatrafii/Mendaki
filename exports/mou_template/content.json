@@ -5,30 +5,27 @@
     "pill": "MENDAKI x NUS High School",
     "headline_white": "Opening doors",
     "headline_yellow": "to STEM.",
-    "lead": "Yayasan MENDAKI and NUS High School of Mathematics and Science sign a three-year MOU to widen access and exposure to STEM for Malay/Muslim students.",
+    "lead": "Yayasan MENDAKI and NUS High School are partnering to help more Malay/Muslim students pursue their interest in Science, Technology, Engineering and Mathematics (STEM).",
     "photo": ""
   },
   "about": {
     "pill": "About the MOU",
     "headline_white": "More than a",
     "headline_yellow": "scholarship.",
-    "body": "MENDAKI and NUS High School will *widen access to STEM* for Malay/Muslim students, bringing together NUS High School's expertise in mathematics, science and research with MENDAKI's community and professional networks.",
+    "body": "Over the next three years, the partnership will help students pursue their studies at NUS High School and give scholarship recipients opportunities to learn from professionals in MENDAKI's networks.",
     "areas_label": "What the MOU will do",
     "areas": [
       {
-        "icon": "cap",
-        "title": "STEM scholarships",
-        "outcome": "Financial support for students to pursue their interest in STEM"
+        "number": "Up to 10",
+        "label": "STEM scholarships each year"
       },
       {
-        "icon": "people",
-        "title": "Mentoring & networks",
-        "outcome": "Students learn from professionals in MENDAKI's networks"
+        "number": "$1,500",
+        "label": "per scholarship"
       },
       {
-        "icon": "flask",
-        "title": "Enrichment & outreach",
-        "outcome": "More youths get to discover maths, science and technology"
+        "number": "Mentoring",
+        "label": "with professionals in MENDAKI's networks"
       }
     ],
     "photo": ""
@@ -52,12 +49,12 @@
     "note": ""
   },
   "journey": {
-    "pill": "Campus Tour at NUS High School",
+    "pill": "Campus Tour",
     "headline_white": "Beyond the",
-    "headline_yellow": "signing table.",
+    "headline_yellow": "Signing Table.",
     "photo_left": "",
     "photo_right": "",
-    "caption": "After the signing, NUS High School representatives took the MENDAKI delegation on a tour of the NUS High School campus."
+    "caption": "After the signing, NUS High School took the MENDAKI team on a tour of its campus."
   },
   "quote": {
     "photo": "",
