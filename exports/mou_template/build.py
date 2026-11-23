@@ -133,9 +133,9 @@ def slides(c):
     s.append(f"""
       <div class="pill" style="top:186px;left:84px">{t(lj['pill'])}</div>
       <div class="head" style="top:268px">{t(lj['headline_white'])}<span class="l2">{t(lj['headline_yellow'])}</span></div>
-      {photo(lj['photo_left'], '', 'PHOTO 1 (portrait)').replace('class=" ph', 'style="left:93px;top:672px;width:534px;height:560px;border-radius:26px" class="ph')}
-      {photo(lj['photo_right'], '', 'PHOTO 2 (portrait)').replace('class=" ph', 'style="left:653px;top:672px;width:534px;height:560px;border-radius:26px" class="ph')}
-      <div class="lead" style="top:1280px;left:95px;right:95px;letter-spacing:0;font-size:29px;line-height:1.6">{t(lj['caption'])}</div>
+      {photo(lj['photo_left'], '', 'PHOTO 1 (portrait)').replace('class=" ph', 'style="left:93px;top:760px;width:534px;height:600px;border-radius:26px" class="ph')}
+      {photo(lj['photo_right'], '', 'PHOTO 2 (portrait)').replace('class=" ph', 'style="left:653px;top:760px;width:534px;height:600px;border-radius:26px" class="ph')}
+      <div class="lead" style="top:640px;left:93px;right:93px;text-align:left;font-size:28px;letter-spacing:.8px">{t(lj['caption'])}</div>
     """)
     # 5 Quote
     s.append(f"""
