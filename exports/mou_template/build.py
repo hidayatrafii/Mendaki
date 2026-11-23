@@ -78,9 +78,9 @@ body {{ background: #000; }}
 .flow .ftitle {{ width: 270px; margin-left: 28px; font-family: Playfair; font-weight: 900; font-size: 33px; line-height: 1.12; flex: none; }}
 .flow .arrow {{ width: 62px; flex: none; margin: 0 22px 0 4px; }}
 .flow .fout {{ flex: 1; font-size: 26px; line-height: 1.38; color: #DDE3F5; letter-spacing: .4px; }}
-.mini {{ position: absolute; top: 1234px; width: 352px; height: 186px; border-radius: 26px; padding: 24px 28px; }}
+.mini {{ position: absolute; top: 1234px; width: 352px; height: 282px; border-radius: 26px; padding: 24px 28px; }}
 .mini .num {{ font-family: Playfair; font-weight: 900; font-size: 72px; line-height: 1; color: #F3CF45; }}
-.mini .lab {{ font-size: 24px; line-height: 1.35; margin-top: 12px; color: #DDE3F5; }}
+.mini .lab {{ font-size: 21px; line-height: 1.4; margin-top: 12px; color: #DDE3F5; }}
 .arrows {{ position: absolute; left: 0; top: 0; width: 1280px; height: 1600px; }}
 .call {{ position: absolute; left: 680px; width: 510px; height: 156px; border-radius: 24px; display: flex; align-items: center; gap: 18px; padding: 0 24px; }}
 .call .ico {{ width: 66px; height: 66px; border-radius: 50%; background: #F3CF45; flex: none; display: flex; align-items: center; justify-content: center; }}

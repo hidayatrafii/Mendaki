@@ -38,18 +38,18 @@
     "stats": [
       {
         "number": "Up to 10",
-        "label": "scholarships offered each year"
+        "label": "scholarships offered every year to Singapore Citizens and PRs enrolled as full-time Year 1 students at NUS High School."
       },
       {
         "number": "$1,500",
-        "label": "value of each scholarship"
+        "label": "is the value of each Tay Eng Soon Endowment – MENDAKI Scholarship for STEM, funded by Temasek Foundation."
       },
       {
         "number": "3 years",
-        "label": "length of the partnership"
+        "label": "of MENDAKI and NUS High School working together on scholarships, mentoring and STEM outreach."
       }
     ],
-    "note": "Tay Eng Soon Endowment – MENDAKI Scholarship for STEM, funded by Temasek Foundation, for Singapore Citizens and PRs enrolled as full-time Year 1 students at NUS High School."
+    "note": ""
   },
   "journey": {
     "pill": "Campus Tour at NUS High School",
