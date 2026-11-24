@@ -1,6 +1,6 @@
-[{"id":"primary","big":"Primary 1 → University","small":"Singaporean & PR Malay/Muslim students","start":22.3,"end":24.9},
- {"id":"voucher","big":"$250 e-voucher","small":"for each eligible student, not per household","start":25.6,"end":28.4},
- {"id":"pci","big":"$1,000 & below","small":"monthly household per capita income (PCI)","start":42.2,"end":44.6},
- {"id":"students","big":"22,000+ students","small":"expected to benefit","start":45.4,"end":47.9},
- {"id":"existing","big":"13,000+ students","small":"already supported yearly via TTFS & other schemes","start":49.4,"end":52.4},
- {"id":"apply","big":"Apply from 1 Dec 2026","small":"until end-Feb 2027 · on MENDAKI's website","start":55.7,"end":58.8}]
+[{"id":"primary","big":"Primary 1 → University","small":"Singaporean & PR Malay/Muslim students","start":4.1,"end":6.6},
+ {"id":"voucher","big":"$250 e-voucher","small":"for each eligible student","start":7.3,"end":9.9},
+ {"id":"pci","big":"$1,000 & below","small":"monthly household per capita income (PCI)","start":37.6,"end":40.0},
+ {"id":"students","big":"22,000+ students","small":"expected to benefit","start":40.7,"end":43.3},
+ {"id":"existing","big":"13,000+ students","small":"already supported yearly via TTFS & other schemes","start":44.6,"end":47.5},
+ {"id":"apply","big":"Apply from 1 Dec 2026","small":"until end-Feb 2027 · on MENDAKI's website","start":49.9,"end":52.6}]

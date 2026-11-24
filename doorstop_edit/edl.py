@@ -1,6 +1,6 @@
 # Each segment: list of (in, out) source ranges kept (fillers removed), note. Output order.
 SEGS_RAW = [
- ([(33.30, 41.10)], "As we begin the school year... best start in life"),
+ ([(33.70, 41.10)], "As we begin the school year... best start in life"),
  ([(45.70, 47.55), (48.70, 50.84), (52.66, 53.36)], "schoolbooks, textbooks, uniforms... fork out (drop 2x um)"),
  ([(53.66, 55.60), (56.12, 60.67)], "cost of living... low-income families (drop um)"),
  ([(61.56, 62.63)], "to support their kids"),
@@ -57,8 +57,11 @@ def tighten(a, b, thr=-44.0, min_gap=0.16, keep=0.06):
         else: i += 1
     if cur is not None: parts.append((cur, b))
     return [(x, y) for x, y in parts if y - x > 0.08]
+# v7 order: open on the announcement; drop seg 1 (repeats schoolbooks/uniforms)
+ORDER = [4, 5, 6, 0, 2, 3, 7, 8, 9, 10]
 CLIPS = []
-for si, (rs, _) in enumerate(SEGS_RAW):
+for si in ORDER:
+    rs, _ = SEGS_RAW[si]
     k = 0
     for (a, b) in rs:
         for (x, y) in tighten(snap(a), snap(b)):
