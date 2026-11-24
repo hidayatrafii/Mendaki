@@ -26,10 +26,14 @@ if __name__ == "__main__":
     fc.append(f"[ac0]apad=pad_dur={TAIL}[ac]")
     last, idx = "vc", n
     for j,(photo,s,e,ang) in enumerate(BROLL):
+        # back-to-back photos: hold this one under the next one's fade-in (no talking-head flash between)
+        chained = any(abs(s2 - e) < 0.05 for _, s2, _, _ in BROLL)
+        if chained: e = e + 0.3
         clip = f"{W}/broll/pol{j}.mp4"
         run(["python3","-I",f"{W}/polaroid.py",f"{W}/broll/{photo}",str(e-s),str(ang),clip])
         inputs += ["-i", clip]
-        fc.append(f"[{idx}:v]format=yuva420p,fade=t=in:d=0.2:alpha=1,fade=t=out:st={e-s-0.2:.3f}:d=0.2:alpha=1,setpts=PTS-STARTPTS+{s}/TB[b{j}]")
+        fout = "" if chained else f",fade=t=out:st={e-s-0.2:.3f}:d=0.2:alpha=1"
+        fc.append(f"[{idx}:v]format=yuva420p,fade=t=in:d=0.2:alpha=1{fout},setpts=PTS-STARTPTS+{s}/TB[b{j}]")
         fc.append(f"[{last}][b{j}]overlay=0:0:enable='between(t,{s},{e})':eof_action=pass[o{j}]")
         last = f"o{j}"; idx += 1
     inputs += ["-loop","1","-t",f"{TOTAL:.3f}","-i",LT]
