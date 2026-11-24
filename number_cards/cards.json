@@ -3,35 +3,35 @@
 "id": "primary",
 "big": "Primary 1 → University",
 "small": "Singaporean and PR Malay/Muslim students",
-"start": 4.56,
-"end": 7.39
+"start": 4.58,
+"end": 7.41
 },
 {
 "id": "voucher",
 "big": "$250 in e-vouchers",
 "small": "for each eligible student",
-"start": 27.89,
-"end": 30.59
+"start": 28.37,
+"end": 31.07
 },
 {
 "id": "pci",
 "big": "$1,000 and below",
 "small": "monthly household per capita income (PCI)",
-"start": 36.74,
-"end": 38.76
+"start": 37.58,
+"end": 39.58
 },
 {
 "id": "students",
 "big": "22,000+ students",
 "small": "expected to benefit",
-"start": 39.89,
-"end": 42.59
+"start": 40.73,
+"end": 43.43
 },
 {
 "id": "apply",
 "big": "Apply from 1 December 2026",
 "small": "to 28 February 2027 via MENDAKI’s website",
-"start": 44.44,
-"end": 47.09
+"start": 45.26,
+"end": 47.91
 }
 ]

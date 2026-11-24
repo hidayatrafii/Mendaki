@@ -4,7 +4,7 @@ SEGS_RAW = [
  ([(45.70, 47.55), (48.70, 50.84), (52.66, 53.36)], "schoolbooks, textbooks, uniforms... fork out (drop 2x um)"),
  ([(53.66, 55.60), (56.12, 60.67)], "cost of living... low-income families (drop um)"),
  ([(61.56, 62.63)], "to support their kids"),
- ([(64.28, 64.80), (66.12, 73.13)], "MENDAKI | is introducing the Ready for School e-voucher initiative... university (v11 intro, with a natural pause at the join)"),
+ ([(64.28, 64.72), (2.745, 3.59), (67.30, 73.13)], "MENDAKI (take 2) | is introducing the Ready for (take 1, clear 'is') | School e-voucher initiative... university (take 2)"),
  ([(107.77, 112.95)], "this year MENDAKI is giving out $250 e-vouchers"),
  ([(117.80, 119.78), (120.00, 120.62), (121.50, 121.94), (122.40, 123.00)], "schoolbooks, stationery, or even shoes (drop uh, 2x um)"),
  ([(81.40, 82.40), (82.70, 85.00), (85.95, 90.95)], "more than one child... two or three kids (drop 2x um)"),
@@ -41,7 +41,7 @@ def _env(t0, t1, hop=0.01, win=0.03):
         i = int(t*16000); seg = a[i:i+int(win*16000)]
         out.append(20*_np.log10(_np.sqrt(_np.mean(seg**2))+1e-9))
     return ts, _np.array(out)
-def tighten(a, b, thr=-44.0, min_gap=0.36, keep=0.12):   # v20: keep natural pauses up to ~0.25s
+def tighten(a, b, thr=-44.0, min_gap=99.0, keep=0.12):   # v21: natural pace, no pause trimming
     ts, e = _env(a, b)
     quiet = e < thr; parts = []; cur = a; i = 0
     while i < len(ts):

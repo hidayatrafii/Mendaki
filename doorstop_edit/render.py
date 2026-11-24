@@ -42,8 +42,8 @@ if __name__ == "__main__":
         fc.append(f"[{last}][b{j}]overlay=0:0:enable='between(t,{s},{e})':eof_action=pass[o{j}]")
         last = f"o{j}"; idx += 1
     inputs += ["-loop","1","-t",f"{TOTAL:.3f}","-i",LT]
-    fc.append(f"[{idx}:v]format=rgba,fps={FPS},fade=t=in:st=0.4:d=0.3:alpha=1,fade=t=out:st=3.91:d=0.3:alpha=1[lt]")
-    fc.append(f"[{last}][lt]overlay=0:0:enable='between(t,0.3,4.26)':shortest=1[olt]")
+    fc.append(f"[{idx}:v]format=rgba,fps={FPS},fade=t=in:st=0.4:d=0.3:alpha=1,fade=t=out:st=3.95:d=0.3:alpha=1[lt]")
+    fc.append(f"[{last}][lt]overlay=0:0:enable='between(t,0.3,4.3)':shortest=1[olt]")
     CARDS = json.load(open("/home/user/Mendaki/number_cards/cards.json")); cur = "olt"
     for c in CARDS:
         idx += 1; s0, e0 = c["start"], c["end"]
