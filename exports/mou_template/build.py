@@ -18,9 +18,10 @@ FONTS = ROOT / "exports" / "assets" / "fonts"
 
 
 def t(s):
-    """Escape text; *words* become yellow."""
+    """Escape text; *words* become yellow; a newline forces a line break."""
     s = html.escape(s)
-    return re.sub(r"\*(.+?)\*", r'<span class="y">\1</span>', s)
+    s = re.sub(r"\*(.+?)\*", r'<span class="y">\1</span>', s)
+    return s.replace("\n", "<br>")
 
 
 def photo(path, cls, label):
