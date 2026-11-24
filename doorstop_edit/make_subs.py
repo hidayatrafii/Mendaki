@@ -2,61 +2,56 @@ import json, re
 W = "/home/user/Mendaki/work"
 toks = [[w[0], w[1], w[2].strip()] for w in json.load(open(f"{W}/edit_words.json"))]
 # (as transcribed | as displayed). Display text corrects ASR slips against the footage/talking points.
-P = """MENDAKI is introducing|
+P = """MENDAKI is reducing|MENDAKI is introducing
 the Ready for School|
 e -voucher initiative,|e-voucher initiative,
 which we hope to help kids|
 from primary one|from Primary One
 all the way up to university.|
+So at the beginning of the school year,|So, as we begin the school year,
+as you know, for many parents,|
+it's also a time where, you know,|it's also a time where
+there are a lot of|
+expenses for school|
+and we want our kids|
+to have the best start in life.|
+We have things like|You have things like
+school books, textbooks, uniforms|schoolbooks, textbooks, uniforms
+and other expenses|
+that parents have to fork out.|
+And during these times,|
+especially when you have|
+costs of living concerns,|cost of living concerns,
+challenging times,|
+we want to help our parents|we want to help parents
+from low -income families|from low-income families
+to support their kids.|
 This year, MENDAKI|
 is giving out $203 e -vouchers|is giving out $250 e-vouchers
 that parents can use|
 for their children,|
 whether it's school books,|whether it's schoolbooks,
-whether it is stationery,|
+whether it is stationery|
 or even shoes.|
-At the beginning of the school year,|So, as we begin the school year,
-for many parents,|
-it's also a time where|
-there are a lot of|
-expenses for school,|
-and we want our kids|
-to have the best start in life.|
-And during these times,|
-especially when you have|
-cause of living concerns,|cost of living concerns,
-challenging times,|
-we want to help parents|
-from low -income families|from low-income families
-to support their kids.|
-I think it's important because,|
-especially for parents|
-who have more than one child,|
-as you know,|
-sometimes you have|
-two or three kids,|
-I think it's always challenging|
-to try to fork out|
-that much expenses at one go.|that much expense at one go.
 We are pegging it at about|
 $1 ,000 per capita income|$1,000 per capita income
 and below.|
 So we expect more than|
 22 ,000 students|22,000 students
-who could benefit from this,|
-and this in addition to|and this is in addition to
+who could benefit from this.|
+And this in addition to|And this is in addition to
 about 13 ,000 others|about 13,000 others
 that typically benefit|
 from our TTFS|
 and other MENDAKI schemes|
 as well.|
 So it's an application basis|
-and we start tech|and we start to take
+and we start the|and we start to take
 applications from 1st December.|
 So we hope that this|
 will do its part|
 to help parents and children|
-have a good start for the year,|
+have a good start for the year|
 and not to worry|
 about some of these expenses|
 that would have otherwise|
