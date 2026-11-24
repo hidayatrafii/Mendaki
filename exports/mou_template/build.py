@@ -24,9 +24,12 @@ def t(s):
 
 
 def photo(path, cls, label):
+    """path may end in '#<css object-position>' to choose the crop, e.g. 'a.jpg#50% 30%'."""
     if path:
+        path, _, pos = path.partition("#")
         p = (ROOT / path).resolve()
-        return f'<div class="{cls} ph"><img src="{p.as_uri()}"></div>'
+        style = f' style="object-position:{pos}"' if pos else ""
+        return f'<div class="{cls} ph"><img src="{p.as_uri()}"{style}></div>'
     return f'<div class="{cls} ph empty"><span>{html.escape(label)}</span></div>'
 
 
