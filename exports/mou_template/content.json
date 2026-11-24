@@ -6,7 +6,7 @@
     "headline_white": "Opening doors",
     "headline_yellow": "to STEM.",
     "lead": "Yayasan MENDAKI and NUS High School are partnering to help more Malay/Muslim students pursue their interest in science, technology, engineering and mathematics (STEM).",
-    "photo": "exports/mou_template/photos/01_group.jpg#50% 45%"
+    "photo": "exports/mou_template/photos/graded/01_group.jpg#50% 45%"
   },
   "about": {
     "pill": "About the MOU",
@@ -28,7 +28,7 @@
         "label": "with professionals in MENDAKI's networks"
       }
     ],
-    "photo": "exports/mou_template/photos/02_signing.jpg#50% 55%"
+    "photo": "exports/mou_template/photos/graded/02_signing.jpg#50% 55%"
   },
   "impact": {
     "label": "Scholarships for STEM",
@@ -52,12 +52,12 @@
     "pill": "Campus tour",
     "headline_white": "Beyond the",
     "headline_yellow": "signing table.",
-    "photo_left": "exports/mou_template/photos/06_tour_student_guides.jpg#74% 50%",
-    "photo_right": "exports/mou_template/photos/04_tour_students.jpg#52% 50%",
+    "photo_left": "exports/mou_template/photos/graded/06_tour_student_guides.jpg#74% 50%",
+    "photo_right": "exports/mou_template/photos/graded/04_tour_students.jpg#52% 50%",
     "caption": "After the signing, NUS High School took the MENDAKI team on a tour of its campus."
   },
   "quote": {
-    "photo": "exports/mou_template/photos/05_ceo_remarks.jpg#60% 45%",
+    "photo": "exports/mou_template/photos/graded/05_ceo_remarks.jpg#60% 45%",
     "text": "We want our young people who have an interest and aptitude in STEM to have the confidence to explore these fields, pursue their aspirations and see the possibilities ahead of them.",
     "attribution": "Mr Feroz Akber, Chief Executive Officer, Yayasan MENDAKI",
     "tagline": "With You, Every Step Forward."
