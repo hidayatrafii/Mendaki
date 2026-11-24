@@ -6,7 +6,7 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Poppins Black,74,&H00A2DCEE,&H00A2DCEE,&H00101010,&H80000000,0,0,0,0,100,100,0,0,1,4,3,2,150,150,520,1
+Style: Default,Poppins ExtraBold,74,&H00A2DCEE,&H00A2DCEE,&H00101010,&H80000000,0,0,0,0,100,100,0,0,1,3,2,2,150,150,520,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
