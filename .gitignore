@@ -1,2 +1,8 @@
 footage/
 work/
+
+# Doorstop media showing identifiable children: kept local, not pushed (rebuild with doorstop_edit/ + cover/ scripts)
+exports/MENDAKI_ReadyForSchool_Doorstop_*.mp4
+cover/ReadyForSchool_cover_photos_1080x1920.png
+cover/bg_collage.jpg
+cover/crop_check_photos.png
