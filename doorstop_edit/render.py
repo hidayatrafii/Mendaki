@@ -35,7 +35,7 @@ if __name__ == "__main__":
         if chained: e = e + 0.3
         clip = f"{W}/broll/col{j}.mp4"
         run(["python3","-I",f"{W}/collage.py",json.dumps({"photos":[f"{W}/broll/{p}" for p in B["photos"]],
-             "appear":[x-s for x in B["appear"]],"dur":e-s,"out":clip})])
+             "appear":[x-s for x in B["appear"]],"dur":e-s,"out":clip,"layout":B.get("layout")})])
         inputs += ["-i", clip]
         fout = "" if chained or e >= TOTAL-0.05 else f",fade=t=out:st={e-s-0.2:.3f}:d=0.2:alpha=1"
         fc.append(f"[{idx}:v]format=yuva420p,fade=t=in:d=0.2:alpha=1{fout},setpts=PTS-STARTPTS+{s}/TB[b{j}]")

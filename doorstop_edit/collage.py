@@ -7,6 +7,7 @@ LAYOUTS = {  # (pw, [(cx, cy, angle), ...])
  2: (520, [(400, 540, -5), (680, 930, 4)]),
  3: (440, [(330, 520, -5), (760, 640, 5), (530, 960, -3)]),
  4: (380, [(300, 400, -6), (780, 440, 5), (320, 740, 4), (770, 770, -5)]),
+ "3top": (420, [(300, 410, -5), (780, 500, 5), (540, 770, -3)]),   # 3 photos kept above a number card
 }
 def ease_out_back(x, s=1.5):
     x -= 1; return x*x*((s+1)*x + s) + 1
@@ -27,8 +28,8 @@ def polaroid(path, pw, angle):
     big.alpha_composite(tape, (pad+cw//2-tape.width//2, pad-tape.height//2+int(6*k*S)))
     big = big.rotate(angle, expand=True, resample=Image.BICUBIC)
     return big.resize((big.width//S, big.height//S), Image.LANCZOS)
-def build(photos, appear, dur, out):
-    n = len(photos); pw, slots = LAYOUTS[n]
+def build(photos, appear, dur, out, layout=None):
+    n = len(photos); pw, slots = LAYOUTS[layout or n]
     src = Image.open(photos[0]).convert("RGB")
     sc = max(W/src.width, H/src.height)
     bg = src.resize((math.ceil(src.width*sc), math.ceil(src.height*sc)), Image.LANCZOS)
@@ -55,4 +56,4 @@ def build(photos, appear, dur, out):
         proc.stdin.write(fr.convert("RGB").tobytes())
     proc.stdin.close(); proc.wait()
 if __name__ == "__main__":
-    a = json.loads(sys.argv[1]); build(a["photos"], a["appear"], a["dur"], a["out"])
+    a = json.loads(sys.argv[1]); build(a["photos"], a["appear"], a["dur"], a["out"], a.get("layout"))
