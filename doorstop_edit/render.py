@@ -20,10 +20,14 @@ if __name__ == "__main__":
              "-af",f"afade=t=in:d=0.012,afade=t=out:st={d-0.02:.3f}:d=0.02",
              "-c:v","libx264","-crf","12","-preset","fast","-pix_fmt","yuv420p","-c:a","pcm_s16le","-ar","48000",o])
         inputs += ["-i", o]
-    n = len(CLIPS)
+    # closing shot: Zaqy smiling at the reporters (silent moment, source 179.2s) under the music tail
+    o=f"{W}/segs/tail.mkv"
+    run(["ffmpeg","-loglevel","error","-y","-ss","179.2","-i",SRC,"-t",f"{TAIL:.3f}","-vf",f"fps={FPS}","-af","volume=0",
+         "-c:v","libx264","-crf","12","-preset","fast","-pix_fmt","yuv420p","-c:a","pcm_s16le","-ar","48000",o])
+    inputs += ["-i", o]
+    n = len(CLIPS) + 1
     fc.append("".join(f"[{i}:v][{i}:a]" for i in range(n)) + f"concat=n={n}:v=1:a=1[vc0][ac0]")
-    fc.append(f"[vc0]tpad=stop_mode=clone:stop_duration={TAIL}[vc]")
-    fc.append(f"[ac0]apad=pad_dur={TAIL}[ac]")
+    fc.append("[vc0]null[vc]"); fc.append("[ac0]anull[ac]")
     last, idx = "vc", n
     for j,B in enumerate(BROLL):
         s, e = B["start"], B["end"]
