@@ -33,18 +33,12 @@ for their children,|
 whether it's school books,|whether it's schoolbooks,
 whether it is stationery|
 or even shoes.|
-We are pegging it at about|
+We are packing it at about|We are pegging it at about
 $1 ,000 per capita income|$1,000 per capita income
 and below.|
 So we expect more than|
 22 ,000 students|22,000 students
 who could benefit from this.|
-And this in addition to|And this is in addition to
-about 13 ,000 others|about 13,000 others
-that typically benefit|
-from our TTFS|
-and other MENDAKI schemes|
-as well.|
 So it's an application basis|
 and we start the|and we start to take
 applications from 1st December.|

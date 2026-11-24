@@ -9,7 +9,7 @@ SEGS_RAW = [
  ([(117.80, 119.78), (120.00, 120.62), (121.50, 121.94), (122.40, 123.00)], "schoolbooks, stationery, or even shoes (drop uh, 2x um)"),
  ([(81.40, 82.40), (82.70, 85.00), (85.95, 90.95)], "more than one child... two or three kids (drop 2x um)"),
  ([(130.88, 133.95)], "$1,000 per capita income and below (drop 'so, uh')"),
- ([(190.61, 200.09)], "22,000 students... 13,000 TTFS"),
+ ([(190.61, 194.70)], "22,000 students who could benefit from this (13,000 / TTFS sentence removed)"),
  ([(138.32, 151.97)], "applications from 1st December... good start"),
 ]
 import wave, numpy as np, os

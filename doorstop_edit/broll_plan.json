@@ -1,5 +1,1 @@
-[{"photos":["photo9.jpg","photo3.jpg","photo5.jpg","photo4.jpg"],"appear":[4.05,4.35,4.95,5.75],"start":4.0,"end":6.75},
- {"photos":["photo8.jpg"],"appear":[11.35],"start":11.3,"end":13.75},
- {"photos":["photo7.jpg","photo6.jpg"],"appear":[13.8,14.75],"start":13.75,"end":18.3},
- {"photos":["photo1.jpg","photo2.jpg"],"appear":[28.6,30.4],"start":28.55,"end":33.0},
- {"photos":["photo3.jpg","photo9.jpg","photo4.jpg"],"appear":[52.35,52.95,53.6],"start":52.3,"end":59.73}]
+[{"photos": ["photo9.jpg", "photo3.jpg", "photo5.jpg", "photo4.jpg"], "appear": [4.05, 4.35, 4.95, 5.75], "start": 4.0, "end": 6.75}, {"photos": ["photo8.jpg"], "appear": [11.35], "start": 11.3, "end": 13.75}, {"photos": ["photo7.jpg", "photo6.jpg"], "appear": [13.8, 14.75], "start": 13.75, "end": 18.3}, {"photos": ["photo9.jpg", "photo2.jpg"], "appear": [28.6, 30.4], "start": 28.55, "end": 33.0}, {"photos": ["photo3.jpg", "photo1.jpg", "photo4.jpg"], "appear": [47.15, 47.75, 48.4], "start": 47.1, "end": 54.47}]
