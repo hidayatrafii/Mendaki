@@ -4,7 +4,7 @@ SEGS_RAW = [
  ([(45.70, 47.55), (48.70, 50.84), (52.66, 53.36)], "schoolbooks, textbooks, uniforms... fork out (drop 2x um)"),
  ([(53.66, 55.60), (56.12, 60.67)], "cost of living... low-income families (drop um)"),
  ([(61.56, 62.63)], "to support their kids"),
- ([(64.28, 64.80), (66.40, 73.13)], "MENDAKI is introducing... Primary One to university (drop 'has introduced, uh')"),
+ ([(1.90, 4.83), (69.45, 73.19)], "So this year, MENDAKI is introducing the Ready for School vouchers (first take) + which we hope to help kids... university"),
  ([(107.77, 112.95)], "this year MENDAKI is giving out $250 e-vouchers"),
  ([(117.80, 119.78), (120.00, 120.62), (121.50, 121.94), (122.40, 123.00)], "schoolbooks, stationery, or even shoes (drop uh, 2x um)"),
  ([(81.40, 82.40), (82.70, 85.00), (85.95, 90.95)], "more than one child... two or three kids (drop 2x um)"),
