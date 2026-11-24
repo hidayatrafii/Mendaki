@@ -2,9 +2,9 @@ import json, re
 W = "/home/user/Mendaki/work"
 toks = [[w[0], w[1], w[2].strip()] for w in json.load(open(f"{W}/edit_words.json"))]
 # (as transcribed | as displayed). Display text corrects ASR slips against the footage/talking points.
-P = """So this year, MENDAKI|
-is introducing the|
-Ready for School vouchers,|
+P = """MENDAKI is *|MENDAKI is introducing
+the Ready for School|
+e -voucher initiative|e-voucher initiative,
 which we hope to help kids|
 from primary one|from Primary One
 all the way up to university.|
@@ -50,14 +50,32 @@ and not to worry|
 about some of these expenses|
 that would have otherwise|
 held them back.|"""
-caps, i = [], 0
+import difflib
+N = lambda w: re.sub(r"[^a-z0-9$]", "", w.lower())
+phr = []
 for line in P.split("\n"):
     src, disp = line.split("|"); disp = disp or src
-    n = len(src.split()); seg = toks[i:i+n]
-    N=lambda w: re.sub(r"[^a-z0-9$-]","",w.lower())
-    assert all(w == "*" or N(x[2]) == N(w) for x, w in zip(seg, src.split())), (src, [x[2] for x in seg])
-    caps.append([seg[0][0], seg[-1][1], disp.rstrip(",")]); i += n
-assert i == len(toks), (i, len(toks))
+    phr.append(disp.replace(" -", "-"))
+dw = [(pi, x) for pi, ph in enumerate(phr) for x in ph.split()]
+aw = [N(t[2]) for t in toks]
+sm = difflib.SequenceMatcher(None, [N(x) for _, x in dw], aw, autojunk=False)
+tm = [None] * len(dw)
+for op, i1, i2, j1, j2 in sm.get_opcodes():
+    if op == "equal":
+        for k in range(i2 - i1): tm[i1 + k] = (toks[j1 + k][0], toks[j1 + k][1])
+    elif op == "replace" and j2 > j1:
+        st, en = toks[j1][0], toks[j2 - 1][1]; n = i2 - i1
+        for k in range(n): tm[i1 + k] = (st + (en - st) * k / n, st + (en - st) * (k + 1) / n)
+for k in range(len(tm)):                      # words the speaker didn't say clearly: borrow neighbours
+    if tm[k] is None:
+        prev = next((tm[j] for j in range(k - 1, -1, -1) if tm[j]), None)
+        nxt = next((tm[j] for j in range(k + 1, len(tm)) if tm[j]), None)
+        tm[k] = (prev[1] if prev else nxt[0], nxt[0] if nxt else prev[1])
+caps = []
+for pi, ph in enumerate(phr):
+    idx = [k for k, (q, _) in enumerate(dw) if q == pi]
+    caps.append([tm[idx[0]][0], tm[idx[-1]][1], ph.rstrip(",")])
+ratio = sm.ratio(); print("alignment match", round(ratio, 3)); assert ratio > 0.9
 def ts(t): return f"{int(t//3600)}:{int(t%3600//60):02d}:{t%60:05.2f}"
 def srt(t): return f"{int(t//3600):02d}:{int(t%3600//60):02d}:{int(t%60):02d},{int(round(t%1*1000))%1000:03d}"
 hdr = open("/home/user/Mendaki/subtitles/style_template.ass").read().rstrip() + "\n"

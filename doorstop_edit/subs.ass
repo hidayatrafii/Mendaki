@@ -10,51 +10,51 @@ Style: Default,Poppins ExtraBold,74,&H00A2DCEE,&H00A2DCEE,&H00101010,&H80000000,
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:00.00,0:00:00.82,Default,,0,0,0,,So this year, MENDAKI
-Dialogue: 0,0:00:00.82,0:00:01.44,Default,,0,0,0,,is introducing the
-Dialogue: 0,0:00:01.44,0:00:02.86,Default,,0,0,0,,Ready for School vouchers
-Dialogue: 0,0:00:02.86,0:00:03.86,Default,,0,0,0,,which we hope to help kids
-Dialogue: 0,0:00:03.86,0:00:04.60,Default,,0,0,0,,from Primary One
-Dialogue: 0,0:00:04.60,0:00:06.44,Default,,0,0,0,,all the way up to university.
-Dialogue: 0,0:00:06.44,0:00:07.60,Default,,0,0,0,,So, as we begin the school year
-Dialogue: 0,0:00:07.60,0:00:08.86,Default,,0,0,0,,as you know, for many parents
-Dialogue: 0,0:00:08.86,0:00:09.86,Default,,0,0,0,,it's also a time where
-Dialogue: 0,0:00:09.86,0:00:10.20,Default,,0,0,0,,there are a lot of
-Dialogue: 0,0:00:10.20,0:00:11.06,Default,,0,0,0,,expenses for school
-Dialogue: 0,0:00:11.06,0:00:11.86,Default,,0,0,0,,and we want our kids
-Dialogue: 0,0:00:11.86,0:00:13.44,Default,,0,0,0,,to have the best start in life.
-Dialogue: 0,0:00:13.44,0:00:13.90,Default,,0,0,0,,You have things like
-Dialogue: 0,0:00:13.90,0:00:16.02,Default,,0,0,0,,schoolbooks, textbooks, uniforms
-Dialogue: 0,0:00:16.02,0:00:16.58,Default,,0,0,0,,and other expenses
-Dialogue: 0,0:00:16.58,0:00:18.12,Default,,0,0,0,,that parents have to fork out.
-Dialogue: 0,0:00:18.12,0:00:19.06,Default,,0,0,0,,And during these times
-Dialogue: 0,0:00:19.06,0:00:19.82,Default,,0,0,0,,especially when you have
-Dialogue: 0,0:00:19.82,0:00:21.26,Default,,0,0,0,,cost of living concerns
-Dialogue: 0,0:00:21.26,0:00:22.08,Default,,0,0,0,,challenging times
-Dialogue: 0,0:00:22.08,0:00:22.90,Default,,0,0,0,,we want to help parents
-Dialogue: 0,0:00:22.90,0:00:23.62,Default,,0,0,0,,from low-income families
-Dialogue: 0,0:00:23.62,0:00:24.50,Default,,0,0,0,,to support their kids.
-Dialogue: 0,0:00:24.50,0:00:25.10,Default,,0,0,0,,This year, MENDAKI
-Dialogue: 0,0:00:25.10,0:00:26.70,Default,,0,0,0,,is giving out $250 e-vouchers
-Dialogue: 0,0:00:26.70,0:00:27.86,Default,,0,0,0,,that parents can use
-Dialogue: 0,0:00:27.86,0:00:28.68,Default,,0,0,0,,for their children
-Dialogue: 0,0:00:28.68,0:00:30.14,Default,,0,0,0,,whether it's schoolbooks
-Dialogue: 0,0:00:30.14,0:00:31.50,Default,,0,0,0,,whether it is stationery
-Dialogue: 0,0:00:31.50,0:00:32.70,Default,,0,0,0,,or even shoes.
-Dialogue: 0,0:00:32.70,0:00:33.72,Default,,0,0,0,,We are pegging it at about
-Dialogue: 0,0:00:33.72,0:00:35.06,Default,,0,0,0,,$1,000 per capita income
-Dialogue: 0,0:00:35.06,0:00:35.74,Default,,0,0,0,,and below.
-Dialogue: 0,0:00:35.74,0:00:36.92,Default,,0,0,0,,So we expect more than
-Dialogue: 0,0:00:36.92,0:00:38.38,Default,,0,0,0,,22,000 students
-Dialogue: 0,0:00:38.38,0:00:39.88,Default,,0,0,0,,who could benefit from this.
-Dialogue: 0,0:00:39.88,0:00:40.84,Default,,0,0,0,,So it's an application basis
-Dialogue: 0,0:00:40.84,0:00:41.44,Default,,0,0,0,,and we start to take
-Dialogue: 0,0:00:41.44,0:00:42.78,Default,,0,0,0,,applications from 1st December.
-Dialogue: 0,0:00:42.78,0:00:43.72,Default,,0,0,0,,So we hope that this
-Dialogue: 0,0:00:43.72,0:00:44.96,Default,,0,0,0,,will do its part
-Dialogue: 0,0:00:44.96,0:00:46.30,Default,,0,0,0,,to help parents and children
-Dialogue: 0,0:00:46.30,0:00:47.64,Default,,0,0,0,,have a good start for the year
-Dialogue: 0,0:00:47.64,0:00:48.32,Default,,0,0,0,,and not to worry
-Dialogue: 0,0:00:48.32,0:00:49.52,Default,,0,0,0,,about some of these expenses
-Dialogue: 0,0:00:49.52,0:00:50.34,Default,,0,0,0,,that would have otherwise
-Dialogue: 0,0:00:50.34,0:00:52.06,Default,,0,0,0,,held them back.
+Dialogue: 0,0:00:00.00,0:00:01.02,Default,,0,0,0,,MENDAKI is introducing
+Dialogue: 0,0:00:01.02,0:00:01.84,Default,,0,0,0,,the Ready for School
+Dialogue: 0,0:00:01.84,0:00:03.06,Default,,0,0,0,,e-voucher initiative
+Dialogue: 0,0:00:03.06,0:00:04.36,Default,,0,0,0,,which we hope to help kids
+Dialogue: 0,0:00:04.36,0:00:05.10,Default,,0,0,0,,from Primary One
+Dialogue: 0,0:00:05.10,0:00:07.44,Default,,0,0,0,,all the way up to university.
+Dialogue: 0,0:00:07.44,0:00:08.76,Default,,0,0,0,,So, as we begin the school year
+Dialogue: 0,0:00:08.76,0:00:10.06,Default,,0,0,0,,as you know, for many parents
+Dialogue: 0,0:00:10.06,0:00:10.84,Default,,0,0,0,,it's also a time where
+Dialogue: 0,0:00:10.84,0:00:11.40,Default,,0,0,0,,there are a lot of
+Dialogue: 0,0:00:11.40,0:00:12.26,Default,,0,0,0,,expenses for school
+Dialogue: 0,0:00:12.26,0:00:13.04,Default,,0,0,0,,and we want our kids
+Dialogue: 0,0:00:13.04,0:00:14.92,Default,,0,0,0,,to have the best start in life.
+Dialogue: 0,0:00:14.92,0:00:15.46,Default,,0,0,0,,You have things like
+Dialogue: 0,0:00:15.46,0:00:17.24,Default,,0,0,0,,schoolbooks, textbooks, uniforms
+Dialogue: 0,0:00:17.24,0:00:18.16,Default,,0,0,0,,and other expenses
+Dialogue: 0,0:00:18.16,0:00:20.02,Default,,0,0,0,,that parents have to fork out.
+Dialogue: 0,0:00:20.02,0:00:20.96,Default,,0,0,0,,And during these times
+Dialogue: 0,0:00:20.96,0:00:21.70,Default,,0,0,0,,especially when you have
+Dialogue: 0,0:00:21.70,0:00:23.24,Default,,0,0,0,,cost of living concerns
+Dialogue: 0,0:00:23.24,0:00:24.12,Default,,0,0,0,,challenging times
+Dialogue: 0,0:00:24.12,0:00:25.06,Default,,0,0,0,,we want to help parents
+Dialogue: 0,0:00:25.06,0:00:25.78,Default,,0,0,0,,from low-income families
+Dialogue: 0,0:00:25.78,0:00:26.52,Default,,0,0,0,,to support their kids.
+Dialogue: 0,0:00:26.52,0:00:27.54,Default,,0,0,0,,This year, MENDAKI
+Dialogue: 0,0:00:27.54,0:00:29.14,Default,,0,0,0,,is giving out $250 e-vouchers
+Dialogue: 0,0:00:29.14,0:00:30.44,Default,,0,0,0,,that parents can use
+Dialogue: 0,0:00:30.44,0:00:31.56,Default,,0,0,0,,for their children
+Dialogue: 0,0:00:31.56,0:00:33.20,Default,,0,0,0,,whether it's schoolbooks
+Dialogue: 0,0:00:33.20,0:00:34.34,Default,,0,0,0,,whether it is stationery
+Dialogue: 0,0:00:34.34,0:00:35.82,Default,,0,0,0,,or even shoes.
+Dialogue: 0,0:00:35.82,0:00:36.84,Default,,0,0,0,,We are pegging it at about
+Dialogue: 0,0:00:36.84,0:00:38.18,Default,,0,0,0,,$1,000 per capita income
+Dialogue: 0,0:00:38.18,0:00:38.86,Default,,0,0,0,,and below.
+Dialogue: 0,0:00:38.86,0:00:40.04,Default,,0,0,0,,So we expect more than
+Dialogue: 0,0:00:40.04,0:00:41.52,Default,,0,0,0,,22,000 students
+Dialogue: 0,0:00:41.52,0:00:43.02,Default,,0,0,0,,who could benefit from this.
+Dialogue: 0,0:00:43.02,0:00:43.98,Default,,0,0,0,,So it's an application basis
+Dialogue: 0,0:00:43.98,0:00:44.74,Default,,0,0,0,,and we start to take
+Dialogue: 0,0:00:44.74,0:00:46.16,Default,,0,0,0,,applications from 1st December.
+Dialogue: 0,0:00:46.16,0:00:47.10,Default,,0,0,0,,So we hope that this
+Dialogue: 0,0:00:47.10,0:00:48.36,Default,,0,0,0,,will do its part
+Dialogue: 0,0:00:48.36,0:00:50.06,Default,,0,0,0,,to help parents and children
+Dialogue: 0,0:00:50.06,0:00:51.50,Default,,0,0,0,,have a good start for the year
+Dialogue: 0,0:00:51.50,0:00:52.32,Default,,0,0,0,,and not to worry
+Dialogue: 0,0:00:52.32,0:00:53.50,Default,,0,0,0,,about some of these expenses
+Dialogue: 0,0:00:53.50,0:00:54.36,Default,,0,0,0,,that would have otherwise
+Dialogue: 0,0:00:54.36,0:00:56.12,Default,,0,0,0,,held them back.
