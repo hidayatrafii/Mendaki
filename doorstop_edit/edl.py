@@ -31,3 +31,37 @@ for si, (rs, _) in enumerate(SEGS_RAW):
     for k, (a, b) in enumerate(rs):
         CLIPS.append((round(snap(a), 2), round(snap(b), 2), si, k))
 SEGS = [(a, b, f"{si}.{k}") for a, b, si, k in CLIPS]
+
+# ---- v3: remove ALL pauses: split each kept range at silences, then frame-align ----
+import numpy as _np
+FPS_OUT = 30
+def _env(t0, t1, hop=0.01, win=0.03):
+    a = _audio(); ts = _np.arange(t0, t1, hop); out = []
+    for t in ts:
+        i = int(t*16000); seg = a[i:i+int(win*16000)]
+        out.append(20*_np.log10(_np.sqrt(_np.mean(seg**2))+1e-9))
+    return ts, _np.array(out)
+def tighten(a, b, thr=-44.0, min_gap=0.16, keep=0.06):
+    ts, e = _env(a, b)
+    quiet = e < thr; parts = []; cur = a; i = 0
+    while i < len(ts):
+        if quiet[i]:
+            j = i
+            while j < len(ts) and quiet[j]: j += 1
+            g0, g1 = ts[i], ts[min(j, len(ts)-1)]
+            if g1 - g0 >= min_gap:
+                if g0 - a < 0.02: cur = max(a, g1 - keep)           # leading silence
+                elif b - g1 < 0.02: parts.append((cur, g0 + keep)); cur = None; break  # trailing
+                else: parts.append((cur, g0 + keep)); cur = g1 - keep
+            i = j
+        else: i += 1
+    if cur is not None: parts.append((cur, b))
+    return [(x, y) for x, y in parts if y - x > 0.08]
+CLIPS = []
+for si, (rs, _) in enumerate(SEGS_RAW):
+    k = 0
+    for (a, b) in rs:
+        for (x, y) in tighten(snap(a), snap(b)):
+            n = max(1, round((y - x) * FPS_OUT))          # whole output frames
+            CLIPS.append((round(x, 3), round(x + n / FPS_OUT, 3), si, k)); k += 1
+SEGS = [(a, b, f"{si}.{k}") for a, b, si, k in CLIPS]

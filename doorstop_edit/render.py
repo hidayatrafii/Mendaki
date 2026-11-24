@@ -17,7 +17,7 @@ if __name__ == "__main__":
         if k % 2 == 1:
             vf += ",scale=1210:2150:flags=lanczos,crop=1080:1920:60:60"
         run(["ffmpeg","-loglevel","error","-y","-ss",f"{a:.3f}","-i",SRC,"-t",f"{d:.3f}","-vf",vf,
-             "-af",f"afade=t=in:d=0.015,afade=t=out:st={d-0.025:.3f}:d=0.025",
+             "-af",f"afade=t=in:d=0.012,afade=t=out:st={d-0.02:.3f}:d=0.02",
              "-c:v","libx264","-crf","12","-preset","fast","-pix_fmt","yuv420p","-c:a","pcm_s16le","-ar","48000",o])
         inputs += ["-i", o]
     n = len(CLIPS)
@@ -34,7 +34,12 @@ if __name__ == "__main__":
     fc.append(f"[{idx}:v]format=rgba,fps={FPS},fade=t=in:st=0.4:d=0.3:alpha=1,fade=t=out:st=4.8:d=0.3:alpha=1[lt]")
     fc.append(f"[{last}][lt]overlay=0:0:enable='between(t,0.3,5.2)':shortest=1[olt]")
     fc.append(f"[olt]subtitles={W}/subs.ass:fontsdir=/home/user/Mendaki/fonts,format=yuv420p[vout]")
-    fc.append("[ac]loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[aout]")
+    inputs += ["-i", "/home/user/Mendaki/footage/music/bgm.mp3"]; mi = idx + 1
+    fc.append("[ac]loudnorm=I=-14:TP=-2:LRA=11,aresample=48000,asplit=2[voice][key]")
+    # music bed: ~-27 LUFS, gently ducked further whenever he speaks
+    fc.append(f"[{mi}:a]atrim=0:{TOTAL:.3f},asetpts=PTS-STARTPTS,aresample=48000,volume=-15dB,afade=t=in:d=0.4,afade=t=out:st={TOTAL-2.0:.3f}:d=2.0[mus]")
+    fc.append("[mus][key]sidechaincompress=threshold=0.03:ratio=4:attack=20:release=400[duck]")
+    fc.append("[voice][duck]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.84[aout]")
     run(["ffmpeg","-loglevel","error","-y",*inputs,"-filter_complex",";".join(fc),"-map","[vout]","-map","[aout]",
          "-r",str(FPS),"-c:v","libx264","-crf","18","-preset","medium","-profile:v","high","-pix_fmt","yuv420p",
          "-c:a","aac","-b:a","192k","-movflags","+faststart","-t",f"{TOTAL:.3f}",out])
