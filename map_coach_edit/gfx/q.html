@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* question box: speech bubble above the speaker - doorstop colours (navy / amber / cream) and Poppins */
+@font-face{font-family:P;src:url(../../fonts/Poppins-ExtraBold.ttf);font-weight:800}
+@font-face{font-family:P;src:url(../../fonts/Poppins-SemiBold.ttf);font-weight:600}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;font-family:P}
+.wrap{position:absolute;left:0;right:0;top:330px;transform:translateY(-50%);display:flex;justify-content:center}
+.bub{position:relative;display:flex;align-items:center;gap:22px;background:rgba(10,30,60,.94);border-radius:999px;
+     padding:16px 40px 16px 16px;box-shadow:0 12px 30px rgba(0,0,0,.35);border:3px solid rgba(238,220,162,.55)}
+.bub:after{content:"";position:absolute;left:50%;bottom:-19px;transform:translateX(-50%);width:0;height:0;
+     border-left:18px solid transparent;border-right:18px solid transparent;border-top:20px solid rgba(10,30,60,.94)}
+.q{flex:none;width:74px;height:74px;border-radius:50%;background:#E8A317;color:#0a1e3c;font-weight:800;font-size:44px;
+     display:flex;align-items:center;justify-content:center;line-height:1;padding-top:4px;box-sizing:border-box}
+.t{color:#EEDCA2;font-weight:800;font-size:50px;line-height:1.1;white-space:nowrap;letter-spacing:.2px}
+</style></head><body><div class="wrap"><div class="bub"><div class="q">Q</div><div class="t" id="t"></div></div></div></body></html>

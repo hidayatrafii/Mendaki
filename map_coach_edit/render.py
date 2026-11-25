@@ -7,17 +7,18 @@ import sys, os, json, subprocess, wave
 import numpy as np
 from PIL import Image, ImageFilter
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
-from edl import CLIPS
+from edl import CLIPS, RAW, QUESTIONS
+from PIL import ImageFont
 ROOT = "/home/user/Mendaki"; FOOT = f"{ROOT}/footage"; WORK = f"{ROOT}/work"
 W, H = 1080, 1920; FPS = 30000 / 1001; SR = 48000
 DW, DH = 1728, 3072                       # decode size for interviews (headroom for punch-ins)
-TAIL = 4.8                                # end card after the last word
+TAIL = 3.9                                # end card after the last word
 MUSIC_IN = 10.0                           # start of the used section in the music file (track 1 ends ~98 s)
 
 # ---------------------------------------------------------------- timeline
-FACE = {"S": (567, 675), "A91": (553, 661), "A92": (540, 648), "A94": (405, 650), "A95": (537, 750)}  # 1080-scale
-BASE = {"S": 1.0, "A91": 1.0, "A92": 1.12, "A94": 1.4, "A95": 1.12}
-TY = {"A94": 540}   # A94: sit the face a little higher so a sponsor banner at the top of that take stays out of frame
+FACE = {"S": (567, 675), "A91": (553, 661), "A92": (540, 648), "A95": (537, 750)}  # 1080-scale
+BASE = {"S": 1.0, "A91": 1.0, "A92": 1.12, "A95": 1.12}
+TY = {}
 t0 = 0; prev = None
 for i, c in enumerate(CLIPS):
     c["n"] = int(round((c["b"] - c["a"]) * FPS)); c["f0"] = t0; t0 += c["n"]
@@ -31,34 +32,53 @@ NS = t0; NT = NS + int(round(TAIL * FPS)); TOTAL = NT / FPS
 def ft(f): return f / FPS
 def clip_t(i): return ft(CLIPS[i]["f0"])
 
-# b-roll: (clip index, offset s, duration s, file, source in s)
+def src2frame(p, t):
+    """output frame of source time t inside answer p (snaps to the next kept piece if t falls in a removed pause)"""
+    cs = [c for c in CLIPS if c["parent"] == p]
+    for c in cs:
+        if t < c["b"]: return c["f0"] + max(0, int(round((t - c["a"]) * FPS)))
+    return cs[-1]["f0"] + cs[-1]["n"]
+def pend(p): c = [c for c in CLIPS if c["parent"] == p][-1]; return c["f0"] + c["n"]
+def pstart(p): return [c for c in CLIPS if c["parent"] == p][0]["f0"]
+def P(key, a):  # answer index from its RAW in-point
+    return next(i for i, x in enumerate(RAW) if x[0] == key and abs(x[1] - a) < 0.01)
+# b-roll: (answer, source time it starts at or None = answer start, duration s or None = to answer end, file, source in s)
 BROLL = [
-    (6, 0.0, 3.2, "DJI_20261114092503_0146_D", 0.3),   # "my way of giving back" -> coaches in discussion
-    (8, 1.1, 3.4, "DJI_20261114092728_0149_D", 1.0),   # "interact with a lot of students"
-    (10, 0.5, 3.2, "DJI_20261114094848_0171_D", 0.2),  # Azyyati at the coaches' session
-    (12, 1.4, 3.6, "DJI_20261114094032_0162_D", 0.5),  # "not very confident" -> session audience
-    (16, 0.0, None, "DJI_20261114094206_0166_D", 2.0), # "worked really hard" -> worksheets on the table
-    (19, 0.0, 3.85, "DJI_20261114101621_0180_D", 0.3),  # whole line as voice-over (both takes have a sponsor banner in shot)
-    (19, 3.85, None, "DJI_20261114101644_0181_D", 0.0), #   -> coaches laughing, then coaches sharing on a phone
-    (21, 1.8, 4.0, "DJI_20261114095808_0178_D", 0.4),  # "impact on a child's life" -> coach sharing with mic
+    (P("S", 54.12), 59.30, 3.0, "DJI_20261114092503_0146_D", 0.3),     # "my way of giving back" -> coaches in discussion
+    (P("S", 73.84), 74.90, 3.3, "DJI_20261114092728_0149_D", 1.0),     # "interact with a lot of students"
+    (P("A92", 13.12), 17.26, 3.2, "DJI_20261114094848_0171_D", 0.2),   # Azyyati at the coaches' session
+    (P("A95", 199.78), None, None, "DJI_20261114094206_0166_D", 2.0),  # "worked really hard" -> worksheets on the table
+    (P("A95", 18.35), None, 3.85, "DJI_20261114101621_0180_D", 0.3),   # whole line as voice-over (sponsor banner in that take)
+    (P("A95", 18.35), "chain", None, "DJI_20261114101644_0181_D", 0.0),
+    (P("S", 202.88), 205.20, 3.0, "DJI_20261114092303_0141_D", 0.3),   # "many different backgrounds" -> coaches chatting
+    (P("A95", 101.50), 103.40, 3.8, "DJI_20261114095808_0178_D", 0.4), # "impact on a child's life" -> coach sharing with mic
 ]
 BR = []
-for ci, off, dur, f, si in BROLL:
-    if BR and BROLL[len(BR)-1][0] == ci and BROLL[len(BR)-1][2] is not None and abs(BROLL[len(BR)-1][1] + BROLL[len(BR)-1][2] - off) < 1e-6:
-        BR[-1]["hard_out"] = True
-    c = CLIPS[ci]; s = c["f0"] + int(round(off * FPS))
-    e = c["f0"] + c["n"] if dur is None else s + int(round(dur * FPS))
-    chained = any(b["e"] == s for b in BR)                  # back-to-back b-roll: straight cut between them
-    BR.append(dict(s=s, e=e, f=f, si=si, hard_in=off == 0 or chained, hard_out=dur is None or e == c["f0"] + c["n"]))
+for p, t, dur, f, si in BROLL:
+    s = BR[-1]["e"] if t == "chain" else (pstart(p) if t is None else src2frame(p, t))
+    e = pend(p) if dur is None else min(pend(p) if t is None else 10**9, s + int(round(dur * FPS)))
+    if t == "chain": BR[-1]["hard_out"] = True
+    BR.append(dict(s=s, e=e, f=f, si=si, hard_in=t is None or t == "chain", hard_out=dur is None))
+CUTS = sorted({c["f0"] for c in CLIPS} | {NS})
+for b in BR:     # a dissolve that starts/ends right at a cut looks like a double exposure: snap it to the cut instead
+    k = min(CUTS, key=lambda x: abs(x - b["s"]))
+    if not b["hard_in"] and abs(k - b["s"]) <= 9: b["s"], b["hard_in"] = k, True
+    k = min(CUTS, key=lambda x: abs(x - b["e"]))
+    if not b["hard_out"] and abs(k - b["e"]) <= 9: b["e"], b["hard_out"] = k, True
 
 # graphics: (png, start frame, end frame, motion)
 def fr(t): return int(round(t * FPS))
 GFX = [
-    ("hook.png", fr(0.25), CLIPS[1]["f0"] + CLIPS[1]["n"] - 2, "down"),
-    ("lt_syaheer.png", CLIPS[2]["f0"] + fr(0.35), CLIPS[2]["f0"] + fr(4.7), "right"),
-    ("lt_azyyati.png", CLIPS[3]["f0"] + fr(0.3), CLIPS[4]["f0"] + CLIPS[4]["n"] - fr(0.25), "right"),
+    ("lt_syaheer.png", pstart(P("S", 38.30)) + fr(0.35), pstart(P("S", 38.30)) + fr(4.6), "up"),
+    ("lt_azyyati.png", pstart(P("A91", 22.62)) + fr(0.25), pend(P("A91", 91.42)) - fr(0.2), "up"),
     ("end.png", NS + fr(0.45), NT, "up"),
 ]
+SECTIONS = {}
+for c in CLIPS:
+    if c["sec"] in QUESTIONS:
+        s0, e0 = SECTIONS.get(c["sec"], (10**9, 0)); SECTIONS[c["sec"]] = (min(s0, c["f0"]), max(e0, c["f0"] + c["n"]))
+for q, (s0, e0) in SECTIONS.items():          # question box over each answer block, just above the heads
+    GFX.append((f"{q}.png", s0 + fr(0.08), e0 - fr(0.12), "pop"))
 
 # ---------------------------------------------------------------- subtitles (doorstop template)
 def ts(t): return f"{int(t//3600)}:{int(t%3600//60):02d}:{t%60:05.2f}"
@@ -70,14 +90,26 @@ for ci, c in enumerate(CLIPS):
         caps.append([a, b, text, ci])
 for k in range(len(caps) - 1):
     caps[k][1] = caps[k + 1][0]                 # each line holds until the next starts (doorstop behaviour)...
-    ci = caps[k][3]
-    if caps[k + 1][3] != ci and CLIPS[caps[k + 1][3]]["key"][0] != CLIPS[ci]["key"][0]:
-        caps[k][1] = ft(CLIPS[ci]["f0"] + CLIPS[ci]["n"])   # ...but never carries over onto the other coach
+    c, d = CLIPS[caps[k][3]], CLIPS[caps[k + 1][3]]
+    if c["key"][0] != d["key"][0]:
+        caps[k][1] = ft(pend(c["parent"]))      # ...but never carries over onto the other coach
 caps = [x[:3] for x in caps]
 caps[-1][1] = ft(NS) + 0.15
+# Line layout: libass renders this style like Poppins ExtraBold at ~41.4 px; wrap ourselves so the two lines sit closer
+SUBF = ImageFont.truetype(f"{ROOT}/fonts/Poppins-ExtraBold.ttf", 41.4); MAXW = 760; BASE_Y = 1400; PITCH = 54
+def tw(s): b = SUBF.getbbox(s); return b[2] - b[0]
+def wrap(t):
+    if tw(t) <= MAXW: return [t]
+    w = t.split(); best = min(range(1, len(w)), key=lambda i: max(tw(" ".join(w[:i])), tw(" ".join(w[i:]))))
+    return [" ".join(w[:best]), " ".join(w[best:])]
 def write_subs():
     hdr = open(f"{ROOT}/subtitles/style_template.ass").read().rstrip() + "\n"
-    L = [f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{t}" for a, b, t in caps]
+    L = []
+    for a, b, t in caps:
+        lines = wrap(t)
+        for j, ln in enumerate(lines):
+            y = BASE_Y - PITCH * (len(lines) - 1 - j)
+            L.append(f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{{\\an2\\pos(540,{y})}}{ln}")
     open(f"{WORK}/mapc_subs.ass", "w").write(hdr + "\n".join(L) + "\n")
     open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t}\n" for k, (a, b, t) in enumerate(caps)))
 
@@ -91,7 +123,7 @@ def read_seg(src, a, n_samples):
 def build_voice(path):
     parts = []
     for c in CLIPS:
-        n = int(round(c["n"] / FPS * SR)); x = read_seg(f"{FOOT}/int/{c['src']}.MP4", c["a"], n)
+        n = int(round(c["n"] / FPS * SR)); x = read_seg(f"{WORK}/dfn/{c['src']}.wav", c["a"], n)   # DeepFilterNet-cleaned
         fr_ = x[: len(x) // 480 * 480].reshape(-1, 480); r = np.sqrt((fr_ ** 2).mean(1))
         lvl = np.sqrt(np.mean(np.sort(r)[len(r) // 2:] ** 2))          # loudness of the speaking half
         x = x * (0.08 / max(lvl, 1e-4))                                     # level-match the two speakers / takes
@@ -133,19 +165,19 @@ def render(out, limit=None):
     write_subs()
     nt = NT if limit is None else min(NT, int(limit * FPS))
     build_voice(f"{WORK}/mapc_voice.wav")
-    EV = [[0.25, "card"], [ft(CLIPS[2]["f0"]) + 0.35, "lt"], [ft(CLIPS[3]["f0"]) + 0.3, "lt"], [ft(NS) + 0.45, "card"]]
+    EV = [[ft(g[1]), "card" if g[0] == "end.png" else "lt"] for g in GFX]
     EV += [[ft(c["f0"]), "tr"] for c in CLIPS[1:] if c["settle"]]
     subprocess.run(["python3", f"{HERE}/sfx.py", json.dumps(EV), f"{TOTAL:.3f}", f"{WORK}/mapc_sfx.wav"], check=True)
     q3a = ft(min(c["f0"] for c in CLIPS if c["sec"] == "q3" and c["key"] == "A95")); q3b = ft(max(c["f0"] + c["n"] for c in CLIPS if c["sec"] == "q3"))
     fc = ";".join([
-        "[1:a]highpass=f=80,afftdn=nr=10:nf=-42,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=160:makeup=2,"
+        "[1:a]highpass=f=80,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=160:makeup=2,"
         "loudnorm=I=-18.5:TP=-2.5:LRA=9,aresample=48000,asplit=2[voice][key]",
-        # music bed (track 1 of the supplied file), about -29 LUFS under speech (~14 dB below the voice), a little lower during the story,
+        # music bed (track 1 of the supplied file), clearly audible under speech (~9 dB below the voice), a little lower in the story,
         # back up for the end card, then fades with the picture
         f"[2:a]atrim={MUSIC_IN}:{MUSIC_IN + TOTAL + 0.1:.3f},asetpts=PTS-STARTPTS,aresample=48000,"
-        f"volume='if(between(t,{q3a:.2f},{q3b:.2f}),0.075,if(gt(t,{ft(NS):.2f}),0.32,0.10))':eval=frame,"
+        f"volume='if(between(t,{q3a:.2f},{q3b:.2f}),0.14,if(gt(t,{ft(NS):.2f}),0.34,0.18))':eval=frame,"
         f"afade=t=in:d=0.6,afade=t=out:st={TOTAL - 1.4:.3f}:d=1.4[mus]",
-        "[mus][key]sidechaincompress=threshold=0.03:ratio=3:attack=30:release=450[duck]",
+        "[mus][key]sidechaincompress=threshold=0.06:ratio=1.8:attack=40:release=500[duck]",
         "[3:a]aresample=48000,volume=0.9,pan=stereo|c0=c0|c1=c0[sfx]",
         "[voice]pan=stereo|c0=c0|c1=c0[v2]",
         f"[v2][duck][sfx]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.84,afade=t=out:st={TOTAL - 0.6:.3f}:d=0.6[aout]",
@@ -200,9 +232,14 @@ def render(out, limit=None):
                 im, bb = GB[name]; lt = (f - s) / FPS
                 a = min(ease(lt / 0.3), 1.0) * (1 if e >= NT else min(1.0, (e - f) / FPS / 0.22))
                 d = (1 - ease(lt / 0.35))
-                dx, dy = {"down": (0, -24 * d), "up": (0, 30 * d), "right": (-40 * d, 0)}[mv]
                 crop = im.crop(bb)
-                frame.alpha_composite(fade(crop, a), (int(bb[0] + dx), int(bb[1] + dy)))
+                if mv == "pop":                      # question bubble: small scale-up from its tail
+                    sc = 0.86 + 0.14 * ease(lt / 0.3)
+                    if sc < 0.999: crop = crop.resize((max(1, int(crop.width * sc)), max(1, int(crop.height * sc))), Image.BILINEAR)
+                    frame.alpha_composite(fade(crop, a), (int((bb[0] + bb[2]) / 2 - crop.width / 2), int(bb[3] - crop.height)))
+                else:
+                    dx, dy = {"down": (0, -24 * d), "up": (0, 30 * d), "right": (-40 * d, 0)}[mv]
+                    frame.alpha_composite(fade(crop, a), (int(bb[0] + dx), int(bb[1] + dy)))
         enc.stdin.write(frame.convert("RGB").tobytes())
         if f % 300 == 0: print(f"{f/FPS:6.1f}s / {nt/FPS:.1f}s", flush=True)
     enc.stdin.close(); enc.wait()
