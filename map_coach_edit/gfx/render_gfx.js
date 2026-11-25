@@ -2,9 +2,9 @@ const {chromium}=require('playwright');const D=__dirname;
 const Q={q1:'What inspired you?',q2:'Most rewarding part?',q3:'A memorable moment?',q4:'Beyond academics?',q5:'Thinking of joining?'};
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});
  await p.goto('file://'+D+'/lt.html');
- for(const [id,n,d,y] of [['lt_syaheer','Muhammad Syaheer Bin Noorhalim','Department Head, IT Infrastructure and Operations','MAP Coach since 2011'],
-                          ['lt_azyyati','Nur Azyyati Binte Ismail','Freelance Visual Arts Trainer','MAP Coach since 2015']]){
-   await p.evaluate(([n,d,y])=>{document.getElementById('n').textContent=n;document.getElementById('d').textContent=d;document.getElementById('y').textContent=y},[n,d,y]);
+ for(const [id,n,d,y] of [['lt_syaheer','Muhammad Syaheer Bin Noorhalim','','MAP Coach since 2011'],
+                          ['lt_azyyati','Nur Azyyati Binte Ismail','','MAP Coach since 2015']]){
+   await p.evaluate(([n,d,y])=>{document.getElementById('n').textContent=n;document.getElementById('d').textContent=d;document.getElementById('d').style.display=d?'block':'none';document.getElementById('y').textContent=y},[n,d,y]);
    await p.screenshot({path:`${D}/${id}.png`,omitBackground:true});}
  await p.goto('file://'+D+'/q.html');await p.evaluate(()=>Promise.all([document.fonts.load('800 50px P','A')]));
  for(const [id,t] of Object.entries(Q)){await p.evaluate(t=>{document.getElementById('t').textContent=t},t);

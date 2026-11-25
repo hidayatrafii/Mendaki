@@ -166,13 +166,15 @@ def fade(im, a):
 G = {g[0]: Image.open(f"{HERE}/gfx/{g[0]}").convert("RGBA") for g in GFX}
 GB = {k: (im, im.getbbox()) for k, im in G.items()}
 
+TB = pstart(P("S", 38.30)); TO, TI = 6, 8     # transition boundary (hook -> intros), frames out / in
+
 def render(out, limit=None):
     write_subs()
     nt = NT if limit is None else min(NT, int(limit * FPS))
     build_voice(f"{WORK}/mapc_voice.wav")
     SND = {"end_bg.png": "card", "end_l1.png": "pop", "end_url.png": "pop", "end_ul.png": "tick", "end_l3.png": "pop"}
     EV = [[ft(g[1]), SND.get(g[0], "lt")] for g in GFX]
-    EV += [[ft(c["f0"]), "tr"] for c in CLIPS[1:] if c["settle"]]
+    EV += [[ft(c["f0"]), "trans" if c["f0"] == TB else "tr"] for c in CLIPS[1:] if c["settle"]]
     subprocess.run(["python3", f"{HERE}/sfx.py", json.dumps(EV), f"{TOTAL:.3f}", f"{WORK}/mapc_sfx.wav"], check=True)
     q3a = ft(min(c["f0"] for c in CLIPS if c["sec"] == "q3" and c["key"] == "A95")); q3b = ft(max(c["f0"] + c["n"] for c in CLIPS if c["sec"] == "q3"))
     fc = ";".join([
@@ -186,7 +188,7 @@ def render(out, limit=None):
         "[mus][key]sidechaincompress=threshold=0.06:ratio=1.8:attack=40:release=500[duck]",
         "[3:a]aresample=48000,volume=0.9,pan=stereo|c0=c0|c1=c0[sfx]",
         "[voice]pan=stereo|c0=c0|c1=c0[v2]",
-        f"[v2][duck][sfx]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.84,afade=t=out:st={TOTAL - 0.6:.3f}:d=0.6[aout]",
+        f"[v2][duck][sfx]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.80,afade=t=out:st={TOTAL - 0.6:.3f}:d=0.6[aout]",
         f"[0:v]subtitles={WORK}/mapc_subs.ass:fontsdir={ROOT}/fonts,fade=t=out:st={TOTAL - 0.6:.3f}:d=0.6,format=yuv420p[vout]",
     ])
     enc = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
@@ -206,9 +208,15 @@ def render(out, limit=None):
                 rd = Reader(f"{FOOT}/int/{c['src']}.MP4", c["a"], c["n"], DW, DH)
             img = rd.get(); lt = (f - c["f0"]) / FPS
             z = c["z"] * (1 + c["drift"] * lt / (c["n"] / FPS))
-            if c["settle"] and ci > 0: z *= 1 + 0.045 * (1 - ease(lt / 0.4))
+            if c["settle"] and ci > 0 and c["f0"] != TB: z *= 1 + 0.045 * (1 - ease(lt / 0.4))
+            q = 0.0                                   # zoom-blur transition after the hook
+            if TB - TO <= f < TB: q = ((f - (TB - TO) + 1) / TO) ** 2; z *= 1 + 0.22 * q
+            elif TB <= f < TB + TI: q = (1 - (f - TB) / TI) ** 2; z *= 1 + 0.16 * q
             fx, fy = FACE[c["key"]]
             frame = img.resize((W, H), Image.BILINEAR, box=zoom_box(fx, fy, z, DW, DH, TY.get(c["key"])))
+            if q > 0.02:
+                frame = Image.blend(frame, frame.filter(ImageFilter.GaussianBlur(14 * q)), min(1.0, 1.2 * q))
+                frame = Image.blend(frame, Image.new("RGB", (W, H), (255, 250, 235)), 0.18 * q)
             # --- b-roll
             for k, b in enumerate(BR):
                 if b["s"] <= f < b["e"]:

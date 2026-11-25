@@ -39,7 +39,7 @@ RAW = [
  ("A95", 220.38, 224.22, False, [("and thank me for the contribution", 220.45, 223.30), ("I had in her life.", 223.30, 224.16)], "hook"),
  # INTROS (years of service are on the lower thirds)
  ("S",   38.30, 43.84, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a MAP Coach since 2011,", 39.34, 42.48), ("which is about 15 years ago.", 42.70, 43.76)], "intro"),
- ("A91", 22.62, 24.26, False, [("Hi, I'm Nur Azyyati.", 22.68, 24.24)], "intro"),
+ ("A91", 22.62, 24.51, False, [("Hi, I'm Nur Azyyati.", 22.68, 24.24)], "intro"),
  ("A91", 91.42, 93.62, True, [("Teaching has always been my passion.", 91.50, 93.54)], "intro"),
  # Q1 WHAT INSPIRED YOU - each coach answers in one go
  ("S",   54.12, 61.72, False, [("I used to be an educator,", 54.20, 55.14), ("so I've moved out to IT", 55.42, 58.10), ("in corporate roles.", 58.10, 58.98), ("And this is my way of giving back.", 59.48, 61.68)], "q1"),
@@ -49,7 +49,7 @@ RAW = [
  ("A92", 13.12, 21.16, False, [("It's fulfilling to see students", 13.18, 14.94), ("who initially struggle,", 14.94, 16.55), ("doubt themselves or lack motivation", 17.26, 19.02), ("slowly begin to believe", 19.02, 20.10), ("in their own abilities.", 20.10, 21.12)], "q2"),
  # Q3 A MEMORABLE MOMENT - Azyyati's story (pays off the hook)
  ("A95", 170.84, 174.34, False, [("Back in 2024, I was teaching", 170.86, 172.92), ("a Primary 6 Foundation student.", 172.92, 174.30)], "q3"),
- ("A95", 176.58, 177.90, True,  [("She has to retake her PSLE.", 176.62, 177.86)], "q3"),
+ ("A95", 176.58, 178.10, True,  [("She has to retake her PSLE.", 176.62, 177.86)], "q3"),
  ("A95", 181.68, 184.68, False, [("She told me that", 181.72, 182.64), ("this is the last time.", 182.64, 184.66)], "q3"),
  ("A95", 199.78, 201.54, True,  [("She worked really, really hard.", 199.80, 201.50)], "q3"),
  ("A95", 224.71, 228.60, False, [("She actually passed", 224.75, 226.60), ("her Math Foundation", 226.60, 228.58)], "q3"),
