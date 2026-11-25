@@ -1,0 +1,213 @@
+# MAP Coach recruitment video renderer (9:16, 1080x1920, 29.97 fps).
+#   python3 render.py OUT.mp4 [--preview SECONDS]
+# Picture is composited per frame (sub-pixel zooms -> no jitter); every segment is cut on whole frames and its
+# audio is cut to exactly the same length, so A/V never drifts. Subtitles are burned last with libass using the
+# doorstop style template (Poppins ExtraBold, #EEDCA2).
+import sys, os, json, subprocess, wave
+import numpy as np
+from PIL import Image, ImageFilter
+HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
+from edl import CLIPS
+ROOT = "/home/user/Mendaki"; FOOT = f"{ROOT}/footage"; WORK = f"{ROOT}/work"
+W, H = 1080, 1920; FPS = 30000 / 1001; SR = 48000
+DW, DH = 1728, 3072                       # decode size for interviews (headroom for punch-ins)
+TAIL = 4.8                                # end card after the last word
+MUSIC_IN = 10.0                           # start of the used section in the music file (track 1 ends ~98 s)
+
+# ---------------------------------------------------------------- timeline
+FACE = {"S": (567, 675), "A91": (553, 661), "A92": (540, 648), "A94": (405, 650), "A95": (537, 750)}  # 1080-scale
+BASE = {"S": 1.0, "A91": 1.0, "A92": 1.12, "A94": 1.4, "A95": 1.12}
+TY = {"A94": 540}   # A94: sit the face a little higher so a sponsor banner at the top of that take stays out of frame
+t0 = 0; prev = None
+for i, c in enumerate(CLIPS):
+    c["n"] = int(round((c["b"] - c["a"]) * FPS)); c["f0"] = t0; t0 += c["n"]
+    # alternate framing between consecutive clips of the same speaker so every jump cut reads as a camera change
+    tight = (not prev["tight"]) if prev and prev["key"] == c["key"] else c["zoom"] > 1
+    c["tight"] = tight; c["z"] = BASE[c["key"]] * (1.2 if tight else 1.0)
+    c["settle"] = prev is None or prev["sec"] != c["sec"]          # soft push-in at the start of each section
+    c["drift"] = 0.03 if c["sec"] == "q3" and c["key"] == "A95" else 0.0   # slow push during the story
+    prev = c
+NS = t0; NT = NS + int(round(TAIL * FPS)); TOTAL = NT / FPS
+def ft(f): return f / FPS
+def clip_t(i): return ft(CLIPS[i]["f0"])
+
+# b-roll: (clip index, offset s, duration s, file, source in s)
+BROLL = [
+    (6, 0.0, 3.2, "DJI_20261114092503_0146_D", 0.3),   # "my way of giving back" -> coaches in discussion
+    (8, 1.1, 3.4, "DJI_20261114092728_0149_D", 1.0),   # "interact with a lot of students"
+    (10, 0.5, 3.2, "DJI_20261114094848_0171_D", 0.2),  # Azyyati at the coaches' session
+    (12, 1.4, 3.6, "DJI_20261114094032_0162_D", 0.5),  # "not very confident" -> session audience
+    (16, 0.0, None, "DJI_20261114094206_0166_D", 2.0), # "worked really hard" -> worksheets on the table
+    (19, 0.0, 3.85, "DJI_20261114101621_0180_D", 0.3),  # whole line as voice-over (both takes have a sponsor banner in shot)
+    (19, 3.85, None, "DJI_20261114101644_0181_D", 0.0), #   -> coaches laughing, then coaches sharing on a phone
+    (21, 1.8, 4.0, "DJI_20261114095808_0178_D", 0.4),  # "impact on a child's life" -> coach sharing with mic
+]
+BR = []
+for ci, off, dur, f, si in BROLL:
+    if BR and BROLL[len(BR)-1][0] == ci and BROLL[len(BR)-1][2] is not None and abs(BROLL[len(BR)-1][1] + BROLL[len(BR)-1][2] - off) < 1e-6:
+        BR[-1]["hard_out"] = True
+    c = CLIPS[ci]; s = c["f0"] + int(round(off * FPS))
+    e = c["f0"] + c["n"] if dur is None else s + int(round(dur * FPS))
+    chained = any(b["e"] == s for b in BR)                  # back-to-back b-roll: straight cut between them
+    BR.append(dict(s=s, e=e, f=f, si=si, hard_in=off == 0 or chained, hard_out=dur is None or e == c["f0"] + c["n"]))
+
+# graphics: (png, start frame, end frame, motion)
+def fr(t): return int(round(t * FPS))
+GFX = [
+    ("hook.png", fr(0.25), CLIPS[1]["f0"] + CLIPS[1]["n"] - 2, "down"),
+    ("lt_syaheer.png", CLIPS[2]["f0"] + fr(0.35), CLIPS[2]["f0"] + fr(4.7), "right"),
+    ("lt_azyyati.png", CLIPS[3]["f0"] + fr(0.3), CLIPS[4]["f0"] + CLIPS[4]["n"] - fr(0.25), "right"),
+    ("end.png", NS + fr(0.45), NT, "up"),
+]
+
+# ---------------------------------------------------------------- subtitles (doorstop template)
+def ts(t): return f"{int(t//3600)}:{int(t%3600//60):02d}:{t%60:05.2f}"
+def srt(t): return f"{int(t//3600):02d}:{int(t%3600//60):02d}:{int(t%60):02d},{int(round(t%1*1000))%1000:03d}"
+caps = []
+for ci, c in enumerate(CLIPS):
+    for text, s, e in c["subs"]:
+        o = ft(c["f0"]); a = max(o, o + s - c["a"]); b = min(o + ft(c["n"]), o + e - c["a"])
+        caps.append([a, b, text, ci])
+for k in range(len(caps) - 1):
+    caps[k][1] = caps[k + 1][0]                 # each line holds until the next starts (doorstop behaviour)...
+    ci = caps[k][3]
+    if caps[k + 1][3] != ci and CLIPS[caps[k + 1][3]]["key"][0] != CLIPS[ci]["key"][0]:
+        caps[k][1] = ft(CLIPS[ci]["f0"] + CLIPS[ci]["n"])   # ...but never carries over onto the other coach
+caps = [x[:3] for x in caps]
+caps[-1][1] = ft(NS) + 0.15
+def write_subs():
+    hdr = open(f"{ROOT}/subtitles/style_template.ass").read().rstrip() + "\n"
+    L = [f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{t}" for a, b, t in caps]
+    open(f"{WORK}/mapc_subs.ass", "w").write(hdr + "\n".join(L) + "\n")
+    open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t}\n" for k, (a, b, t) in enumerate(caps)))
+
+# ---------------------------------------------------------------- audio
+def read_seg(src, a, n_samples):
+    out = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{a:.4f}", "-i", src, "-t", f"{n_samples/SR + 0.05:.4f}",
+                          "-vn", "-ac", "1", "-ar", str(SR), "-f", "s16le", "-"], capture_output=True, check=True).stdout
+    x = np.frombuffer(out, np.int16).astype(np.float32) / 32768
+    x = np.pad(x, (0, max(0, n_samples - len(x))))[:n_samples]
+    return x
+def build_voice(path):
+    parts = []
+    for c in CLIPS:
+        n = int(round(c["n"] / FPS * SR)); x = read_seg(f"{FOOT}/int/{c['src']}.MP4", c["a"], n)
+        fr_ = x[: len(x) // 480 * 480].reshape(-1, 480); r = np.sqrt((fr_ ** 2).mean(1))
+        lvl = np.sqrt(np.mean(np.sort(r)[len(r) // 2:] ** 2))          # loudness of the speaking half
+        x = x * (0.08 / max(lvl, 1e-4))                                     # level-match the two speakers / takes
+        f = int(0.008 * SR); x[:f] *= np.linspace(0, 1, f); x[-f:] *= np.linspace(1, 0, f)
+        parts.append(x)
+    v = np.concatenate(parts); v = np.pad(v, (0, int(round(TOTAL * SR)) - len(v)))
+    w = wave.open(path, "w"); w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
+    w.writeframes((np.clip(v, -1, 1) * 32767).astype(np.int16).tobytes()); w.close()
+
+# ---------------------------------------------------------------- video
+class Reader:
+    def __init__(self, src, a, n, w, h, grade=True):
+        vf = f"scale={w}:{h}:flags=lanczos" + (",eq=contrast=1.04:saturation=1.07:brightness=0.005" if grade else "")
+        self.w, self.h = w, h
+        self.p = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-ss", f"{a:.4f}", "-i", src, "-frames:v", str(n), "-an",
+                                   "-vf", vf, "-pix_fmt", "rgb24", "-f", "rawvideo", "-"], stdout=subprocess.PIPE, bufsize=10**8)
+        self.last = None
+    def get(self):
+        b = self.p.stdout.read(self.w * self.h * 3)
+        if len(b) == self.w * self.h * 3: self.last = Image.frombytes("RGB", (self.w, self.h), b)
+        return self.last
+    def close(self): self.p.stdout.close(); self.p.kill()
+
+def zoom_box(fx, fy, z, sw, sh, ty_override=None):
+    """crop box (in source pixels) for zoom z about the face, face pulled toward centre when tight"""
+    tx = fx if z <= 1.001 else (fx + 540) / 2; ty = ty_override or (min(fy, 700) if z > 1.001 else fy)
+    bw, bh = W / z, H / z
+    x0 = min(max(0, fx - tx / z), W - bw); y0 = min(max(0, fy - ty / z), H - bh)
+    k = sw / W
+    return (x0 * k, y0 * k, (x0 + bw) * k, (y0 + bh) * k)
+def ease(x): x = min(max(x, 0), 1); return 1 - (1 - x) ** 3
+def fade(im, a):
+    if a >= 0.999: return im
+    im = im.copy(); im.putalpha(im.getchannel("A").point(lambda v: int(v * a))); return im
+G = {g[0]: Image.open(f"{HERE}/gfx/{g[0]}").convert("RGBA") for g in GFX}
+GB = {k: (im, im.getbbox()) for k, im in G.items()}
+
+def render(out, limit=None):
+    write_subs()
+    nt = NT if limit is None else min(NT, int(limit * FPS))
+    build_voice(f"{WORK}/mapc_voice.wav")
+    EV = [[0.25, "card"], [ft(CLIPS[2]["f0"]) + 0.35, "lt"], [ft(CLIPS[3]["f0"]) + 0.3, "lt"], [ft(NS) + 0.45, "card"]]
+    EV += [[ft(c["f0"]), "tr"] for c in CLIPS[1:] if c["settle"]]
+    subprocess.run(["python3", f"{HERE}/sfx.py", json.dumps(EV), f"{TOTAL:.3f}", f"{WORK}/mapc_sfx.wav"], check=True)
+    q3a = ft(min(c["f0"] for c in CLIPS if c["sec"] == "q3" and c["key"] == "A95")); q3b = ft(max(c["f0"] + c["n"] for c in CLIPS if c["sec"] == "q3"))
+    fc = ";".join([
+        "[1:a]highpass=f=80,afftdn=nr=10:nf=-42,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=160:makeup=2,"
+        "loudnorm=I=-18.5:TP=-2.5:LRA=9,aresample=48000,asplit=2[voice][key]",
+        # music bed (track 1 of the supplied file), about -29 LUFS under speech (~14 dB below the voice), a little lower during the story,
+        # back up for the end card, then fades with the picture
+        f"[2:a]atrim={MUSIC_IN}:{MUSIC_IN + TOTAL + 0.1:.3f},asetpts=PTS-STARTPTS,aresample=48000,"
+        f"volume='if(between(t,{q3a:.2f},{q3b:.2f}),0.075,if(gt(t,{ft(NS):.2f}),0.32,0.10))':eval=frame,"
+        f"afade=t=in:d=0.6,afade=t=out:st={TOTAL - 1.4:.3f}:d=1.4[mus]",
+        "[mus][key]sidechaincompress=threshold=0.03:ratio=3:attack=30:release=450[duck]",
+        "[3:a]aresample=48000,volume=0.9,pan=stereo|c0=c0|c1=c0[sfx]",
+        "[voice]pan=stereo|c0=c0|c1=c0[v2]",
+        f"[v2][duck][sfx]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.84,afade=t=out:st={TOTAL - 0.6:.3f}:d=0.6[aout]",
+        f"[0:v]subtitles={WORK}/mapc_subs.ass:fontsdir={ROOT}/fonts,fade=t=out:st={TOTAL - 0.6:.3f}:d=0.6,format=yuv420p[vout]",
+    ])
+    enc = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
+                            "-r", "30000/1001", "-i", "-", "-i", f"{WORK}/mapc_voice.wav", "-i", f"{FOOT}/music.mp3",
+                            "-i", f"{WORK}/mapc_sfx.wav", "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
+                            "-c:v", "libx264", "-crf", "17", "-preset", "medium", "-profile:v", "high", "-pix_fmt", "yuv420p",
+                            "-r", "30000/1001", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
+                            "-t", f"{nt / FPS:.4f}", out], stdin=subprocess.PIPE)
+    ci = 0; rd = None; br = {}; tail_rd = None
+    for f in range(nt):
+        # --- base picture
+        if f < NS:
+            while f >= CLIPS[ci]["f0"] + CLIPS[ci]["n"]: ci += 1
+            c = CLIPS[ci]
+            if f == c["f0"]:
+                if rd: rd.close()
+                rd = Reader(f"{FOOT}/int/{c['src']}.MP4", c["a"], c["n"], DW, DH)
+            img = rd.get(); lt = (f - c["f0"]) / FPS
+            z = c["z"] * (1 + c["drift"] * lt / (c["n"] / FPS))
+            if c["settle"] and ci > 0: z *= 1 + 0.045 * (1 - ease(lt / 0.4))
+            fx, fy = FACE[c["key"]]
+            frame = img.resize((W, H), Image.BILINEAR, box=zoom_box(fx, fy, z, DW, DH, TY.get(c["key"])))
+            # --- b-roll
+            for k, b in enumerate(BR):
+                if b["s"] <= f < b["e"]:
+                    if k not in br: br[k] = Reader(f"{FOOT}/broll/{b['f']}.MP4", b["si"], b["e"] - b["s"] + 2, W, H)
+                    bi = br[k].get(); p = (f - b["s"]) / max(1, b["e"] - b["s"])
+                    bz = 1.0 + 0.05 * p                                    # gentle push so stills never look frozen
+                    bw, bh = W / bz, H / bz
+                    bi = bi.resize((W, H), Image.BILINEAR, box=((W - bw) / 2, (H - bh) / 2, (W + bw) / 2, (H + bh) / 2))
+                    a = 1.0
+                    if not b["hard_in"]: a = min(a, (f - b["s"] + 1) / 6)
+                    if not b["hard_out"]: a = min(a, (b["e"] - f) / 6)
+                    frame = Image.blend(frame, bi, a) if a < 1 else bi
+                elif f >= b["e"] and k in br: br.pop(k).close()
+        else:
+            # --- end card background: group photo, sharp for a beat, then softly blurred and dimmed under the card
+            if tail_rd is None:
+                if rd: rd.close()
+                tail_rd = Reader(f"{FOOT}/broll/DJI_20261114110325_0186_D.MP4", 3.0, NT - NS + 2, W, H)
+            bi = tail_rd.get(); lt = (f - NS) / FPS; p = ease((lt - 0.3) / 0.6)
+            small = bi.resize((270, 480), Image.BILINEAR).filter(ImageFilter.GaussianBlur(5)).resize((W, H), Image.BILINEAR)
+            frame = Image.blend(bi, small, p)
+            frame = Image.blend(frame, Image.new("RGB", (W, H), (8, 20, 40)), 0.5 * p)
+        frame = frame.convert("RGBA")
+        # --- graphics
+        for name, s, e, mv in GFX:
+            if s <= f < e:
+                im, bb = GB[name]; lt = (f - s) / FPS
+                a = min(ease(lt / 0.3), 1.0) * (1 if e >= NT else min(1.0, (e - f) / FPS / 0.22))
+                d = (1 - ease(lt / 0.35))
+                dx, dy = {"down": (0, -24 * d), "up": (0, 30 * d), "right": (-40 * d, 0)}[mv]
+                crop = im.crop(bb)
+                frame.alpha_composite(fade(crop, a), (int(bb[0] + dx), int(bb[1] + dy)))
+        enc.stdin.write(frame.convert("RGB").tobytes())
+        if f % 300 == 0: print(f"{f/FPS:6.1f}s / {nt/FPS:.1f}s", flush=True)
+    enc.stdin.close(); enc.wait()
+    print("TOTAL", round(TOTAL, 2), "s")
+
+if __name__ == "__main__":
+    lim = float(sys.argv[sys.argv.index("--preview") + 1]) if "--preview" in sys.argv else None
+    render(sys.argv[1], lim)
