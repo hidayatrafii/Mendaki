@@ -38,7 +38,7 @@ RAW = [
  ("A95", 215.50, 217.32, True,  [("The first thing she did", 215.58, 216.42), ("was to call me", 216.42, 217.28)], "hook"),
  ("A95", 220.38, 224.22, False, [("and thank me for the contribution", 220.45, 223.30), ("I had in her life.", 223.30, 224.16)], "hook"),
  # INTROS (years of service are on the lower thirds)
- ("S",   38.30, 43.84, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been an MAP Coach since 2011,", 39.34, 42.48), ("which is about 15 years ago.", 42.70, 43.76)], "intro"),
+ ("S",   38.30, 43.84, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a MAP Coach since 2011,", 39.34, 42.48), ("which is about 15 years ago.", 42.70, 43.76)], "intro"),
  ("A91", 22.62, 24.26, False, [("Hi, I'm Nur Azyyati.", 22.68, 24.24)], "intro"),
  ("A91", 91.42, 93.62, True, [("Teaching has always been my passion.", 91.50, 93.54)], "intro"),
  # Q1 WHAT INSPIRED YOU - each coach answers in one go

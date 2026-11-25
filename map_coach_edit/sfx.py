@@ -21,8 +21,9 @@ def build(events, total, out):
     for t0, kind in events:
         if kind == "card": put(W1, t0-0.30, 0.22); put(T, t0+0.08, 0.10)
         elif kind == "lt": put(W1, t0-0.25, 0.18)
-        elif kind == "pop": put(W2, t0-0.12, 0.12); put(P, t0+0.04, 0.30)
+        elif kind == "pop": put(W2, t0-0.12, 0.08); put(P, t0+0.04, 0.22)
         elif kind == "tr": put(W2, t0-0.14, 0.07)          # very soft swish on section changes
+        elif kind == "tick": put(T, t0 + 0.05, 0.09)         # light tick as the URL underline draws
     tr = tr[:int(SR*total)]
     f = wave.open(out, "w"); f.setnchannels(1); f.setsampwidth(2); f.setframerate(SR)
     f.writeframes((np.clip(tr, -1, 1)*32767).astype(np.int16).tobytes()); f.close()

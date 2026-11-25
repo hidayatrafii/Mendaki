@@ -12,7 +12,7 @@ from PIL import ImageFont
 ROOT = "/home/user/Mendaki"; FOOT = f"{ROOT}/footage"; WORK = f"{ROOT}/work"
 W, H = 1080, 1920; FPS = 30000 / 1001; SR = 48000
 DW, DH = 1728, 3072                       # decode size for interviews (headroom for punch-ins)
-TAIL = 3.9                                # end card after the last word
+TAIL = 4.6                                # end card after the last word
 MUSIC_IN = 10.0                           # start of the used section in the music file (track 1 ends ~98 s)
 
 # ---------------------------------------------------------------- timeline
@@ -71,7 +71,12 @@ def fr(t): return int(round(t * FPS))
 GFX = [
     ("lt_syaheer.png", pstart(P("S", 38.30)) + fr(0.35), pstart(P("S", 38.30)) + fr(4.6), "up"),
     ("lt_azyyati.png", pstart(P("A91", 22.62)) + fr(0.25), pend(P("A91", 91.42)) - fr(0.2), "up"),
-    ("end.png", NS + fr(0.45), NT, "up"),
+    # CTA end card, built up in stages: card -> line 1 -> URL -> underline wipe -> line 3
+    ("end_bg.png", NS + fr(0.35), NT, "card"),
+    ("end_l1.png", NS + fr(0.65), NT, "rise"),
+    ("end_url.png", NS + fr(0.90), NT, "popc"),
+    ("end_ul.png", NS + fr(1.25), NT, "wipe"),
+    ("end_l3.png", NS + fr(1.45), NT, "rise"),
 ]
 SECTIONS = {}
 for c in CLIPS:
@@ -165,7 +170,8 @@ def render(out, limit=None):
     write_subs()
     nt = NT if limit is None else min(NT, int(limit * FPS))
     build_voice(f"{WORK}/mapc_voice.wav")
-    EV = [[ft(g[1]), "card" if g[0] == "end.png" else "lt"] for g in GFX]
+    SND = {"end_bg.png": "card", "end_l1.png": "pop", "end_url.png": "pop", "end_ul.png": "tick", "end_l3.png": "pop"}
+    EV = [[ft(g[1]), SND.get(g[0], "lt")] for g in GFX]
     EV += [[ft(c["f0"]), "tr"] for c in CLIPS[1:] if c["settle"]]
     subprocess.run(["python3", f"{HERE}/sfx.py", json.dumps(EV), f"{TOTAL:.3f}", f"{WORK}/mapc_sfx.wav"], check=True)
     q3a = ft(min(c["f0"] for c in CLIPS if c["sec"] == "q3" and c["key"] == "A95")); q3b = ft(max(c["f0"] + c["n"] for c in CLIPS if c["sec"] == "q3"))
@@ -233,7 +239,17 @@ def render(out, limit=None):
                 a = min(ease(lt / 0.3), 1.0) * (1 if e >= NT else min(1.0, (e - f) / FPS / 0.22))
                 d = (1 - ease(lt / 0.35))
                 crop = im.crop(bb)
-                if mv == "pop":                      # question bubble: small scale-up from its tail
+                if mv in ("card", "popc"):           # end card / URL: scale up about the centre (URL with a light overshoot)
+                    x = min(1.0, lt / 0.32)
+                    sc = (0.92 + 0.08 * ease(x)) if mv == "card" else (0.8 + 0.2 * (1 + 2.2 * (x - 1) ** 3 + 1.2 * (x - 1) ** 2))
+                    if abs(sc - 1) > 0.001: crop = crop.resize((max(1, int(crop.width * sc)), max(1, int(crop.height * sc))), Image.BILINEAR)
+                    frame.alpha_composite(fade(crop, a), (int((bb[0] + bb[2]) / 2 - crop.width / 2), int((bb[1] + bb[3]) / 2 - crop.height / 2)))
+                elif mv == "wipe":                   # underline draws from left to right
+                    w = int(crop.width * ease(lt / 0.35))
+                    if w > 0: frame.alpha_composite(crop.crop((0, 0, w, crop.height)), (bb[0], bb[1]))
+                elif mv == "rise":
+                    frame.alpha_composite(fade(crop, min(1.0, lt / 0.25)), (bb[0], int(bb[1] + 22 * (1 - ease(lt / 0.3)))))
+                elif mv == "pop":                      # question bubble: small scale-up from its tail
                     sc = 0.86 + 0.14 * ease(lt / 0.3)
                     if sc < 0.999: crop = crop.resize((max(1, int(crop.width * sc)), max(1, int(crop.height * sc))), Image.BILINEAR)
                     frame.alpha_composite(fade(crop, a), (int((bb[0] + bb[2]) / 2 - crop.width / 2), int(bb[3] - crop.height)))
