@@ -38,27 +38,26 @@ RAW = [
  ("A95", 215.50, 217.32, True,  [("The first thing she did", 215.58, 216.42), ("was to call me", 216.42, 217.28)], "hook"),
  ("A95", 220.38, 224.22, False, [("and thank me for the contribution", 220.45, 223.30), ("I had in her life.", 223.30, 224.16)], "hook"),
  # INTROS (years of service are on the lower thirds)
- ("S",   38.30, 43.84, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a MAP Coach since 2011,", 39.34, 42.48), ("which is about 15 years ago.", 42.70, 43.76)], "intro"),
+ ("S",   38.30, 43.84, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a MENDAKI Achievement Programme (MAP) Coach", 39.34, 41.26), ("since 2011,", 41.26, 42.48), ("which is about 15 years ago.", 42.70, 43.76)], "intro"),
  ("A91", 22.62, 24.51, False, [("Hi, I'm Nur Azyyati.", 22.68, 24.24)], "intro"),
  ("A91", 91.42, 93.62, True, [("Teaching has always been my passion.", 91.50, 93.54)], "intro"),
  # Q1 WHAT INSPIRED YOU - each coach answers in one go
- ("S",   54.12, 61.72, False, [("I used to be an educator,", 54.20, 55.14), ("so I've moved out to IT", 55.42, 58.10), ("in corporate roles.", 58.10, 58.98), ("And this is my way of giving back.", 59.48, 61.68)], "q1"),
+ ("S",   54.12, 67.62, False, [("I used to be an educator,", 54.20, 55.14), ("so I've moved out to IT", 55.42, 58.10), ("in corporate roles.", 58.10, 58.98), ("And this is my way of giving back", 59.48, 61.68), ("and continuing my journey", 61.68, 64.52), ("in contributing to the community", 64.52, 66.90), ("in education.", 66.90, 67.58)], "q1"),
  ("A91", 108.86, 113.56, True, [("I want to help those, especially students", 108.90, 110.64), ("who need more guidance and support.", 110.64, 113.52)], "q1"),
  # Q2 MOST REWARDING PART
  ("S",   73.84, 78.46, True,  [("I get to interact with a lot of students", 73.90, 76.16), ("and I've touched many lives.", 76.16, 78.44)], "q2"),
+ ("S",   109.58, 117.86, False, [("When I meet them outside now,", 109.64, 111.08), ("they are doing well.", 111.12, 112.32), ("Before this, they were actually", 112.60, 114.32), ("not very confident about themselves.", 114.32, 117.82)], "q2"),
  ("A92", 13.12, 21.16, False, [("It's fulfilling to see students", 13.18, 14.94), ("who initially struggle,", 14.94, 16.55), ("doubt themselves or lack motivation", 17.26, 19.02), ("slowly begin to believe", 19.02, 20.10), ("in their own abilities.", 20.10, 21.12)], "q2"),
  # Q3 A MEMORABLE MOMENT - Azyyati's story (pays off the hook)
  ("A95", 170.84, 174.34, False, [("Back in 2024, I was teaching", 170.86, 172.92), ("a Primary 6 Foundation student.", 172.92, 174.30)], "q3"),
  ("A95", 176.58, 178.10, True,  [("She has to retake her PSLE.", 176.62, 177.86)], "q3"),
- ("A95", 181.68, 184.68, False, [("She told me that", 181.72, 182.64), ("this is the last time.", 182.64, 184.66)], "q3"),
  ("A95", 199.78, 201.54, True,  [("She worked really, really hard.", 199.80, 201.50)], "q3"),
- ("A95", 224.71, 228.60, False, [("She actually passed", 224.75, 226.60), ("her Math Foundation", 226.60, 228.58)], "q3"),
- ("A95", 229.20, 230.08, True,  [("for the first time.", 229.22, 230.02)], "q3"),
+ ("A95", 224.71, 228.60, False, [("She actually passed", 224.75, 226.60), ("her Math Foundation.", 226.60, 228.58)], "q3"),
  # Q4 BEYOND ACADEMICS
  ("A95", 18.35, 25.40, False, [("I hope my students walk away", 18.50, 20.02), ("with greater confidence in themselves", 20.02, 22.04), ("and believe that they are capable", 22.04, 23.48), ("of achieving more than they think.", 23.48, 25.30)], "q4"),
  # Q5 THINKING OF JOINING
- ("S",   202.88, 208.30, False, [("As the head coaches and coaches", 202.93, 205.26), ("come from many different backgrounds,", 205.26, 206.76), ("not strictly just education.", 206.92, 208.16)], "q5"),
- ("A95", 96.98, 100.86, False, [("You don't have to be a perfect educator", 97.00, 99.04), ("because I think every human makes mistakes.", 99.04, 100.82)], "q5"),
+ ("S",   202.88, 208.30, False, [("Our head coaches and coaches", 202.93, 205.26), ("come from many different backgrounds,", 205.26, 206.76), ("not strictly just education.", 206.92, 208.16)], "q5"),
+ ("A95", 96.98, 98.94, False, [("You don't have to be a perfect educator.", 97.00, 98.94)], "q5"),
  ("A95", 101.50, 107.58, True,  [("As long as you are passionate,", 101.50, 102.90), ("you have the patience", 103.50, 104.14), ("and you are willing to have", 104.14, 106.16), ("an impact on a child's life.", 106.16, 107.54)], "q5"),
  ("S",   291.40, 294.34, False, [("If you are already thinking about it,", 291.48, 293.08), ("sign up.", 293.78, 294.24)], "q5"),
 ]

@@ -12,7 +12,7 @@ from PIL import ImageFont
 ROOT = "/home/user/Mendaki"; FOOT = f"{ROOT}/footage"; WORK = f"{ROOT}/work"
 W, H = 1080, 1920; FPS = 30000 / 1001; SR = 48000
 DW, DH = 1728, 3072                       # decode size for interviews (headroom for punch-ins)
-TAIL = 4.6                                # end card after the last word
+TAIL = 4.0                                # end card after the last word
 MUSIC_IN = 10.0                           # start of the used section in the music file (track 1 ends ~98 s)
 
 # ---------------------------------------------------------------- timeline
@@ -45,7 +45,9 @@ def P(key, a):  # answer index from its RAW in-point
 # b-roll: (answer, source time it starts at or None = answer start, duration s or None = to answer end, file, source in s)
 BROLL = [
     (P("S", 54.12), 59.30, 3.0, "DJI_20261114092503_0146_D", 0.3),     # "my way of giving back" -> coaches in discussion
+    (P("S", 54.12), 64.40, 3.0, "DJI_20261114093730_0155_D", 0.6),     # "contributing to the community in education" -> sharing session
     (P("S", 73.84), 74.90, 3.3, "DJI_20261114092728_0149_D", 1.0),     # "interact with a lot of students"
+    (P("S", 109.58), 113.90, 3.0, "DJI_20261114094032_0162_D", 0.5),   # "not very confident" -> session audience
     (P("A92", 13.12), 17.26, 3.2, "DJI_20261114094848_0171_D", 0.2),   # Azyyati at the coaches' session
     (P("A95", 199.78), None, None, "DJI_20261114094206_0166_D", 2.0),  # "worked really hard" -> worksheets on the table
     (P("A95", 18.35), None, 3.85, "DJI_20261114101621_0180_D", 0.3),   # whole line as voice-over (sponsor banner in that take)
@@ -101,14 +103,24 @@ for k in range(len(caps) - 1):
 caps = [x[:3] for x in caps]
 caps[-1][1] = ft(NS) + 0.15
 # Line layout: libass renders this style like Poppins ExtraBold at ~41.4 px; wrap ourselves so the two lines sit closer
-SUBF = ImageFont.truetype(f"{ROOT}/fonts/Poppins-ExtraBold.ttf", 41.4); MAXW = 760; BASE_Y = 1400; PITCH = 54
+SUBF = ImageFont.truetype(f"{ROOT}/fonts/Poppins-ExtraBold.ttf", 41.4); MAXW = 700; BASE_Y = 1400; PITCH = 54
 def tw(s): b = SUBF.getbbox(s); return b[2] - b[0]
 def wrap(t):
+    """fewest lines that fit MAXW, as evenly balanced as possible"""
+    w = t.split()
     if tw(t) <= MAXW: return [t]
-    w = t.split(); best = min(range(1, len(w)), key=lambda i: max(tw(" ".join(w[:i])), tw(" ".join(w[i:]))))
-    return [" ".join(w[:best]), " ".join(w[best:])]
+    best = None
+    for i in range(1, len(w)):
+        L = [" ".join(w[:i]), " ".join(w[i:])]
+        if max(map(tw, L)) <= MAXW and (best is None or max(map(tw, L)) < max(map(tw, best))): best = L
+    if best: return best
+    for i in range(1, len(w) - 1):
+        for j in range(i + 1, len(w)):
+            L = [" ".join(w[:i]), " ".join(w[i:j]), " ".join(w[j:])]
+            if best is None or max(map(tw, L)) < max(map(tw, best)): best = L
+    return best
 def write_subs():
-    hdr = open(f"{ROOT}/subtitles/style_template.ass").read().rstrip() + "\n"
+    hdr = open(f"{ROOT}/subtitles/style_template.ass").read().rstrip().replace("WrapStyle: 0", "WrapStyle: 2") + "\n"   # we wrap ourselves
     L = []
     for a, b, t in caps:
         lines = wrap(t)
@@ -179,7 +191,7 @@ def render(out, limit=None):
     q3a = ft(min(c["f0"] for c in CLIPS if c["sec"] == "q3" and c["key"] == "A95")); q3b = ft(max(c["f0"] + c["n"] for c in CLIPS if c["sec"] == "q3"))
     fc = ";".join([
         "[1:a]highpass=f=80,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=160:makeup=2,"
-        "loudnorm=I=-18.5:TP=-2.5:LRA=9,aresample=48000,asplit=2[voice][key]",
+        "loudnorm=I=-19.2:TP=-3:LRA=9,aresample=48000,asplit=2[voice][key]",
         # music bed (track 1 of the supplied file), clearly audible under speech (~9 dB below the voice), a little lower in the story,
         # back up for the end card, then fades with the picture
         f"[2:a]atrim={MUSIC_IN}:{MUSIC_IN + TOTAL + 0.1:.3f},asetpts=PTS-STARTPTS,aresample=48000,"
