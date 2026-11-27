@@ -158,14 +158,12 @@ def write_subs():
     hdr = open(f"{ROOT}/subtitles/style_template.ass").read().rstrip().replace("WrapStyle: 0", "WrapStyle: 2") + "\n"   # we wrap ourselves
     L = []
     for a, b, t in one_line(caps):
-        if t.startswith("~"):                 # fixed one-liner: scale down only if it would run past the safe width
-            t = t[1:]                          # same size as every other subtitle
-        lines = [t]
+        lines = t[1:].split("|") if t.startswith("~") else [t]   # "~a|b" = caption laid out exactly as written
         for j, ln in enumerate(lines):
             y = BASE_Y - PITCH * (len(lines) - 1 - j)
             L.append(f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{{\\an2\\pos(540,{y})}}{ln}")
     open(f"{WORK}/mapc_subs.ass", "w").write(hdr + "\n".join(L) + "\n")
-    open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t.lstrip('~')}\n" for k, (a, b, t) in enumerate(one_line(caps))))
+    open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t.lstrip('~').replace('|', chr(10))}\n" for k, (a, b, t) in enumerate(one_line(caps))))
 
 # ---------------------------------------------------------------- audio
 def read_seg(src, a, n_samples):
