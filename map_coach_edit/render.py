@@ -22,11 +22,13 @@ TY = {}
 t0 = 0; prev = None
 for i, c in enumerate(CLIPS):
     c["n"] = int(round((c["b"] - c["a"]) * FPS)); c["f0"] = t0; t0 += c["n"]
-    # alternate framing between consecutive clips of the same speaker so every jump cut reads as a camera change
-    tight = (not prev["tight"]) if prev and prev["key"] == c["key"] else c["zoom"] > 1
+    # framing: constant within an answer (pause cuts get a short soft dissolve instead of a zoom change);
+    # alternates only between consecutive answers of the same speaker
+    same = prev is not None and prev["parent"] == c["parent"]
+    tight = prev["tight"] if same else ((not prev["tight"]) if prev and prev["key"] == c["key"] else c["zoom"] > 1)
     c["tight"] = tight; c["z"] = BASE[c["key"]] * (1.2 if tight else 1.0)
+    c["xfade"] = same
     c["settle"] = prev is None or prev["sec"] != c["sec"]          # soft push-in at the start of each section
-    c["drift"] = 0.03 if c["sec"] == "q3" and c["key"] == "A95" else 0.0   # slow push during the story
     prev = c
 NS = t0; NT = NS + int(round(TAIL * FPS)); TOTAL = NT / FPS
 def ft(f): return f / FPS
@@ -45,14 +47,13 @@ def P(key, a):  # answer index from its RAW in-point
 # b-roll: (answer, source time it starts at or None = answer start, duration s or None = to answer end, file, source in s)
 BROLL = [
     (P("S", 54.12), 59.30, 3.0, "DJI_20261114092503_0146_D", 0.3),     # "my way of giving back" -> coaches in discussion
-    (P("S", 54.12), 64.40, 3.0, "DJI_20261114093730_0155_D", 0.6),     # "contributing to the community in education" -> sharing session
-    (P("S", 73.84), 74.90, 3.3, "DJI_20261114092728_0149_D", 1.0),     # "interact with a lot of students"
-    (P("S", 109.58), 113.90, 3.0, "DJI_20261114094032_0162_D", 0.5),   # "not very confident" -> session audience
+    (P("S", 54.12), 64.40, 3.0, "DJI_20261114095607_0175_D", 0.3),     # "contributing to the community in education" -> wide of the session (steady)
+    (P("S", 74.32), 74.90, 3.3, "DJI_20261114092728_0149_D", 1.0),     # "interact with a lot of students"
     (P("A92", 13.12), 17.26, 3.2, "DJI_20261114094848_0171_D", 0.2),   # Azyyati at the coaches' session
     (P("A95", 199.78), None, None, "DJI_20261114094206_0166_D", 2.0),  # "worked really hard" -> worksheets on the table
     (P("A95", 18.35), None, 3.85, "DJI_20261114101621_0180_D", 0.3),   # whole line as voice-over (sponsor banner in that take)
     (P("A95", 18.35), "chain", None, "DJI_20261114101644_0181_D", 0.0),
-    (P("S", 202.88), 205.20, 3.0, "DJI_20261114092303_0141_D", 0.3),   # "many different backgrounds" -> coaches chatting
+    (P("S", 203.72), 205.20, 3.0, "DJI_20261114092303_0141_D", 0.3),   # "many different backgrounds" -> coaches chatting
     (P("A95", 101.50), 103.40, 3.8, "DJI_20261114095808_0178_D", 0.4), # "impact on a child's life" -> coach sharing with mic
 ]
 BR = []
@@ -94,14 +95,20 @@ caps = []
 for ci, c in enumerate(CLIPS):
     for text, s, e in c["subs"]:
         o = ft(c["f0"]); a = max(o, o + s - c["a"]); b = min(o + ft(c["n"]), o + e - c["a"])
-        caps.append([a, b, text, ci])
+        caps.append([a, b, text, ci, s, e])
 for k in range(len(caps) - 1):
     caps[k][1] = caps[k + 1][0]                 # each line holds until the next starts (doorstop behaviour)...
     c, d = CLIPS[caps[k][3]], CLIPS[caps[k + 1][3]]
     if c["key"][0] != d["key"][0]:
         caps[k][1] = ft(pend(c["parent"]))      # ...but never carries over onto the other coach
-caps = [x[:3] for x in caps]
 caps[-1][1] = ft(NS) + 0.15
+CAPX = [list(x) for x in caps]                 # keeps clip / source times for word-timed splitting
+caps = [x[:3] for x in caps]
+import json as _json
+_WORDS = {}
+def src_words(key, s, e):
+    if key not in _WORDS: _WORDS[key] = _json.load(open(f"{WORK}/aud/{CLIPS[[c['key'] for c in CLIPS].index(key)]['src']}.json"))
+    return [w for w in _WORDS[key] if s - 0.12 <= w["s"] < e + 0.05]
 # Line layout: libass renders this style like Poppins ExtraBold at ~41.4 px; wrap ourselves so the two lines sit closer
 SUBF = ImageFont.truetype(f"{ROOT}/fonts/Poppins-ExtraBold.ttf", 41.4); MAXW = 700; BASE_Y = 1400; PITCH = 54
 def tw(s): b = SUBF.getbbox(s); return b[2] - b[0]
@@ -119,16 +126,43 @@ def wrap(t):
             L = [" ".join(w[:i]), " ".join(w[i:j]), " ".join(w[j:])]
             if best is None or max(map(tw, L)) < max(map(tw, best)): best = L
     return best
+def one_line(caps):
+    """every caption on a single line: split longer ones into balanced chunks, each timed from its first word's
+    timestamp (mapped through the edit), falling back to its share of the characters"""
+    out = []
+    for (a, b, t), (_, _, _, ci, s_src, e_src) in zip(caps, CAPX):
+        w = t.split(); n = 1
+        while True:
+            # best split of the words into n chunks (balanced by width)
+            import itertools
+            best = None
+            for cut in itertools.combinations(range(1, len(w)), n - 1):
+                idx = (0,) + cut + (len(w),); L = [" ".join(w[idx[i]:idx[i+1]]) for i in range(n)]
+                if best is None or max(map(tw, L)) < max(map(tw, best)): best = L
+            if max(map(tw, best)) <= MAXW1 or n >= len(w): break
+            n += 1
+        tot = sum(len(x) for x in best); starts = []; acc = 0
+        c = CLIPS[ci]; ws = src_words(c["key"], s_src, e_src) if len(best) > 1 else []
+        for x in best:
+            if acc and len(ws) == len(w):        # word count matches the transcript: use the real word time
+                starts.append(min(b - 0.3, max(a + 0.3, ft(src2frame(c["parent"], ws[acc]["s"])))))
+            else:
+                starts.append(a + (b - a) * sum(len(y) for y in best[:best.index(x)]) / tot)
+            acc += len(x.split())
+        for i, x in enumerate(best):
+            out.append([starts[i], starts[i + 1] if i + 1 < len(best) else b, x])
+    return out
+MAXW1 = 760          # widest single line (centred) that stays clear of the Reels/TikTok side buttons
 def write_subs():
     hdr = open(f"{ROOT}/subtitles/style_template.ass").read().rstrip().replace("WrapStyle: 0", "WrapStyle: 2") + "\n"   # we wrap ourselves
     L = []
-    for a, b, t in caps:
-        lines = wrap(t)
+    for a, b, t in one_line(caps):
+        lines = [t]
         for j, ln in enumerate(lines):
             y = BASE_Y - PITCH * (len(lines) - 1 - j)
             L.append(f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{{\\an2\\pos(540,{y})}}{ln}")
     open(f"{WORK}/mapc_subs.ass", "w").write(hdr + "\n".join(L) + "\n")
-    open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t}\n" for k, (a, b, t) in enumerate(caps)))
+    open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t}\n" for k, (a, b, t) in enumerate(one_line(caps))))
 
 # ---------------------------------------------------------------- audio
 def read_seg(src, a, n_samples):
@@ -192,12 +226,12 @@ def render(out, limit=None):
     fc = ";".join([
         "[1:a]highpass=f=80,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=160:makeup=2,"
         "loudnorm=I=-19.2:TP=-3:LRA=9,aresample=48000,asplit=2[voice][key]",
-        # music bed (track 1 of the supplied file), clearly audible under speech (~9 dB below the voice), a little lower in the story,
+        # music bed (track 1 of the supplied file), under speech (~13 dB below the voice so every word is clear), a little lower in the story,
         # back up for the end card, then fades with the picture
         f"[2:a]atrim={MUSIC_IN}:{MUSIC_IN + TOTAL + 0.1:.3f},asetpts=PTS-STARTPTS,aresample=48000,"
-        f"volume='if(between(t,{q3a:.2f},{q3b:.2f}),0.14,if(gt(t,{ft(NS):.2f}),0.34,0.18))':eval=frame,"
+        f"volume='if(between(t,{q3a:.2f},{q3b:.2f}),0.085,if(gt(t,{ft(NS):.2f}),0.34,0.105))':eval=frame,"
         f"afade=t=in:d=0.6,afade=t=out:st={TOTAL - 1.4:.3f}:d=1.4[mus]",
-        "[mus][key]sidechaincompress=threshold=0.06:ratio=1.8:attack=40:release=500[duck]",
+        "[mus][key]sidechaincompress=threshold=0.05:ratio=2.5:attack=30:release=450[duck]",
         "[3:a]aresample=48000,volume=0.9,pan=stereo|c0=c0|c1=c0[sfx]",
         "[voice]pan=stereo|c0=c0|c1=c0[v2]",
         f"[v2][duck][sfx]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.80,afade=t=out:st={TOTAL - 0.6:.3f}:d=0.6[aout]",
@@ -209,7 +243,7 @@ def render(out, limit=None):
                             "-c:v", "libx264", "-crf", "17", "-preset", "medium", "-profile:v", "high", "-pix_fmt", "yuv420p",
                             "-r", "30000/1001", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
                             "-t", f"{nt / FPS:.4f}", out], stdin=subprocess.PIPE)
-    ci = 0; rd = None; br = {}; tail_rd = None
+    ci = 0; rd = None; br = {}; tail_rd = None; last_base = None; held = None; XF = 3
     for f in range(nt):
         # --- base picture
         if f < NS:
@@ -218,8 +252,9 @@ def render(out, limit=None):
             if f == c["f0"]:
                 if rd: rd.close()
                 rd = Reader(f"{FOOT}/int/{c['src']}.MP4", c["a"], c["n"], DW, DH)
+                held = last_base if c["xfade"] else None
             img = rd.get(); lt = (f - c["f0"]) / FPS
-            z = c["z"] * (1 + c["drift"] * lt / (c["n"] / FPS))
+            z = c["z"]
             if c["settle"] and ci > 0 and c["f0"] != TB: z *= 1 + 0.045 * (1 - ease(lt / 0.4))
             q = 0.0                                   # zoom-blur transition after the hook
             if TB - TO <= f < TB: q = ((f - (TB - TO) + 1) / TO) ** 2; z *= 1 + 0.22 * q
@@ -229,6 +264,9 @@ def render(out, limit=None):
             if q > 0.02:
                 frame = Image.blend(frame, frame.filter(ImageFilter.GaussianBlur(14 * q)), min(1.0, 1.2 * q))
                 frame = Image.blend(frame, Image.new("RGB", (W, H), (255, 250, 235)), 0.18 * q)
+            k_in = f - c["f0"]                        # pause cut inside an answer: 3-frame soft dissolve, no zoom jump
+            if held is not None and k_in < XF: frame = Image.blend(held, frame, (k_in + 1) / (XF + 1))
+            last_base = frame
             # --- b-roll
             for k, b in enumerate(BR):
                 if b["s"] <= f < b["e"]:
@@ -246,11 +284,11 @@ def render(out, limit=None):
             # --- end card background: group photo, sharp for a beat, then softly blurred and dimmed under the card
             if tail_rd is None:
                 if rd: rd.close()
-                tail_rd = Reader(f"{FOOT}/broll/DJI_20261114110325_0186_D.MP4", 3.0, NT - NS + 2, W, H)
+                tail_rd = Reader(f"{FOOT}/broll/DJI_20261114110325_0186_D.MP4", 4.0, NT - NS + 2, W, H)   # pan starts at 4.0 s
             bi = tail_rd.get(); lt = (f - NS) / FPS; p = ease((lt - 0.3) / 0.6)
-            small = bi.resize((270, 480), Image.BILINEAR).filter(ImageFilter.GaussianBlur(5)).resize((W, H), Image.BILINEAR)
+            small = bi.resize((270, 480), Image.BILINEAR).filter(ImageFilter.GaussianBlur(3)).resize((W, H), Image.BILINEAR)
             frame = Image.blend(bi, small, p)
-            frame = Image.blend(frame, Image.new("RGB", (W, H), (8, 20, 40)), 0.5 * p)
+            frame = Image.blend(frame, Image.new("RGB", (W, H), (8, 20, 40)), 0.4 * p)
         frame = frame.convert("RGBA")
         # --- graphics
         for name, s, e, mv in GFX:

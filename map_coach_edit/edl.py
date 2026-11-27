@@ -38,25 +38,27 @@ RAW = [
  ("A95", 215.50, 217.32, True,  [("The first thing she did", 215.58, 216.42), ("was to call me", 216.42, 217.28)], "hook"),
  ("A95", 220.38, 224.22, False, [("and thank me for the contribution", 220.45, 223.30), ("I had in her life.", 223.30, 224.16)], "hook"),
  # INTROS (years of service are on the lower thirds)
- ("S",   38.30, 43.84, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a MENDAKI Achievement Programme (MAP) Coach", 39.34, 41.26), ("since 2011,", 41.26, 42.48), ("which is about 15 years ago.", 42.70, 43.76)], "intro"),
+ ("S",   38.30, 42.56, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a MENDAKI Achievement Programme (MAP) Coach", 39.34, 41.26), ("since 2011.", 41.26, 42.48)], "intro"),
  ("A91", 22.62, 24.51, False, [("Hi, I'm Nur Azyyati.", 22.68, 24.24)], "intro"),
  ("A91", 91.42, 93.62, True, [("Teaching has always been my passion.", 91.50, 93.54)], "intro"),
  # Q1 WHAT INSPIRED YOU - each coach answers in one go
- ("S",   54.12, 67.62, False, [("I used to be an educator,", 54.20, 55.14), ("so I've moved out to IT", 55.42, 58.10), ("in corporate roles.", 58.10, 58.98), ("And this is my way of giving back", 59.48, 61.68), ("and continuing my journey", 61.68, 64.52), ("in contributing to the community", 64.52, 66.90), ("in education.", 66.90, 67.58)], "q1"),
+ ("S",   54.12, 67.62, False, [("I used to be an educator,", 54.20, 55.14), ("so I've moved out to IT", 55.42, 58.10), ("in corporate roles.", 58.10, 58.98), ("And this is my way of giving back", 59.48, 61.70), ("and continuing my journey", 61.76, 64.52), ("in contributing to the community", 64.52, 66.90), ("in education.", 66.90, 67.58)], "q1",
+   [(61.98, 62.84), (64.78, 65.54)]),   # cut the stutter "continuing, uh," and the "uh" before "contributing"
  ("A91", 108.86, 113.56, True, [("I want to help those, especially students", 108.90, 110.64), ("who need more guidance and support.", 110.64, 113.52)], "q1"),
  # Q2 MOST REWARDING PART
- ("S",   73.84, 78.46, True,  [("I get to interact with a lot of students", 73.90, 76.16), ("and I've touched many lives.", 76.16, 78.44)], "q2"),
- ("S",   109.58, 117.86, False, [("When I meet them outside now,", 109.64, 111.08), ("they are doing well.", 111.12, 112.32), ("Before this, they were actually", 112.60, 114.32), ("not very confident about themselves.", 114.32, 117.82)], "q2"),
+ ("S",   74.32, 78.46, True,  [("I get to interact with a lot of students", 74.40, 76.16), ("and I've touched many lives.", 76.16, 78.44)], "q2"),
+ ("S",   109.58, 112.44, False, [("When I meet them outside now,", 109.64, 111.08), ("they are doing well.", 111.12, 112.32)], "q2"),
  ("A92", 13.12, 21.16, False, [("It's fulfilling to see students", 13.18, 14.94), ("who initially struggle,", 14.94, 16.55), ("doubt themselves or lack motivation", 17.26, 19.02), ("slowly begin to believe", 19.02, 20.10), ("in their own abilities.", 20.10, 21.12)], "q2"),
  # Q3 A MEMORABLE MOMENT - Azyyati's story (pays off the hook)
  ("A95", 170.84, 174.34, False, [("Back in 2024, I was teaching", 170.86, 172.92), ("a Primary 6 Foundation student.", 172.92, 174.30)], "q3"),
  ("A95", 176.58, 178.10, True,  [("She has to retake her PSLE.", 176.62, 177.86)], "q3"),
  ("A95", 199.78, 201.54, True,  [("She worked really, really hard.", 199.80, 201.50)], "q3"),
- ("A95", 224.71, 228.60, False, [("She actually passed", 224.75, 226.60), ("her Math Foundation.", 226.60, 228.58)], "q3"),
+ ("A95", 224.71, 228.60, False, [("She actually passed", 224.75, 226.30), ("her Math Foundation.", 226.60, 228.58)], "q3",
+   [(227.00, 227.90)]),                 # cut the "uh" before "math"
  # Q4 BEYOND ACADEMICS
  ("A95", 18.35, 25.40, False, [("I hope my students walk away", 18.50, 20.02), ("with greater confidence in themselves", 20.02, 22.04), ("and believe that they are capable", 22.04, 23.48), ("of achieving more than they think.", 23.48, 25.30)], "q4"),
  # Q5 THINKING OF JOINING
- ("S",   202.88, 208.30, False, [("Our head coaches and coaches", 202.93, 205.26), ("come from many different backgrounds,", 205.26, 206.76), ("not strictly just education.", 206.92, 208.16)], "q5"),
+ ("S",   203.72, 208.30, False, [("The head coaches and coaches", 203.74, 205.26), ("come from many different backgrounds,", 205.26, 206.76), ("not strictly just education.", 206.92, 208.16)], "q5"),
  ("A95", 96.98, 98.94, False, [("You don't have to be a perfect educator.", 97.00, 98.94)], "q5"),
  ("A95", 101.50, 107.58, True,  [("As long as you are passionate,", 101.50, 102.90), ("you have the patience", 103.50, 104.14), ("and you are willing to have", 104.14, 106.16), ("an impact on a child's life.", 106.16, 107.54)], "q5"),
  ("S",   291.40, 294.34, False, [("If you are already thinking about it,", 291.48, 293.08), ("sign up.", 293.78, 294.24)], "q5"),
@@ -79,15 +81,29 @@ def split_pauses(k, a, b):
         i += 1
     segs.append((cur, b)); return segs
 
+def cut_out(segs, cuts):
+    for x0, x1 in cuts:
+        out = []
+        for sa, sb in segs:
+            if x1 <= sa or x0 >= sb: out.append((sa, sb)); continue
+            if x0 > sa + 0.05: out.append((sa, x0))
+            if x1 < sb - 0.05: out.append((x1, sb))
+        segs = out
+    return segs
 CLIPS = []
-for p, (k, a, b, tight, subs, sec) in enumerate(RAW):
+for p, (k, a, b, tight, subs, sec, *cuts) in enumerate(RAW):
     a, b = snap(k, a), snap(k, b)
-    for j, (sa, sb) in enumerate(split_pauses(k, a, b)):
+    segs = cut_out(split_pauses(k, a, b), cuts[0] if cuts else [])
+    merged = [segs[0]]
+    for sa, sb in segs[1:]:                    # a cut that removes almost nothing isn't worth a visible join
+        if sa - merged[-1][1] < 0.12: merged[-1] = (merged[-1][0], sb)
+        else: merged.append((sa, sb))
+    for j, (sa, sb) in enumerate(merged):
         sa = a if j == 0 else snap(k, sa, 0.03); sb = b if sb == b else snap(k, sb, 0.03)
         CLIPS.append(dict(key=k, src=SRC[k], a=round(sa, 3), b=round(sb, 3), zoom=1.2 if tight else 1.0,
                           sec=sec, parent=p, subs=[]))
 # attach each subtitle phrase to the sub-clip in which it starts (or the next one if it starts in a removed pause)
-for p, (k, a, b, tight, subs, sec) in enumerate(RAW):
+for p, (k, a, b, tight, subs, sec, *_) in enumerate(RAW):
     cs = [c for c in CLIPS if c["parent"] == p]
     for text, s, e in subs:
         c = next((c for c in cs if s < c["b"] - 0.05), cs[-1])
