@@ -159,8 +159,7 @@ def write_subs():
     L = []
     for a, b, t in one_line(caps):
         if t.startswith("~"):                 # fixed one-liner: scale down only if it would run past the safe width
-            t = t[1:]; k = min(100, int(MAXW1 / tw(t) * 100))
-            if k < 100: t = f"{{\\fscx{k}\\fscy{k}}}" + t
+            t = t[1:]                          # same size as every other subtitle
         lines = [t]
         for j, ln in enumerate(lines):
             y = BASE_Y - PITCH * (len(lines) - 1 - j)
