@@ -131,6 +131,7 @@ def one_line(caps):
     timestamp (mapped through the edit), falling back to its share of the characters"""
     out = []
     for (a, b, t), (_, _, _, ci, s_src, e_src) in zip(caps, CAPX):
+        if t.startswith("~"): out.append([a, b, t]); continue     # "~" = keep on one line exactly as written
         w = t.split(); n = 1
         while True:
             # best split of the words into n chunks (balanced by width)
@@ -157,12 +158,15 @@ def write_subs():
     hdr = open(f"{ROOT}/subtitles/style_template.ass").read().rstrip().replace("WrapStyle: 0", "WrapStyle: 2") + "\n"   # we wrap ourselves
     L = []
     for a, b, t in one_line(caps):
+        if t.startswith("~"):                 # fixed one-liner: scale down only if it would run past the safe width
+            t = t[1:]; k = min(100, int(MAXW1 / tw(t) * 100))
+            if k < 100: t = f"{{\\fscx{k}\\fscy{k}}}" + t
         lines = [t]
         for j, ln in enumerate(lines):
             y = BASE_Y - PITCH * (len(lines) - 1 - j)
             L.append(f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{{\\an2\\pos(540,{y})}}{ln}")
     open(f"{WORK}/mapc_subs.ass", "w").write(hdr + "\n".join(L) + "\n")
-    open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t}\n" for k, (a, b, t) in enumerate(one_line(caps))))
+    open(f"{HERE}/subs.srt", "w").write("\n".join(f"{k+1}\n{srt(a)} --> {srt(b)}\n{t.lstrip('~')}\n" for k, (a, b, t) in enumerate(one_line(caps))))
 
 # ---------------------------------------------------------------- audio
 def read_seg(src, a, n_samples):

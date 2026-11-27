@@ -13,7 +13,6 @@ QUESTIONS = {   # shown in the question box above the speakers' heads
     "q1": "What inspired you?",
     "q2": "Most rewarding part?",
     "q3": "A memorable moment?",
-    "q4": "Beyond academics?",
     "q5": "Thinking of joining?",
 }
 _aud = {}
@@ -38,7 +37,7 @@ RAW = [
  ("A95", 215.50, 217.32, True,  [("The first thing she did", 215.58, 216.42), ("was to call me", 216.42, 217.28)], "hook"),
  ("A95", 220.38, 224.22, False, [("and thank me for the contribution", 220.45, 223.30), ("I had in her life.", 223.30, 224.16)], "hook"),
  # INTROS (years of service are on the lower thirds)
- ("S",   38.30, 42.56, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a MENDAKI Achievement Programme (MAP) Coach", 39.34, 41.26), ("since 2011.", 41.26, 42.48)], "intro"),
+ ("S",   38.30, 42.56, False, [("Hi, I'm Syaheer.", 38.36, 39.00), ("I've been a", 39.34, 40.30), ("~MENDAKI Achievement Programme (MAP)", 40.30, 41.60), ("coach since 2011", 41.60, 42.48)], "intro"),
  ("A91", 22.62, 24.51, False, [("Hi, I'm Nur Azyyati.", 22.68, 24.24)], "intro"),
  ("A91", 91.42, 93.62, True, [("Teaching has always been my passion.", 91.50, 93.54)], "intro"),
  # Q1 WHAT INSPIRED YOU - each coach answers in one go
