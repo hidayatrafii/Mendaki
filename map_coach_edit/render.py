@@ -19,8 +19,11 @@ MUSIC_IN = 10.0                           # start of the used section in the mus
 FACE = {"S": (567, 675), "A91": (553, 661), "A92": (540, 648), "A95": (537, 750)}  # 1080-scale
 BASE = {"S": 1.0, "A91": 1.0, "A92": 1.12, "A95": 1.12}
 TY = {}
-t0 = 0; prev = None
+TITLE_DUR = 2.6                            # B-roll title card after the hook
+t0 = 0; prev = None; TS = TE = None
 for i, c in enumerate(CLIPS):
+    if TS is None and c["sec"] == "intro":
+        TS = t0; t0 += int(round(TITLE_DUR * FPS)); TE = t0
     c["n"] = int(round((c["b"] - c["a"]) * FPS)); c["f0"] = t0; t0 += c["n"]
     # framing: constant within an answer (pause cuts get a short soft dissolve instead of a zoom change);
     # alternates only between consecutive answers of the same speaker
@@ -72,6 +75,11 @@ for b in BR:     # a dissolve that starts/ends right at a cut looks like a doubl
 # graphics: (png, start frame, end frame, motion)
 def fr(t): return int(round(t * FPS))
 GFX = [
+    # opening title (MENDAKI social style), lines rise in one after another
+    ("title_t0.png", TS + fr(0.30), TE - fr(0.10), "rise"),
+    ("title_t1.png", TS + fr(0.45), TE - fr(0.10), "rise"),
+    ("title_t2.png", TS + fr(0.58), TE - fr(0.10), "rise"),
+    ("title_t3.png", TS + fr(0.80), TE - fr(0.10), "rise"),
     ("lt_syaheer.png", pstart(P("S", 38.30)) + fr(0.35), pstart(P("S", 38.30)) + fr(4.6), "up"),
     ("lt_azyyati.png", pstart(P("A91", 22.62)) + fr(0.25), pend(P("A91", 91.42)) - fr(0.2), "up"),
     # CTA end card, built up in stages: card -> line 1 -> URL -> underline wipe -> line 3
@@ -173,15 +181,15 @@ def read_seg(src, a, n_samples):
     x = np.pad(x, (0, max(0, n_samples - len(x))))[:n_samples]
     return x
 def build_voice(path):
-    parts = []
+    v = np.zeros(int(round(TOTAL * SR)) + SR, np.float32)
     for c in CLIPS:
         n = int(round(c["n"] / FPS * SR)); x = read_seg(f"{WORK}/dfn/{c['src']}.wav", c["a"], n)   # DeepFilterNet-cleaned
         fr_ = x[: len(x) // 480 * 480].reshape(-1, 480); r = np.sqrt((fr_ ** 2).mean(1))
         lvl = np.sqrt(np.mean(np.sort(r)[len(r) // 2:] ** 2))          # loudness of the speaking half
         x = x * (0.08 / max(lvl, 1e-4))                                     # level-match the two speakers / takes
         f = int(0.008 * SR); x[:f] *= np.linspace(0, 1, f); x[-f:] *= np.linspace(1, 0, f)
-        parts.append(x)
-    v = np.concatenate(parts); v = np.pad(v, (0, int(round(TOTAL * SR)) - len(v)))
+        i0 = int(round(c["f0"] / FPS * SR)); v[i0:i0 + len(x)] = x
+    v = v[:int(round(TOTAL * SR))]
     w = wave.open(path, "w"); w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((np.clip(v, -1, 1) * 32767).astype(np.int16).tobytes()); w.close()
 
@@ -213,15 +221,20 @@ def fade(im, a):
 G = {g[0]: Image.open(f"{HERE}/gfx/{g[0]}").convert("RGBA") for g in GFX}
 GB = {k: (im, im.getbbox()) for k, im in G.items()}
 
-TB = pstart(P("S", 38.30)); TO, TI = 6, 8     # transition boundary (hook -> intros), frames out / in
+TRANS = [TS, TE]; TO, TI = 6, 8              # zoom-blur transitions (hook -> title -> intros), frames out / in
+def trans_q(f):
+    for B in TRANS:
+        if B - TO <= f < B: return ((f - (B - TO) + 1) / TO) ** 2, 0.22
+        if B <= f < B + TI: return (1 - (f - B) / TI) ** 2, 0.16
+    return 0.0, 0.0
 
 def render(out, limit=None):
     write_subs()
     nt = NT if limit is None else min(NT, int(limit * FPS))
     build_voice(f"{WORK}/mapc_voice.wav")
-    SND = {"end_bg.png": "card", "end_l1.png": "pop", "end_url.png": "pop", "end_ul.png": "tick", "end_l3.png": "pop"}
+    SND = {"title_t0.png": "pop", "title_t1.png": "none", "title_t2.png": "none", "title_t3.png": "none", "end_bg.png": "card", "end_l1.png": "pop", "end_url.png": "pop", "end_ul.png": "tick", "end_l3.png": "pop"}
     EV = [[ft(g[1]), SND.get(g[0], "lt")] for g in GFX]
-    EV += [[ft(c["f0"]), "trans" if c["f0"] == TB else "tr"] for c in CLIPS[1:] if c["settle"]]
+    EV += [[ft(c["f0"]), "tr"] for c in CLIPS[1:] if c["settle"] and c["f0"] != TE] + [[ft(TS), "trans"], [ft(TE), "trans"]]
     subprocess.run(["python3", f"{HERE}/sfx.py", json.dumps(EV), f"{TOTAL:.3f}", f"{WORK}/mapc_sfx.wav"], check=True)
     q3a = ft(min(c["f0"] for c in CLIPS if c["sec"] == "q3" and c["key"] == "A95")); q3b = ft(max(c["f0"] + c["n"] for c in CLIPS if c["sec"] == "q3"))
     fc = ";".join([
@@ -230,7 +243,7 @@ def render(out, limit=None):
         # music bed (track 1 of the supplied file), under speech (~13 dB below the voice so every word is clear), a little lower in the story,
         # back up for the end card, then fades with the picture
         f"[2:a]atrim={MUSIC_IN}:{MUSIC_IN + TOTAL + 0.1:.3f},asetpts=PTS-STARTPTS,aresample=48000,"
-        f"volume='if(between(t,{q3a:.2f},{q3b:.2f}),0.085,if(gt(t,{ft(NS):.2f}),0.34,0.105))':eval=frame,"
+        f"volume='if(between(t,{ft(TS):.2f},{ft(TE):.2f}),0.30,if(between(t,{q3a:.2f},{q3b:.2f}),0.085,if(gt(t,{ft(NS):.2f}),0.34,0.105)))':eval=frame,"
         f"afade=t=in:d=0.6,afade=t=out:st={TOTAL - 1.4:.3f}:d=1.4[mus]",
         "[mus][key]sidechaincompress=threshold=0.05:ratio=2.5:attack=30:release=450[duck]",
         "[3:a]aresample=48000,volume=0.9,pan=stereo|c0=c0|c1=c0[sfx]",
@@ -244,10 +257,15 @@ def render(out, limit=None):
                             "-c:v", "libx264", "-crf", "17", "-preset", "medium", "-profile:v", "high", "-pix_fmt", "yuv420p",
                             "-r", "30000/1001", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
                             "-t", f"{nt / FPS:.4f}", out], stdin=subprocess.PIPE)
-    ci = 0; rd = None; br = {}; tail_rd = None; last_base = None; held = None; XF = 3
+    ci = 0; rd = None; br = {}; tail_rd = None; title_rd = None; last_base = None; held = None; XF = 3
     for f in range(nt):
         # --- base picture
-        if f < NS:
+        if TS <= f < TE:
+            # title card: wide b-roll of the session with a gentle push
+            if title_rd is None: title_rd = Reader(f"{FOOT}/broll/DJI_20261114092546_0148_D.MP4", 0.3, TE - TS + 2, W, H)
+            bi = title_rd.get(); bz = 1.0 + 0.06 * (f - TS) / (TE - TS); bw, bh = W / bz, H / bz
+            frame = bi.resize((W, H), Image.BILINEAR, box=((W - bw) / 2, (H - bh) / 2, (W + bw) / 2, (H + bh) / 2))
+        elif f < NS:
             while f >= CLIPS[ci]["f0"] + CLIPS[ci]["n"]: ci += 1
             c = CLIPS[ci]
             if f == c["f0"]:
@@ -256,15 +274,9 @@ def render(out, limit=None):
                 held = last_base if c["xfade"] else None
             img = rd.get(); lt = (f - c["f0"]) / FPS
             z = c["z"]
-            if c["settle"] and ci > 0 and c["f0"] != TB: z *= 1 + 0.045 * (1 - ease(lt / 0.4))
-            q = 0.0                                   # zoom-blur transition after the hook
-            if TB - TO <= f < TB: q = ((f - (TB - TO) + 1) / TO) ** 2; z *= 1 + 0.22 * q
-            elif TB <= f < TB + TI: q = (1 - (f - TB) / TI) ** 2; z *= 1 + 0.16 * q
+            if c["settle"] and ci > 0 and c["f0"] != TE: z *= 1 + 0.045 * (1 - ease(lt / 0.4))
             fx, fy = FACE[c["key"]]
             frame = img.resize((W, H), Image.BILINEAR, box=zoom_box(fx, fy, z, DW, DH, TY.get(c["key"])))
-            if q > 0.02:
-                frame = Image.blend(frame, frame.filter(ImageFilter.GaussianBlur(14 * q)), min(1.0, 1.2 * q))
-                frame = Image.blend(frame, Image.new("RGB", (W, H), (255, 250, 235)), 0.18 * q)
             k_in = f - c["f0"]                        # pause cut inside an answer: 3-frame soft dissolve, no zoom jump
             if held is not None and k_in < XF: frame = Image.blend(held, frame, (k_in + 1) / (XF + 1))
             last_base = frame
@@ -290,6 +302,12 @@ def render(out, limit=None):
             small = bi.resize((270, 480), Image.BILINEAR).filter(ImageFilter.GaussianBlur(3)).resize((W, H), Image.BILINEAR)
             frame = Image.blend(bi, small, p)
             frame = Image.blend(frame, Image.new("RGB", (W, H), (8, 20, 40)), 0.4 * p)
+        q, zq = trans_q(f)                      # zoom-blur transition
+        if q > 0.02:
+            s_ = 1 + zq * q; bw, bh = W / s_, H / s_
+            frame = frame.resize((W, H), Image.BILINEAR, box=((W - bw) / 2, (H - bh) / 2, (W + bw) / 2, (H + bh) / 2))
+            frame = Image.blend(frame, frame.filter(ImageFilter.GaussianBlur(14 * q)), min(1.0, 1.2 * q))
+            frame = Image.blend(frame, Image.new("RGB", (W, H), (255, 250, 235)), 0.18 * q)
         frame = frame.convert("RGBA")
         # --- graphics
         for name, s, e, mv in GFX:
