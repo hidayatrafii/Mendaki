@@ -158,12 +158,42 @@ def ring(d, cx, cy, r, col, w=7):
     d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=(0, 0, 0, 120), width=w + 4)
     d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=col, width=w)
 
+# ---------------- ghost fx ----------------
+GHOST_RANGES = [(19.6, 28.8), (55.2, 59.9)]
+GHOST_HITS = [20.85, 23.1, 24.3, 26.5, 57.2]
+_hist = {'id': None, 'fr': []}
+def in_ghost(t): return any(a <= t < b for a, b in GHOST_RANGES)
+def hit_amt(t):
+    return max([clamp(1 - (t - h) / 0.45) for h in GHOST_HITS if 0 <= t - h < 0.45] + [0.0])
+def ghostify(src, t, shot):
+    # echo trails
+    if _hist['id'] != id(shot): _hist['id'] = id(shot); _hist['fr'] = []
+    h = _hist['fr']; h.append(src); del h[:-10]
+    f = src.astype(np.float32)
+    if len(h) >= 9: f = 0.72 * f + 0.18 * h[-5].astype(np.float32) + 0.10 * h[-9].astype(np.float32)
+    k = hit_amt(t); r = np.random.default_rng(int(t * 997))
+    # flicker
+    if r.random() < 0.04 + 0.25 * k: f *= r.uniform(0.6, 0.85)
+    # cold tint
+    f[..., 0] *= 0.86; f[..., 2] *= 1.1
+    # chromatic split + band displacement on hits (and rarely otherwise)
+    dx = int(8 * k) + (3 if r.random() < 0.06 else 0)
+    if dx:
+        f[..., 0] = np.roll(f[..., 0], dx, axis=1); f[..., 2] = np.roll(f[..., 2], -dx, axis=1)
+    if k > 0.3 or r.random() < 0.03:
+        for _ in range(int(1 + 3 * k)):
+            y0 = int(r.integers(0, SH - 40)); hh = int(r.integers(6, 40)); f[y0:y0 + hh] = np.roll(f[y0:y0 + hh], int(r.integers(-40, 40) * (0.3 + k)), axis=1)
+    if k > 0.93: f = 255 - f            # 1-2 frame negative flash on the hit
+    f += r.normal(0, 4 + 6 * k, f.shape[:2])[..., None]   # grain
+    return np.clip(f, 0, 255).astype(np.uint8)
+
 # ---------------- frame composer ----------------
 def compose(t, src, crop, shot):
     # background: blurred, darkened source
     cx = SW // 2 - 162; bg = Image.fromarray(src[:, cx:cx + 324]).resize((54, 96), Image.BILINEAR)
     bg = bg.filter(ImageFilter.GaussianBlur(3)).resize((W, H), Image.BILINEAR)
     bg = Image.eval(bg, lambda v: int(v * 0.35)).convert('RGBA')
+    if in_ghost(t): src = ghostify(src, t, shot)
     if shot.get('bright'): src = np.clip(src.astype(np.float32) * 1.9 + 8, 0, 255).astype(np.uint8)
     x, y, w, h = crop
     x = clamp(x, 0, SW - w); y = clamp(y, 0, SH - h)
@@ -260,6 +290,14 @@ def render_audio(path):
         if maxdur: s = s[:int(maxdur * SR)]
         a = int(at * SR); n = min(len(s), N - a); out[a:a + n] += (s[:n] * vol)[:, None]
     fx('whoosh', 0.0, .5)
+    # ghost ambience + hits
+    for a_, b_ in GHOST_RANGES:
+        dr = SFX.drone(b_ - a_); i0 = int(a_ * SR); n_ = min(len(dr), N - i0); out[i0:i0 + n_] += (dr[:n_] * .55)[:, None]
+        wh = SFX.whispers(b_ - a_); out[i0:i0 + n_, 0] += wh[:n_] * .35; out[i0:i0 + n_, 1] += np.roll(wh, 900)[:n_] * .35
+    for h_ in GHOST_HITS:
+        sw = S['swell']; a_ = int(h_ * SR) - len(sw)
+        out[a_:a_ + len(sw)] += (sw * .7)[:, None]
+        fx('static', h_, .5); fx('moan', h_ + 0.05, .45)
     for p_ in PUNCH: fx('boom', p_, .9)
     fx('scratch', 27.85, .6)
     crk = SFX.crickets(LIE1 - LIE0); a_ = int(LIE0 * SR); out[a_:a_ + len(crk)] += (crk * .5)[:, None]

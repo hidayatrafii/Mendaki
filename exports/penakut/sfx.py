@@ -88,6 +88,32 @@ def crickets(d):
             if a+n>len(out): break
             u=np.arange(n)/SR; out[a:a+n]+=np.sin(2*np.pi*4600*u)*(0.5+0.5*np.sin(2*np.pi*90*u))*np.hanning(n)
     return norm(out,0.35)
+def drone(d):
+    tt=t(d); s=sum(np.sin(2*np.pi*f*tt+ph) for f,ph in [(41,0),(41.7,1),(61.5,2),(82.3,.5),(123,1.3)])
+    s*=0.7+0.3*np.sin(2*np.pi*0.25*tt); s+=lp(rng.standard_normal(len(tt)),60)*2
+    e=np.minimum(1,tt/0.8)*np.minimum(1,(d-tt)/0.8); return norm(np.tanh(s*0.5)*e,0.5)
+def whispers(d):
+    tt=t(d); n=rng.standard_normal(len(tt)); hi=n-lp(n,3)            # hiss
+    env=np.zeros_like(tt)
+    for st in np.arange(0.2,d-0.6,0.55):
+        if rng.random()<0.75:
+            a=int(st*SR); L=int(rng.uniform(0.25,0.5)*SR); L=min(L,len(env)-a); env[a:a+L]+=np.hanning(L)*rng.uniform(.4,1)
+    form=sum(np.sin(2*np.pi*f*tt) for f in (900,2400,3300))*0.15+1
+    return norm(hi*env*form,0.35)
+def swell(d=1.2):
+    tt=t(d); n=rng.standard_normal(len(tt)); s=(n-lp(n,6))*0.6+np.sin(2*np.pi*(300+900*tt/d)*tt)*0.3
+    e=(tt/d)**3; return norm(s*e,0.7)
+def static(d=0.45):
+    tt=t(d); n=rng.standard_normal(len(tt)); gate=(np.sin(2*np.pi*23*tt)>0).astype(float)*0.7+0.3
+    return norm(n*gate*np.exp(-tt*4),0.6)
+def moan(d=1.8):
+    tt=t(d); f=330*(0.62)**(tt/d)*(1+0.025*np.sin(2*np.pi*5.5*tt))
+    s=np.sin(2*np.pi*np.cumsum(f)/SR)+0.3*np.sin(2*np.pi*np.cumsum(f*1.5)/SR)
+    s*=np.minimum(1,tt/0.3)*np.minimum(1,(d-tt)/0.6)
+    out=s.copy()
+    for k,g in [(0.13,.5),(0.27,.35),(0.41,.22)]:
+        o=int(k*SR); out[o:]+=s[:-o]*g
+    return norm(out,0.5)
 def all_sfx():
     return dict(whoosh=whoosh(),pop=pop(),boom=boom(),scratch=scratch(),sting=sting(),slide=slide_down(),
-                boing=boing(),rewind=rewind(),ding=ding(),shutter=shutter(),heart=heartbeat(),trombone=trombone(),tick=tick())
+                boing=boing(),rewind=rewind(),ding=ding(),shutter=shutter(),heart=heartbeat(),trombone=trombone(),tick=tick(),swell=swell(),static=static(),moan=moan())
