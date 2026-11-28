@@ -77,11 +77,10 @@ for b in BR:     # a dissolve that starts/ends right at a cut looks like a doubl
 # graphics: (png, start frame, end frame, motion)
 def fr(t): return int(round(t * FPS))
 GFX = [
-    # opening title (MENDAKI social style), lines rise in one after another
+    # opening title "Meet our MAP Coaches" (MENDAKI social style), lines rise in one after another
     ("title_t0.png", TS + fr(0.30), TE - fr(0.10), "rise"),
     ("title_t1.png", TS + fr(0.45), TE - fr(0.10), "rise"),
     ("title_t2.png", TS + fr(0.58), TE - fr(0.10), "rise"),
-    ("title_t3.png", TS + fr(0.80), TE - fr(0.10), "rise"),
     ("lt_syaheer.png", pstart(P("S", 38.30)) + fr(0.35), pstart(P("S", 38.30)) + fr(4.6), "up"),
     ("lt_azyyati.png", pstart(P("A91", 22.62)) + fr(0.25), pend(P("A91", 91.42)) - fr(0.2), "up"),
     # CTA end card, built up in stages: card -> line 1 -> URL -> underline wipe -> line 3
@@ -234,7 +233,7 @@ def render(out, limit=None):
     write_subs()
     nt = NT if limit is None else min(NT, int(limit * FPS))
     build_voice(f"{WORK}/mapc_voice.wav")
-    SND = {"title_t0.png": "pop", "title_t1.png": "none", "title_t2.png": "none", "title_t3.png": "none", "end_bg.png": "card", "end_l1.png": "pop", "end_url.png": "pop", "end_ul.png": "tick", "end_l3.png": "pop"}
+    SND = {"title_t0.png": "pop", "title_t1.png": "none", "title_t2.png": "none", "end_bg.png": "card", "end_l1.png": "pop", "end_url.png": "pop", "end_ul.png": "tick", "end_l3.png": "pop"}
     EV = [[ft(g[1]), SND.get(g[0], "lt")] for g in GFX]
     EV += [[ft(c["f0"]), "tr"] for c in CLIPS[1:] if c["settle"] and c["f0"] != TE] + [[ft(TS), "trans"], [ft(TE), "trans"]]
     subprocess.run(["python3", f"{HERE}/sfx.py", json.dumps(EV), f"{TOTAL:.3f}", f"{WORK}/mapc_sfx.wav"], check=True)
