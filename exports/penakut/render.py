@@ -107,32 +107,40 @@ def read_frames(src, t0, src_span, speed, n, reverse=False):
 # ---------------- timeline ----------------
 FULL = lambda x: (x, 0, 460, 576)
 ZOOM = (560, 176, 320, 400)
+LIE = (520, 60, 400, 500)
 shots = [
     dict(s=0.0,  e=3.2,  src='v4', t0=0.0,   sp=1.0, c0=FULL(0),   c1=(20, 40, 400, 500)),
-    dict(s=3.2,  e=6.4,  src='v4', t0=1.0,   sp=2.0, c0=FULL(0),   c1=FULL(0)),
-    dict(s=6.4,  e=10.0, src='v3', t0=44.0,  sp=2.5, c0=FULL(120), c1=FULL(120)),
-    dict(s=10.0, e=13.6, src='v3', t0=74.0,  sp=3.0, c0=FULL(450), c1=FULL(450)),
-    dict(s=13.6, e=14.3, src='v2', t0=12.5,  sp=1.0, c0=FULL(400), c1=FULL(400), freeze=True, dark=True),
-    dict(s=14.3, e=19.8, src='v2', t0=13.0,  sp=2.0, c0=FULL(400), c1=FULL(400), shake=(14.3, 15.6, 14), red=(14.3, 19.8)),
-    dict(s=19.8, e=23.4, src='v2', t0=40.0,  sp=3.0, c0=FULL(520), c1=FULL(520)),
-    dict(s=23.4, e=27.0, src='v4', t0=146.0, sp=2.2, c0=FULL(480), c1=FULL(480)),
-    dict(s=27.0, e=29.05, src='v3', t0=3.0,  sp=1.0, c0=FULL(500), c1=(540, 120, 365, 456)),
-    dict(s=29.05, e=31.0, src='v3', t0=5.05, sp=1.0, c0=(540, 120, 365, 456), c1=ZOOM, freeze=True, zoomdur=0.35),
-    dict(s=31.0, e=31.7, src='v3', t0=3.65,  sp=2.0, c0=ZOOM, c1=ZOOM, reverse=True, src_span=1.4),
-    dict(s=31.7, e=37.7, src='v3', t0=3.9,   sp=0.3, c0=ZOOM, c1=ZOOM, shake=(35.7, 36.3, 12)),
-    dict(s=37.7, e=41.2, src='v3', t0=5.7,   sp=1.0, c0=ZOOM, c1=FULL(500)),
-    dict(s=41.2, e=45.9, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
+    dict(s=3.2,  e=6.0,  src='v4', t0=1.0,   sp=2.0, c0=FULL(0),   c1=FULL(0)),
+    dict(s=6.0,  e=9.2,  src='v3', t0=44.0,  sp=2.5, c0=FULL(120), c1=FULL(120)),
+    dict(s=9.2,  e=12.2, src='v3', t0=66.0,  sp=2.5, c0=FULL(380), c1=FULL(380)),
+    dict(s=12.2, e=15.2, src='v3', t0=74.0,  sp=3.0, c0=FULL(450), c1=FULL(450)),
+    dict(s=15.2, e=15.9, src='v2', t0=12.5,  sp=1.0, c0=FULL(400), c1=FULL(400), freeze=True, dark=True),
+    dict(s=15.9, e=18.9, src='v2', t0=7.0,   sp=1.2, c0=FULL(250), c1=(250, 60, 400, 500), shake=(15.9, 17.0, 10)),
+    dict(s=18.9, e=22.9, src='v2', t0=13.0,  sp=2.0, c0=FULL(400), c1=FULL(400), shake=(18.9, 19.9, 12), red=(18.9, 28.4)),
+    dict(s=22.9, e=28.4, src='v2', t0=22.0,  sp=1.4, c0=FULL(480), c1=(540, 76, 400, 500), red=(18.9, 28.4)),
+    dict(s=28.4, e=33.4, src='v2', t0=60.0,  sp=6.0, c0=LIE, c1=LIE),
+    dict(s=33.4, e=37.4, src='v2', t0=96.0,  sp=2.0, c0=LIE, c1=(560, 120, 360, 450)),
+    dict(s=37.4, e=39.45, src='v3', t0=3.0,  sp=1.0, c0=FULL(500), c1=(540, 120, 365, 456)),
+    dict(s=39.45, e=41.4, src='v3', t0=5.05, sp=1.0, c0=(540, 120, 365, 456), c1=ZOOM, freeze=True, zoomdur=0.35),
+    dict(s=41.4, e=42.1, src='v3', t0=3.65,  sp=2.0, c0=ZOOM, c1=ZOOM, reverse=True, src_span=1.4),
+    dict(s=42.1, e=48.1, src='v3', t0=3.9,   sp=0.3, c0=ZOOM, c1=ZOOM, shake=(46.1, 46.7, 12)),
+    dict(s=48.1, e=51.6, src='v3', t0=5.7,   sp=1.0, c0=ZOOM, c1=FULL(500)),
+    dict(s=51.6, e=56.3, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
 ]
 TOTAL = shots[-1]['e']
-PUSH_T = 31.7 + (5.1 - 3.9) / 0.3   # = 35.7
+DARK, GHOST, FRZ, REW, RPL, AFTER = 15.2, 15.9, 39.45, 41.4, 42.1, 48.1
+LIE0, LIE1, BOTH0, BOTH1 = 28.4, 33.4, 33.4, 37.4
+PUSH_T = RPL + (5.1 - 3.9) / 0.3
 
 caps = []
 def cap(s, e, lines, cy, cx=W // 2, anim='fade', **kw): caps.append((s, e, caption(lines, **kw), cx, cy, anim))
 def C(text, size=64, wt=700): return ('t', text, size, WHITE, None, wt)
 cap(0.3, 3.1, [[C('bukti cctv:', 44, 600)], [C('saya penakut.', 92, 800)]], 210, lgap=0)
-cap(41.8, 45.4, [[C('terima kasih, kawan.', 64, 700)]], 220)
+cap(52.2, 55.8, [[C('terima kasih, kawan.', 64, 700)]], 220)
 
 ME = caption([[('t', 'me', 44, BLACK, YEL, 800)]])
+ME_LIE, ASY_LIE = (733, 248), (815, 425)
+ASY = caption([[('t', 'asyraf', 44, BLACK, WHITE, 800)]])
 FMS = ImageFont.truetype(MONO, 30)
 
 def src_to_panel(sx, sy, crop):
@@ -175,19 +183,28 @@ def overlays(img, t, crop, shot):
     def tag(k, sx=690, sy=330, r=150):
         cx_, cy_ = src_to_panel(sx, sy, crop); ring(d, cx_, cy_, r * k + 1, YEL)
         if k > 0.9: img.alpha_composite(ME, (int(cx_ + r * 0.72), int(cy_ - r * 0.72 - ME.height)))
-    if 29.05 <= t < 31.0 and t >= 29.4: tag(back((t - 29.4) / 0.25))
-    if 31.7 <= t < PUSH_T:
-        u = clamp((t - 31.7) / (PUSH_T - 31.7)); tag(1.0, lerp(688, 700, u), lerp(322, 330, u), 140)
-    # small CCTV-style status text inside panel
-    if 31.0 <= t < 31.7 and int(t * 8) % 2 == 0:
+    if FRZ + 0.35 <= t < REW: tag(back((t - FRZ - 0.35) / 0.25))
+    if RPL <= t < PUSH_T:
+        u = clamp((t - RPL) / (PUSH_T - RPL)); tag(1.0, lerp(688, 700, u), lerp(322, 330, u), 140)
+    # names on the two lying on the floor
+    if BOTH0 + 0.4 <= t < BOTH1:
+        k = back((t - BOTH0 - 0.4) / 0.25)
+        for (sx, sy), lab in [(ME_LIE, ME), (ASY_LIE, ASY)]:
+            cx_, cy_ = src_to_panel(sx, sy, crop)
+            if k > 0.05:
+                l2 = lab.resize((max(1, int(lab.width * k)), max(1, int(lab.height * k))))
+                img.alpha_composite(l2, (int(cx_ - l2.width / 2), int(cy_ - l2.height / 2)))
+    if LIE0 <= t < LIE1:
+        d.text((W - 200, PY + 52), '>> 6x', font=FM, fill=WHITE)
+    if REW <= t < RPL and int(t * 8) % 2 == 0:
         d.text((W - 260, PY + 52), '<< REW', font=FM, fill=WHITE)
-    if 31.7 <= t < 37.7:
+    if RPL <= t < AFTER:
         d.text((W - 310, PY + 52), 'REPLAY 0.3x', font=FM, fill=WHITE)
-    if 31.0 <= t < 31.7:
+    if REW <= t < RPL:
         r = np.random.default_rng(int(t * 100))
         for _ in range(5):
             yy = int(r.integers(PY, PY + PH)); d.rectangle((0, yy, W, yy + int(r.integers(3, 12))), fill=(255, 255, 255, 70))
-    for ft, dur, k in [(0.0, 0.2, .5), (14.3, 0.25, .8), (29.05, 0.15, .6), (PUSH_T, 0.25, .7)]:
+    for ft, dur, k in [(0.0, 0.2, .5), (GHOST, 0.25, .8), (FRZ, 0.15, .6), (PUSH_T, 0.25, .7)]:
         if ft <= t < ft + dur:
             a = int(255 * (1 - (t - ft) / dur) * k); img.alpha_composite(Image.new('RGBA', (W, H), (255, 255, 255, a)))
     for s, e, im, cx, cy, an in caps:
@@ -235,19 +252,19 @@ def render_audio(path):
         n = len(seg); e = np.ones(n, np.float32)
         fi, fo = int(fin * SR), int(fout * SR); e[:fi] = np.linspace(0, 1, fi); e[n - fo:] = np.minimum(e[n - fo:], np.linspace(1, 0, fo))
         out[a:a + n] += seg * e[:, None]
-    put_music(0.0, 13.6, 0.0, 0.55, fout=0.05)
-    put_music(19.8, 29.05, 13.6, 0.55, fin=0.5)
-    put_music(37.7, TOTAL, 22.85, 0.5, fin=0.4, fout=1.5)
+    put_music(0.0, DARK, 0.0, 0.55, fout=0.05)
+    put_music(LIE0, FRZ, DARK, 0.55, fin=0.6)
+    put_music(AFTER, TOTAL, DARK + FRZ - LIE0, 0.5, fin=0.4, fout=1.5)
     S = SFX.all_sfx()
     def fx(name, at, vol=1.0, maxdur=None):
         s = S[name]
         if maxdur: s = s[:int(maxdur * SR)]
         a = int(at * SR); n = min(len(s), N - a); out[a:a + n] += (s[:n] * vol)[:, None]
     fx('whoosh', 0.0, .5)
-    fx('scratch', 13.6, .8); fx('boom', 14.3, .9); fx('sting', 14.3, .7)
-    fx('scratch', 29.05, .8); fx('shutter', 29.1, .6)
-    fx('rewind', 30.95, .7)
-    fx('heart', 31.75, .85, maxdur=PUSH_T - 31.75)
+    fx('scratch', DARK, .8); fx('boom', GHOST, .9); fx('sting', GHOST, .6); fx('sting', 18.9, .7); fx('sting', 22.9, .6)
+    fx('scratch', FRZ, .8); fx('shutter', FRZ + 0.05, .6)
+    fx('rewind', REW - 0.05, .7)
+    fx('heart', RPL + 0.05, .85, maxdur=PUSH_T - RPL - 0.05)
     fx('boom', PUSH_T, 1.0)
     out = np.tanh(out * 1.1) * 0.95
     pcm = (out * 32767).astype(np.int16)
