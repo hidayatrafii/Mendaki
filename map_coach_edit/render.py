@@ -17,11 +17,10 @@ MUSIC_IN = 10.0                           # start of the used section in the mus
 
 # ---------------------------------------------------------------- timeline
 FACE = {"S": (567, 675), "A91": (540, 640), "A92": (585, 640), "A95": (540, 790)}  # 1080-scale
-# Azyyati is framed chest-up (her hands sit in her pockets at y~1430 / ~1600 in the source, kept below frame);
-# Syaheer keeps his medium framing
-BASE = {"S": 1.0, "A91": 1.65, "A92": 1.65, "A95": 1.65}
-TIGHT = {"S": 1.2, "A91": 1.12, "A92": 1.12, "A95": 1.12}
-TY = {"A91": 840, "A92": 840, "A95": 840}     # face height on screen for her shots
+# Both coaches are framed chest-up at the same size (Azyyati's hands-in-pockets pose stays below frame)
+BASE = {"S": 1.65, "A91": 1.65, "A92": 1.65, "A95": 1.65}
+TIGHT = {"S": 1.12, "A91": 1.12, "A92": 1.12, "A95": 1.12}
+TY = {"S": 840, "A91": 840, "A92": 840, "A95": 840}     # face height on screen
 TITLE_DUR = 2.6                            # B-roll title card after the hook
 t0 = 0; prev = None; TS = TE = None
 for i, c in enumerate(CLIPS):
