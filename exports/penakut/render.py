@@ -91,7 +91,6 @@ def red_vig():
         im = Image.new('RGBA', (W, H), (200, 0, 0, 0)); im.putalpha(v.filter(ImageFilter.GaussianBlur(30))); RED_VIG = im
     return RED_VIG
 
-HEADER = caption([[E('📹', 54), T('CCTV EXPOSED', 46, WHITE, RED, 800), E('😱', 54)]], gap=12)
 
 # ---------------- source frame reader ----------------
 def read_frames(src, t0, src_span, speed, n, reverse=False):
@@ -106,79 +105,41 @@ def read_frames(src, t0, src_span, speed, n, reverse=False):
     return fr[:n]
 
 # ---------------- timeline ----------------
-# shot: start, end, src, t0, speed, crop0, crop1 (x,y,w,h), extras
 FULL = lambda x: (x, 0, 460, 576)
+ZOOM = (560, 176, 320, 400)
 shots = [
-    dict(s=0.0,  e=3.2,  src='v4', t0=0.0,   sp=1.0, c0=FULL(0),   c1=FULL(0)),
-    dict(s=3.2,  e=7.2,  src='v4', t0=1.0,   sp=2.0, c0=FULL(0),   c1=(20, 40, 400, 500)),
-    dict(s=7.2,  e=11.2, src='v3', t0=74.0,  sp=3.0, c0=FULL(450), c1=FULL(450)),
-    dict(s=11.2, e=11.9, src='v2', t0=12.5,  sp=1.0, c0=FULL(400), c1=FULL(400), freeze=True, dark=True),
-    dict(s=11.9, e=17.4, src='v2', t0=13.0,  sp=2.0, c0=FULL(400), c1=FULL(400), shake=(11.9, 13.6, 18), red=(11.9, 17.4)),
-    dict(s=17.4, e=21.4, src='v2', t0=40.0,  sp=3.0, c0=FULL(520), c1=FULL(520)),
-    dict(s=21.4, e=25.0, src='v4', t0=146.0, sp=2.2, c0=FULL(480), c1=FULL(480)),
-    dict(s=25.0, e=27.05, src='v3', t0=3.0,  sp=1.0, c0=FULL(500), c1=(560, 120, 365, 456)),
-    dict(s=27.05, e=29.6, src='v3', t0=5.05, sp=1.0, c0=(560, 120, 365, 456), c1=(560, 176, 320, 400), freeze=True, zoomdur=0.35),
-    dict(s=29.6, e=30.3, src='v3', t0=3.65,  sp=2.0, c0=(540, 101, 380, 475), c1=(540, 101, 380, 475), reverse=True, src_span=1.4),
-    dict(s=30.3, e=36.3, src='v3', t0=3.9,   sp=0.3, c0=(540, 101, 380, 475), c1=(560, 176, 320, 400), shake=(34.3, 35.0, 14)),
-    dict(s=36.3, e=39.8, src='v3', t0=5.7,   sp=1.0, c0=(560, 176, 320, 400), c1=FULL(500)),
-    dict(s=39.8, e=44.5, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
+    dict(s=0.0,  e=3.2,  src='v4', t0=0.0,   sp=1.0, c0=FULL(0),   c1=(20, 40, 400, 500)),
+    dict(s=3.2,  e=6.4,  src='v4', t0=1.0,   sp=2.0, c0=FULL(0),   c1=FULL(0)),
+    dict(s=6.4,  e=10.0, src='v3', t0=44.0,  sp=2.5, c0=FULL(120), c1=FULL(120)),
+    dict(s=10.0, e=13.6, src='v3', t0=74.0,  sp=3.0, c0=FULL(450), c1=FULL(450)),
+    dict(s=13.6, e=14.3, src='v2', t0=12.5,  sp=1.0, c0=FULL(400), c1=FULL(400), freeze=True, dark=True),
+    dict(s=14.3, e=19.8, src='v2', t0=13.0,  sp=2.0, c0=FULL(400), c1=FULL(400), shake=(14.3, 15.6, 14), red=(14.3, 19.8)),
+    dict(s=19.8, e=23.4, src='v2', t0=40.0,  sp=3.0, c0=FULL(520), c1=FULL(520)),
+    dict(s=23.4, e=27.0, src='v4', t0=146.0, sp=2.2, c0=FULL(480), c1=FULL(480)),
+    dict(s=27.0, e=29.05, src='v3', t0=3.0,  sp=1.0, c0=FULL(500), c1=(540, 120, 365, 456)),
+    dict(s=29.05, e=31.0, src='v3', t0=5.05, sp=1.0, c0=(540, 120, 365, 456), c1=ZOOM, freeze=True, zoomdur=0.35),
+    dict(s=31.0, e=31.7, src='v3', t0=3.65,  sp=2.0, c0=ZOOM, c1=ZOOM, reverse=True, src_span=1.4),
+    dict(s=31.7, e=37.7, src='v3', t0=3.9,   sp=0.3, c0=ZOOM, c1=ZOOM, shake=(35.7, 36.3, 12)),
+    dict(s=37.7, e=41.2, src='v3', t0=5.7,   sp=1.0, c0=ZOOM, c1=FULL(500)),
+    dict(s=41.2, e=45.9, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
 ]
 TOTAL = shots[-1]['e']
-PUSH_T = 30.3 + (5.1 - 3.9) / 0.3   # = 34.3 in output time
+PUSH_T = 31.7 + (5.1 - 3.9) / 0.3   # = 35.7
 
-# captions: (start, end, image, cx, cy, anim)
 caps = []
-def cap(s, e, lines, cy, cx=W // 2, anim='pop', **kw): caps.append((s, e, caption(lines, **kw), cx, cy, anim))
-TOP = 220
-cap(0.15, 3.15, [[T('BUKTI CCTV', 120, YEL, None, 900)], [T('SAYA PALING', 88)], [T('PENAKUT', 130, WHITE, RED, 900), E('😭', 110)]], 1000, lgap=6)
-cap(3.25, 7.15, [[T('Masuk rumah hantu,', 64, WHITE, None, 800)], [T('konon BERANI', 76, BLACK, YEL, 900), E('😎', 74)]], TOP + 50)
-cap(7.25, 11.15, [[T('Formasi', 64, WHITE, None, 800), T('ANAK AYAM', 76, BLACK, YEL, 900), E('🐥', 74)]], TOP)
-cap(8.3, 11.15, [[T('berpeluk sampai sesak nafas', 46, WHITE, None, 800)]], 1760)
-cap(11.2, 11.9, [[T('Tiba-tiba...', 96, WHITE, None, 900), E('😶', 90)]], 1000, anim='type')
-cap(11.95, 17.35, [[E('👻', 90), T('HANTU DATANG', 88, WHITE, RED, 900), E('👻', 90)]], TOP, anim='shake')
-cap(12.3, 14.4, [[T('AAAAAAAAA!!!', 120, YEL, None, 900)]], 1050, anim='wobble')
-cap(17.45, 21.35, [[T('Strategi:', 64, WHITE, None, 800), T('DUDUK DIAM', 76, BLACK, YEL, 900)], [T('& baca doa', 64, WHITE, None, 800), E('🙏', 66), E('😭', 66)]], TOP + 50)
-cap(21.45, 24.95, [[T('Misi terakhir:', 64, WHITE, None, 800)], [T('LUBANG KECIK', 76, BLACK, YEL, 900), E('🚪', 74)]], TOP + 50)
-cap(22.4, 24.95, [[T('kena bongkok masuk', 46, WHITE, None, 800)]], 1760)
-cap(25.05, 27.0, [[T('Saya: "tak nak lah..."', 66, WHITE, None, 800), E('😰', 70)]], TOP)
-cap(27.15, 29.55, [[T('Jap...', 70, WHITE, None, 800), T('REWIND', 76, BLACK, YEL, 900), E('🤨', 74)]], TOP)
-cap(29.6, 30.3, [[T('◀◀', 120, WHITE, None, 900)]], 1000, anim='blink')
-cap(30.35, PUSH_T - 0.05, [[T('Perhatikan', 64, WHITE, None, 800), T('KAWAN', 76, BLACK, YEL, 900), T('ni', 64, WHITE, None, 800), E('👀', 70)]], TOP)
-cap(PUSH_T, 36.25, [[T('DITOLAK MASUK!', 84, WHITE, RED, 900), E('💀', 80)]], TOP, anim='slam')
-cap(36.35, 39.75, [[T('Lepas tolak,', 64, WHITE, None, 800), T('dia pun', 64, WHITE, None, 800)], [T('TERJUN SEKALI', 76, BLACK, YEL, 900), E('🤣', 74)]], TOP + 50)
-cap(37.6, 39.75, [[T('kawan sejati ke ni?', 52, WHITE, None, 800), E('🤝', 56)]], 1760)
-cap(39.85, 44.4, [[T('Moral of the story:', 60, WHITE, None, 800)], [T('JANGAN PERCAYA KAWAN', 60, BLACK, YEL, 900), E('🤡', 64)]], TOP + 50)
-cap(41.6, 44.4, [[T('Penakut? Saya? Mana ada', 50, WHITE, None, 800), E('😅', 54)]], 1760)
+def cap(s, e, lines, cy, cx=W // 2, anim='fade', **kw): caps.append((s, e, caption(lines, **kw), cx, cy, anim))
+def C(text, size=64, wt=700): return ('t', text, size, WHITE, None, wt)
+cap(0.3, 3.1, [[C('bukti cctv:', 44, 600)], [C('saya penakut.', 92, 800)]], 210, lgap=0)
+cap(41.8, 45.4, [[C('terima kasih, kawan.', 64, 700)]], 220)
 
-STAMP = None
-def stamp_img():
-    global STAMP
-    if STAMP is None:
-        f = F(900, 92); txt = 'PENGKHIANAT!'; l, t_, r, b = f.getbbox(txt)
-        w, h = r - l + 70, b - t_ + 60; im = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(im)
-        d.rounded_rectangle((6, 6, w - 6, h - 6), radius=16, outline=RED + (255,), width=10)
-        d.text((35 - l, 30 - t_), txt, font=f, fill=RED + (255,))
-        STAMP = im.rotate(-12, expand=True, resample=Image.BICUBIC)
-    return STAMP
-
-def label(text, emo, col):
-    return caption([[T(text, 56, BLACK if col == YEL else WHITE, col, 900), E(emo, 60)]], gap=6)
-LBL_ME = label('SAYA', '🥲', YEL); LBL_FR = label('KAWAN', '😈', RED)
-REPLAY = caption([[E('🔁', 52), T('INSTANT REPLAY', 46, WHITE, RED, 800), T('0.3x', 46, BLACK, YEL, 800)]], gap=8)
+ME = caption([[('t', 'me', 44, BLACK, YEL, 800)]])
+FMS = ImageFont.truetype(MONO, 30)
 
 def src_to_panel(sx, sy, crop):
     x, y, w, h = crop; return PX + (sx - x) * PW / w, PY + (sy - y) * PH / h
 
-def draw_arrow(d, tip, ang, L=170, col=YEL):
-    a = math.radians(ang); tx, ty = tip
-    bx, by = tx - L * math.cos(a), ty - L * math.sin(a)
-    d.line((bx, by, tx - 40 * math.cos(a), ty - 40 * math.sin(a)), fill=BLACK, width=30)
-    d.line((bx, by, tx - 40 * math.cos(a), ty - 40 * math.sin(a)), fill=col, width=18)
-    p = [(tx, ty), (tx - 70 * math.cos(a - .5), ty - 70 * math.sin(a - .5)), (tx - 70 * math.cos(a + .5), ty - 70 * math.sin(a + .5))]
-    d.polygon(p, fill=col, outline=BLACK, width=5)
-
-def ring(d, cx, cy, r, col, w=10):
-    d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=BLACK, width=w + 6)
+def ring(d, cx, cy, r, col, w=7):
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=(0, 0, 0, 120), width=w + 4)
     d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=col, width=w)
 
 # ---------------- frame composer ----------------
@@ -207,71 +168,35 @@ def compose(t, src, crop, shot):
 
 def overlays(img, t, crop, shot):
     d = ImageDraw.Draw(img)
-    # header
-    img.alpha_composite(HEADER, ((W - HEADER.width) // 2, 40))
-    # red pulse during ghost
     if 'red' in shot and shot['red'][0] <= t < shot['red'][1]:
-        a = 0.55 + 0.45 * math.sin(t * 14)
+        a = 0.35 + 0.25 * math.sin(t * 12)
         rv = red_vig().copy(); rv.putalpha(Image.eval(rv.getchannel('A'), lambda v: int(v * a))); img.alpha_composite(rv)
-    # arrow to hole (lubang kecik)
-    if 21.9 <= t < 25.0:
-        tip = src_to_panel(870, 470, crop); k = back((t - 21.9) / 0.3); bob = 14 * math.sin(t * 10)
-        draw_arrow(d, (tip[0] - 20 + bob, tip[1] - 20 + bob), 45, L=170 * k + 1)
-    # freeze-frame labels
-    if 27.05 <= t < 29.6:
-        cr = crop
-        if t >= 27.45:
-            k = back((t - 27.45) / 0.25); cx_, cy_ = src_to_panel(705, 535, cr); ring(d, cx_, cy_, 130 * k + 1, YEL)
-            img.alpha_composite(LBL_ME, (int(cx_ - LBL_ME.width / 2), int(cy_ - 130 - LBL_ME.height)))
-        if t >= 28.0:
-            k = back((t - 28.0) / 0.25); cx_, cy_ = src_to_panel(688, 322, cr); ring(d, cx_, cy_, 150 * k + 1, RED)
-            img.alpha_composite(LBL_FR, (int(cx_ + 90), int(cy_ - 150 - LBL_FR.height // 2)))
-    # rewind lines
-    if 29.6 <= t < 30.3:
+    # freeze: ring + 'me' tag on the guy in specs
+    def tag(k, sx=690, sy=330, r=150):
+        cx_, cy_ = src_to_panel(sx, sy, crop); ring(d, cx_, cy_, r * k + 1, YEL)
+        if k > 0.9: img.alpha_composite(ME, (int(cx_ + r * 0.72), int(cy_ - r * 0.72 - ME.height)))
+    if 29.05 <= t < 31.0 and t >= 29.4: tag(back((t - 29.4) / 0.25))
+    if 31.7 <= t < PUSH_T:
+        u = clamp((t - 31.7) / (PUSH_T - 31.7)); tag(1.0, lerp(688, 700, u), lerp(322, 330, u), 140)
+    # small CCTV-style status text inside panel
+    if 31.0 <= t < 31.7 and int(t * 8) % 2 == 0:
+        d.text((W - 260, PY + 52), '<< REW', font=FM, fill=WHITE)
+    if 31.7 <= t < 37.7:
+        d.text((W - 310, PY + 52), 'REPLAY 0.3x', font=FM, fill=WHITE)
+    if 31.0 <= t < 31.7:
         r = np.random.default_rng(int(t * 100))
-        for _ in range(6):
-            yy = int(r.integers(PY, PY + PH)); d.rectangle((0, yy, W, yy + int(r.integers(3, 14))), fill=(255, 255, 255, 90))
-    # instant replay banner + tracking rings
-    if 30.3 <= t < 36.3:
-        if int(t * 3) % 3 != 0 or t > PUSH_T: img.alpha_composite(REPLAY, ((W - REPLAY.width) // 2, PY + 40))
-        if t < PUSH_T + 0.2:
-            # follow the 'me' head (moves slightly toward hole)
-            u = clamp((t - 30.3) / (PUSH_T + 0.2 - 30.3)); hx, hy = lerp(705, 735, u), lerp(540, 530, u)
-            cx_, cy_ = src_to_panel(hx, hy, crop); ring(d, cx_, cy_, 120, YEL, 8)
-            img.alpha_composite(LBL_ME, (int(cx_ - LBL_ME.width / 2), int(cy_ - 120 - LBL_ME.height)))
-        if 31.5 <= t < PUSH_T:
-            cx_, cy_ = src_to_panel(688, 322, crop); ring(d, cx_, cy_, 140, RED, 8)
-            img.alpha_composite(LBL_FR, (int(cx_ + 80), int(cy_ - 140 - LBL_FR.height // 2)))
-        if t >= PUSH_T + 0.45:
-            st = stamp_img(); k = clamp((t - PUSH_T - 0.45) / 0.18); sc = lerp(2.4, 1.0, ease(k))
-            s2 = st.resize((int(st.width * sc), int(st.height * sc)), Image.BICUBIC)
-            img.alpha_composite(s2, (int(W / 2 - s2.width / 2), int(PY + PH * 0.42 - s2.height / 2)))
-    # flash
-    for ft, dur in [(0.0, 0.25), (11.9, 0.3), (27.05, 0.2), (PUSH_T, 0.3), (36.3, 0.15)]:
+        for _ in range(5):
+            yy = int(r.integers(PY, PY + PH)); d.rectangle((0, yy, W, yy + int(r.integers(3, 12))), fill=(255, 255, 255, 70))
+    for ft, dur, k in [(0.0, 0.2, .5), (14.3, 0.25, .8), (29.05, 0.15, .6), (PUSH_T, 0.25, .7)]:
         if ft <= t < ft + dur:
-            a = int(255 * (1 - (t - ft) / dur) * 0.85); img.alpha_composite(Image.new('RGBA', (W, H), (255, 255, 255, a)))
-    # captions
+            a = int(255 * (1 - (t - ft) / dur) * k); img.alpha_composite(Image.new('RGBA', (W, H), (255, 255, 255, a)))
     for s, e, im, cx, cy, an in caps:
         if not (s <= t < e): continue
-        u = t - s; sc = 1.0; dx = dy = 0; rot = 0; alpha = 1.0
-        if an in ('pop', 'shake', 'wobble'): sc = back(u / 0.22) * 0.6 + 0.4 if u < 0.22 else 1.0
-        if an == 'slam': sc = lerp(2.2, 1.0, ease(u / 0.15))
-        if an == 'shake': dx, dy = 6 * math.sin(t * 53), 5 * math.cos(t * 41)
-        if an == 'wobble': rot = 6 * math.sin(t * 18); sc *= 1 + 0.06 * math.sin(t * 25)
-        if an == 'blink' and int(t * 8) % 2: continue
-        if e - t < 0.1: alpha = (e - t) / 0.1
-        im2 = im
-        if an == 'type':
-            n = int(clamp(u / 0.45) * im.width); im2 = im.crop((0, 0, max(1, n), im.height))
-            img.alpha_composite(im2, (int(cx - im.width / 2), int(cy - im.height / 2))); continue
-        if sc != 1.0 or rot:
-            im2 = im.resize((max(1, int(im.width * sc)), max(1, int(im.height * sc))), Image.BICUBIC)
-            if rot: im2 = im2.rotate(rot, expand=True, resample=Image.BICUBIC)
-        if alpha < 1: im2 = im2.copy(); im2.putalpha(Image.eval(im2.getchannel('A'), lambda v: int(v * alpha)))
-        img.alpha_composite(im2, (int(cx - im2.width / 2 + dx), int(cy - im2.height / 2 + dy)))
-    # end fade
-    if t > TOTAL - 0.6:
-        img.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * clamp((t - TOTAL + 0.6) / 0.6)))))
+        alpha = min(1.0, (t - s) / 0.3, (e - t) / 0.3); dy = int(12 * (1 - ease((t - s) / 0.4)))
+        im2 = im.copy(); im2.putalpha(Image.eval(im2.getchannel('A'), lambda v: int(v * alpha)))
+        img.alpha_composite(im2, (int(cx - im.width / 2), int(cy - im.height / 2 + dy)))
+    if t > TOTAL - 0.8:
+        img.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * clamp((t - TOTAL + 0.8) / 0.8)))))
     return img
 
 # ---------------- render video ----------------
@@ -310,24 +235,20 @@ def render_audio(path):
         n = len(seg); e = np.ones(n, np.float32)
         fi, fo = int(fin * SR), int(fout * SR); e[:fi] = np.linspace(0, 1, fi); e[n - fo:] = np.minimum(e[n - fo:], np.linspace(1, 0, fo))
         out[a:a + n] += seg * e[:, None]
-    put_music(0.0, 11.2, 0.0, 0.55)                       # sneaky intro
-    put_music(17.4, 27.05, 11.2, 0.55, fin=0.4)           # resume after ghost
-    put_music(36.3, 44.5, 20.85, 0.5, fin=0.3, fout=1.2)  # resume after replay
+    put_music(0.0, 13.6, 0.0, 0.55, fout=0.05)
+    put_music(19.8, 29.05, 13.6, 0.55, fin=0.5)
+    put_music(37.7, TOTAL, 22.85, 0.5, fin=0.4, fout=1.5)
     S = SFX.all_sfx()
     def fx(name, at, vol=1.0, maxdur=None):
         s = S[name]
         if maxdur: s = s[:int(maxdur * SR)]
         a = int(at * SR); n = min(len(s), N - a); out[a:a + n] += (s[:n] * vol)[:, None]
-    fx('whoosh', 0.0, .8); fx('boom', 0.15, .8); fx('ding', 1.0, .6)
-    for tt in [3.25, 4.0, 7.25, 8.3, 17.45, 18.2, 21.45, 22.4, 25.05]: fx('pop', tt, .7)
-    fx('whoosh', 21.8, .6)
-    fx('scratch', 11.2, .9); fx('boom', 11.9, 1.0); fx('sting', 11.9, .8); fx('sting', 14.4, .5)
-    fx('scratch', 27.05, .9); fx('shutter', 27.1, .8); fx('pop', 27.45, .8); fx('pop', 28.0, .8); fx('ding', 28.0, .4)
-    fx('rewind', 29.55, .9)
-    fx('heart', 30.35, .9, maxdur=PUSH_T - 30.35)
-    fx('boom', PUSH_T, 1.0); fx('slide', PUSH_T + 0.3, .8); fx('boing', PUSH_T + 0.45, .7)
-    fx('whoosh', 36.2, .6); fx('boing', 36.9, .6)
-    fx('pop', 39.85, .7); fx('trombone', 41.6, .9)
+    fx('whoosh', 0.0, .5)
+    fx('scratch', 13.6, .8); fx('boom', 14.3, .9); fx('sting', 14.3, .7)
+    fx('scratch', 29.05, .8); fx('shutter', 29.1, .6)
+    fx('rewind', 30.95, .7)
+    fx('heart', 31.75, .85, maxdur=PUSH_T - 31.75)
+    fx('boom', PUSH_T, 1.0)
     out = np.tanh(out * 1.1) * 0.95
     pcm = (out * 32767).astype(np.int16)
     with wave.open(path, 'wb') as wv:
