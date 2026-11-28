@@ -141,10 +141,10 @@ PUSH_T = RPL + (44.8 - 43.4) / 0.4
 caps = []
 def cap(s, e, lines, cy, cx=W // 2, anim='fade', **kw): caps.append((s, e, caption(lines, **kw), cx, cy, anim))
 def C(text, size=64, wt=700): return ('t', text, size, WHITE, None, wt)
-cap(0.3, 3.1, [[C('bukti cctv:', 44, 600)], [C('saya penakut.', 92, 800)]], 210, lgap=0)
-cap(6.15, 9.45, [[C('kawan semua dah lari.', 60, 700)]], 230)
-cap(29.2, 33.7, [[C('strategi: main mati.', 60, 700)]], 230)
-cap(55.7, 59.4, [[C('terima kasih, kawan.', 64, 700)]], 220)
+cap(0.3, 3.1, [[C('cctv proof:', 44, 600)], [C("i'm a scaredy cat.", 80, 800)]], 210, lgap=0)
+cap(6.15, 9.45, [[C('my friends left me.', 60, 700)]], 230)
+cap(29.2, 33.7, [[C('strategy: play dead.', 60, 700)]], 230)
+cap(55.7, 59.4, [[C('thanks, buddy.', 64, 700)]], 220)
 
 ME = caption([[('t', 'me', 44, BLACK, YEL, 800)]])
 ME_LIE, ASY_LIE = (733, 248), (815, 425)
