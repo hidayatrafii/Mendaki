@@ -108,6 +108,7 @@ def read_frames(src, t0, src_span, speed, n, reverse=False):
 FULL = lambda x: (x, 0, 460, 576)
 ZOOM = (560, 176, 320, 400)
 LIE = (520, 60, 400, 500)
+PZ = (200, 0, 280, 350)
 shots = [
     dict(s=0.0,  e=3.2,  src='v4', t0=0.0,   sp=1.0, c0=FULL(0),   c1=(20, 40, 400, 500)),
     dict(s=3.2,  e=6.0,  src='v4', t0=1.0,   sp=2.0, c0=FULL(0),   c1=FULL(0)),
@@ -123,18 +124,19 @@ shots = [
     dict(s=27.9, e=28.8, src='v2', t0=28.0,  sp=1.0, c0=(470, 30, 420, 525), c1=(560, 120, 330, 412), freeze=True, zoomdur=0.12, red=(19.6, 28.8)),
     dict(s=28.8, e=33.8, src='v2', t0=60.0,  sp=6.0, c0=LIE, c1=LIE),
     dict(s=33.8, e=37.8, src='v2', t0=96.0,  sp=2.0, c0=LIE, c1=(560, 120, 360, 450)),
-    dict(s=37.8, e=39.85, src='v3', t0=3.0,  sp=1.0, c0=FULL(500), c1=(540, 120, 365, 456)),
-    dict(s=39.85, e=41.8, src='v3', t0=5.05, sp=1.0, c0=(540, 120, 365, 456), c1=ZOOM, freeze=True, zoomdur=0.35),
-    dict(s=41.8, e=42.5, src='v3', t0=3.65,  sp=2.0, c0=ZOOM, c1=ZOOM, reverse=True, src_span=1.4),
-    dict(s=42.5, e=48.5, src='v3', t0=3.9,   sp=0.3, c0=ZOOM, c1=ZOOM, shake=(46.5, 47.1, 12)),
-    dict(s=48.5, e=52.0, src='v3', t0=5.7,   sp=1.0, c0=ZOOM, c1=FULL(500)),
-    dict(s=52.0, e=56.7, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
+    dict(s=37.8, e=41.3, src='v1', t0=34.0,  sp=2.0, c0=(100, 0, 460, 576), c1=(140, 0, 380, 475), bright=True),
+    dict(s=41.3, e=43.3, src='v1', t0=41.0,  sp=2.0, c0=(140, 0, 380, 475), c1=(170, 0, 330, 412), bright=True),
+    dict(s=43.3, e=45.0, src='v1', t0=45.0,  sp=1.0, c0=(170, 0, 330, 412), c1=PZ, freeze=True, zoomdur=0.3, bright=True),
+    dict(s=45.0, e=45.7, src='v1', t0=43.4,  sp=2.0, c0=PZ, c1=PZ, reverse=True, src_span=1.6, bright=True),
+    dict(s=45.7, e=51.7, src='v1', t0=43.4,  sp=0.4, c0=(170, 0, 330, 412), c1=PZ, shake=(49.2, 49.8, 12), bright=True),
+    dict(s=51.7, e=55.2, src='v1', t0=46.0,  sp=2.0, c0=PZ, c1=(100, 0, 460, 576), bright=True),
+    dict(s=55.2, e=59.9, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
 ]
 TOTAL = shots[-1]['e']
-DARK, GHOST, FRZ, REW, RPL, AFTER = 15.9, 16.6, 39.85, 41.8, 42.5, 48.5
+DARK, GHOST, FRZ, REW, RPL, AFTER = 15.9, 16.6, 43.3, 45.0, 45.7, 51.7
 LIE0, LIE1, BOTH0, BOTH1 = 28.8, 33.8, 33.8, 37.8
 PUNCH = [8.6, 12.3, 27.9]
-PUSH_T = RPL + (5.1 - 3.9) / 0.3
+PUSH_T = RPL + (44.8 - 43.4) / 0.4
 
 caps = []
 def cap(s, e, lines, cy, cx=W // 2, anim='fade', **kw): caps.append((s, e, caption(lines, **kw), cx, cy, anim))
@@ -142,7 +144,7 @@ def C(text, size=64, wt=700): return ('t', text, size, WHITE, None, wt)
 cap(0.3, 3.1, [[C('bukti cctv:', 44, 600)], [C('saya penakut.', 92, 800)]], 210, lgap=0)
 cap(6.15, 9.45, [[C('kawan semua dah lari.', 60, 700)]], 230)
 cap(29.2, 33.7, [[C('strategi: main mati.', 60, 700)]], 230)
-cap(52.6, 56.2, [[C('terima kasih, kawan.', 64, 700)]], 220)
+cap(55.7, 59.4, [[C('terima kasih, kawan.', 64, 700)]], 220)
 
 ME = caption([[('t', 'me', 44, BLACK, YEL, 800)]])
 ME_LIE, ASY_LIE = (733, 248), (815, 425)
@@ -162,6 +164,7 @@ def compose(t, src, crop, shot):
     cx = SW // 2 - 162; bg = Image.fromarray(src[:, cx:cx + 324]).resize((54, 96), Image.BILINEAR)
     bg = bg.filter(ImageFilter.GaussianBlur(3)).resize((W, H), Image.BILINEAR)
     bg = Image.eval(bg, lambda v: int(v * 0.35)).convert('RGBA')
+    if shot.get('bright'): src = np.clip(src.astype(np.float32) * 1.9 + 8, 0, 255).astype(np.uint8)
     x, y, w, h = crop
     x = clamp(x, 0, SW - w); y = clamp(y, 0, SH - h)
     pan = Image.fromarray(src).resize((PW, PH), Image.BILINEAR, box=(x, y, x + w, y + h)).convert('RGBA')
@@ -189,23 +192,12 @@ def overlays(img, t, crop, shot):
     def tag(k, sx=690, sy=330, r=150):
         cx_, cy_ = src_to_panel(sx, sy, crop); ring(d, cx_, cy_, r * k + 1, YEL)
         if k > 0.9: img.alpha_composite(ME, (int(cx_ + r * 0.72), int(cy_ - r * 0.72 - ME.height)))
-    if FRZ + 0.35 <= t < REW: tag(back((t - FRZ - 0.35) / 0.25))
-    if RPL <= t < PUSH_T:
-        u = clamp((t - RPL) / (PUSH_T - RPL)); tag(1.0, lerp(688, 700, u), lerp(322, 330, u), 140)
-    # names on the two lying on the floor
-    if BOTH0 + 0.4 <= t < BOTH1:
-        k = back((t - BOTH0 - 0.4) / 0.25)
-        for (sx, sy), lab in [(ME_LIE, ME), (ASY_LIE, ASY)]:
-            cx_, cy_ = src_to_panel(sx, sy, crop)
-            if k > 0.05:
-                l2 = lab.resize((max(1, int(lab.width * k)), max(1, int(lab.height * k))))
-                img.alpha_composite(l2, (int(cx_ - l2.width / 2), int(cy_ - l2.height / 2)))
     if LIE0 <= t < LIE1:
         d.text((W - 200, PY + 52), '>> 6x', font=FM, fill=WHITE)
     if REW <= t < RPL and int(t * 8) % 2 == 0:
         d.text((W - 260, PY + 52), '<< REW', font=FM, fill=WHITE)
     if RPL <= t < AFTER:
-        d.text((W - 310, PY + 52), 'REPLAY 0.3x', font=FM, fill=WHITE)
+        d.text((W - 310, PY + 52), 'REPLAY 0.4x', font=FM, fill=WHITE)
     if REW <= t < RPL:
         r = np.random.default_rng(int(t * 100))
         for _ in range(5):
@@ -260,6 +252,7 @@ def render_audio(path):
         out[a:a + n] += seg * e[:, None]
     put_music(0.0, DARK, 0.0, 0.55, fout=0.05)
     put_music(BOTH0, FRZ, DARK, 0.55, fin=0.3)
+    
     put_music(AFTER, TOTAL, DARK + FRZ - BOTH0, 0.5, fin=0.4, fout=1.5)
     S = SFX.all_sfx()
     def fx(name, at, vol=1.0, maxdur=None):
