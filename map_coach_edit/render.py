@@ -16,9 +16,12 @@ TAIL = 4.0                                # end card after the last word
 MUSIC_IN = 10.0                           # start of the used section in the music file (track 1 ends ~98 s)
 
 # ---------------------------------------------------------------- timeline
-FACE = {"S": (567, 675), "A91": (553, 661), "A92": (540, 648), "A95": (537, 750)}  # 1080-scale
-BASE = {"S": 1.0, "A91": 1.0, "A92": 1.12, "A95": 1.12}
-TY = {}
+FACE = {"S": (567, 675), "A91": (540, 640), "A92": (585, 640), "A95": (540, 790)}  # 1080-scale
+# Azyyati is framed chest-up (her hands sit in her pockets at y~1430 / ~1600 in the source, kept below frame);
+# Syaheer keeps his medium framing
+BASE = {"S": 1.0, "A91": 1.65, "A92": 1.65, "A95": 1.65}
+TIGHT = {"S": 1.2, "A91": 1.12, "A92": 1.12, "A95": 1.12}
+TY = {"A91": 840, "A92": 840, "A95": 840}     # face height on screen for her shots
 TITLE_DUR = 2.6                            # B-roll title card after the hook
 t0 = 0; prev = None; TS = TE = None
 for i, c in enumerate(CLIPS):
@@ -29,7 +32,7 @@ for i, c in enumerate(CLIPS):
     # alternates only between consecutive answers of the same speaker
     same = prev is not None and prev["parent"] == c["parent"]
     tight = prev["tight"] if same else ((not prev["tight"]) if prev and prev["key"] == c["key"] else c["zoom"] > 1)
-    c["tight"] = tight; c["z"] = BASE[c["key"]] * (1.2 if tight else 1.0)
+    c["tight"] = tight; c["z"] = BASE[c["key"]] * (TIGHT[c["key"]] if tight else 1.0)
     c["xfade"] = same
     c["settle"] = prev is None or prev["sec"] != c["sec"]          # soft push-in at the start of each section
     prev = c
@@ -254,7 +257,7 @@ def render(out, limit=None):
     enc = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
                             "-r", "30000/1001", "-i", "-", "-i", f"{WORK}/mapc_voice.wav", "-i", f"{FOOT}/music.mp3",
                             "-i", f"{WORK}/mapc_sfx.wav", "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
-                            "-c:v", "libx264", "-crf", "17", "-preset", "medium", "-profile:v", "high", "-pix_fmt", "yuv420p",
+                            "-c:v", "libx264", "-crf", "18", "-preset", "slow", "-profile:v", "high", "-pix_fmt", "yuv420p",
                             "-r", "30000/1001", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
                             "-t", f"{nt / FPS:.4f}", out], stdin=subprocess.PIPE)
     ci = 0; rd = None; br = {}; tail_rd = None; title_rd = None; last_base = None; held = None; XF = 3
@@ -276,7 +279,7 @@ def render(out, limit=None):
             z = c["z"]
             if c["settle"] and ci > 0 and c["f0"] != TE: z *= 1 + 0.045 * (1 - ease(lt / 0.4))
             fx, fy = FACE[c["key"]]
-            frame = img.resize((W, H), Image.BILINEAR, box=zoom_box(fx, fy, z, DW, DH, TY.get(c["key"])))
+            frame = img.resize((W, H), Image.BICUBIC, box=zoom_box(fx, fy, z, DW, DH, TY.get(c["key"])))
             k_in = f - c["f0"]                        # pause cut inside an answer: 3-frame soft dissolve, no zoom jump
             if held is not None and k_in < XF: frame = Image.blend(held, frame, (k_in + 1) / (XF + 1))
             last_base = frame
