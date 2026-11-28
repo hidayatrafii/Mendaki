@@ -80,6 +80,14 @@ def trombone():
     return norm(np.concatenate(out),0.6)
 def tick():
     d=0.04; tt=t(d); return norm(rng.standard_normal(len(tt))*np.exp(-tt*200),0.4)
+def crickets(d):
+    tt=t(d); out=np.zeros_like(tt)
+    for start in np.arange(0.15,d-0.4,0.75):
+        for j in range(3):
+            a=int((start+j*0.07)*SR); n=int(0.045*SR)
+            if a+n>len(out): break
+            u=np.arange(n)/SR; out[a:a+n]+=np.sin(2*np.pi*4600*u)*(0.5+0.5*np.sin(2*np.pi*90*u))*np.hanning(n)
+    return norm(out,0.35)
 def all_sfx():
     return dict(whoosh=whoosh(),pop=pop(),boom=boom(),scratch=scratch(),sting=sting(),slide=slide_down(),
                 boing=boing(),rewind=rewind(),ding=ding(),shutter=shutter(),heart=heartbeat(),trombone=trombone(),tick=tick())

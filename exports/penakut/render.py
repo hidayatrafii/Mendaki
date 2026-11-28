@@ -111,32 +111,38 @@ LIE = (520, 60, 400, 500)
 shots = [
     dict(s=0.0,  e=3.2,  src='v4', t0=0.0,   sp=1.0, c0=FULL(0),   c1=(20, 40, 400, 500)),
     dict(s=3.2,  e=6.0,  src='v4', t0=1.0,   sp=2.0, c0=FULL(0),   c1=FULL(0)),
-    dict(s=6.0,  e=9.2,  src='v3', t0=44.0,  sp=2.5, c0=FULL(120), c1=FULL(120)),
-    dict(s=9.2,  e=12.2, src='v3', t0=66.0,  sp=2.5, c0=FULL(380), c1=FULL(380)),
-    dict(s=12.2, e=15.2, src='v3', t0=74.0,  sp=3.0, c0=FULL(450), c1=FULL(450)),
-    dict(s=15.2, e=15.9, src='v2', t0=12.5,  sp=1.0, c0=FULL(400), c1=FULL(400), freeze=True, dark=True),
-    dict(s=15.9, e=18.9, src='v2', t0=7.0,   sp=1.2, c0=FULL(250), c1=(250, 60, 400, 500), shake=(15.9, 17.0, 10)),
-    dict(s=18.9, e=22.9, src='v2', t0=13.0,  sp=2.0, c0=FULL(400), c1=FULL(400), shake=(18.9, 19.9, 12), red=(18.9, 28.4)),
-    dict(s=22.9, e=28.4, src='v2', t0=22.0,  sp=1.4, c0=FULL(480), c1=(540, 76, 400, 500), red=(18.9, 28.4)),
-    dict(s=28.4, e=33.4, src='v2', t0=60.0,  sp=6.0, c0=LIE, c1=LIE),
-    dict(s=33.4, e=37.4, src='v2', t0=96.0,  sp=2.0, c0=LIE, c1=(560, 120, 360, 450)),
-    dict(s=37.4, e=39.45, src='v3', t0=3.0,  sp=1.0, c0=FULL(500), c1=(540, 120, 365, 456)),
-    dict(s=39.45, e=41.4, src='v3', t0=5.05, sp=1.0, c0=(540, 120, 365, 456), c1=ZOOM, freeze=True, zoomdur=0.35),
-    dict(s=41.4, e=42.1, src='v3', t0=3.65,  sp=2.0, c0=ZOOM, c1=ZOOM, reverse=True, src_span=1.4),
-    dict(s=42.1, e=48.1, src='v3', t0=3.9,   sp=0.3, c0=ZOOM, c1=ZOOM, shake=(46.1, 46.7, 12)),
-    dict(s=48.1, e=51.6, src='v3', t0=5.7,   sp=1.0, c0=ZOOM, c1=FULL(500)),
-    dict(s=51.6, e=56.3, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
+    dict(s=6.0,  e=8.6,  src='v3', t0=50.0,  sp=2.0, c0=FULL(60),  c1=FULL(60)),
+    dict(s=8.6,  e=9.5,  src='v3', t0=56.0,  sp=1.0, c0=FULL(60),  c1=(180, 202, 300, 375), freeze=True, zoomdur=0.12),
+    dict(s=9.5,  e=12.3, src='v3', t0=66.0,  sp=2.5, c0=FULL(380), c1=FULL(380)),
+    dict(s=12.3, e=12.9, src='v3', t0=73.0,  sp=1.0, c0=FULL(380), c1=(560, 60, 380, 475), freeze=True, zoomdur=0.12),
+    dict(s=12.9, e=15.9, src='v3', t0=74.0,  sp=3.0, c0=FULL(450), c1=FULL(450)),
+    dict(s=15.9, e=16.6, src='v2', t0=12.5,  sp=1.0, c0=FULL(400), c1=FULL(400), freeze=True, dark=True),
+    dict(s=16.6, e=19.6, src='v2', t0=7.0,   sp=1.2, c0=FULL(250), c1=(250, 60, 400, 500), shake=(16.6, 17.7, 10)),
+    dict(s=19.6, e=23.6, src='v2', t0=13.0,  sp=2.0, c0=FULL(400), c1=FULL(400), shake=(19.6, 20.6, 12), red=(19.6, 28.8)),
+    dict(s=23.6, e=27.9, src='v2', t0=22.0,  sp=1.4, c0=FULL(480), c1=(470, 30, 420, 525), red=(19.6, 28.8)),
+    dict(s=27.9, e=28.8, src='v2', t0=28.0,  sp=1.0, c0=(470, 30, 420, 525), c1=(560, 120, 330, 412), freeze=True, zoomdur=0.12, red=(19.6, 28.8)),
+    dict(s=28.8, e=33.8, src='v2', t0=60.0,  sp=6.0, c0=LIE, c1=LIE),
+    dict(s=33.8, e=37.8, src='v2', t0=96.0,  sp=2.0, c0=LIE, c1=(560, 120, 360, 450)),
+    dict(s=37.8, e=39.85, src='v3', t0=3.0,  sp=1.0, c0=FULL(500), c1=(540, 120, 365, 456)),
+    dict(s=39.85, e=41.8, src='v3', t0=5.05, sp=1.0, c0=(540, 120, 365, 456), c1=ZOOM, freeze=True, zoomdur=0.35),
+    dict(s=41.8, e=42.5, src='v3', t0=3.65,  sp=2.0, c0=ZOOM, c1=ZOOM, reverse=True, src_span=1.4),
+    dict(s=42.5, e=48.5, src='v3', t0=3.9,   sp=0.3, c0=ZOOM, c1=ZOOM, shake=(46.5, 47.1, 12)),
+    dict(s=48.5, e=52.0, src='v3', t0=5.7,   sp=1.0, c0=ZOOM, c1=FULL(500)),
+    dict(s=52.0, e=56.7, src='v1', t0=64.0,  sp=1.5, c0=FULL(380), c1=FULL(380)),
 ]
 TOTAL = shots[-1]['e']
-DARK, GHOST, FRZ, REW, RPL, AFTER = 15.2, 15.9, 39.45, 41.4, 42.1, 48.1
-LIE0, LIE1, BOTH0, BOTH1 = 28.4, 33.4, 33.4, 37.4
+DARK, GHOST, FRZ, REW, RPL, AFTER = 15.9, 16.6, 39.85, 41.8, 42.5, 48.5
+LIE0, LIE1, BOTH0, BOTH1 = 28.8, 33.8, 33.8, 37.8
+PUNCH = [8.6, 12.3, 27.9]
 PUSH_T = RPL + (5.1 - 3.9) / 0.3
 
 caps = []
 def cap(s, e, lines, cy, cx=W // 2, anim='fade', **kw): caps.append((s, e, caption(lines, **kw), cx, cy, anim))
 def C(text, size=64, wt=700): return ('t', text, size, WHITE, None, wt)
 cap(0.3, 3.1, [[C('bukti cctv:', 44, 600)], [C('saya penakut.', 92, 800)]], 210, lgap=0)
-cap(52.2, 55.8, [[C('terima kasih, kawan.', 64, 700)]], 220)
+cap(6.15, 9.45, [[C('kawan semua dah lari.', 60, 700)]], 230)
+cap(29.2, 33.7, [[C('strategi: main mati.', 60, 700)]], 230)
+cap(52.6, 56.2, [[C('terima kasih, kawan.', 64, 700)]], 220)
 
 ME = caption([[('t', 'me', 44, BLACK, YEL, 800)]])
 ME_LIE, ASY_LIE = (733, 248), (815, 425)
@@ -204,7 +210,7 @@ def overlays(img, t, crop, shot):
         r = np.random.default_rng(int(t * 100))
         for _ in range(5):
             yy = int(r.integers(PY, PY + PH)); d.rectangle((0, yy, W, yy + int(r.integers(3, 12))), fill=(255, 255, 255, 70))
-    for ft, dur, k in [(0.0, 0.2, .5), (GHOST, 0.25, .8), (FRZ, 0.15, .6), (PUSH_T, 0.25, .7)]:
+    for ft, dur, k in [(0.0, 0.2, .5), (GHOST, 0.25, .8), (FRZ, 0.15, .6), (PUSH_T, 0.25, .7)] + [(p_, 0.12, .5) for p_ in PUNCH]:
         if ft <= t < ft + dur:
             a = int(255 * (1 - (t - ft) / dur) * k); img.alpha_composite(Image.new('RGBA', (W, H), (255, 255, 255, a)))
     for s, e, im, cx, cy, an in caps:
@@ -253,14 +259,17 @@ def render_audio(path):
         fi, fo = int(fin * SR), int(fout * SR); e[:fi] = np.linspace(0, 1, fi); e[n - fo:] = np.minimum(e[n - fo:], np.linspace(1, 0, fo))
         out[a:a + n] += seg * e[:, None]
     put_music(0.0, DARK, 0.0, 0.55, fout=0.05)
-    put_music(LIE0, FRZ, DARK, 0.55, fin=0.6)
-    put_music(AFTER, TOTAL, DARK + FRZ - LIE0, 0.5, fin=0.4, fout=1.5)
+    put_music(BOTH0, FRZ, DARK, 0.55, fin=0.3)
+    put_music(AFTER, TOTAL, DARK + FRZ - BOTH0, 0.5, fin=0.4, fout=1.5)
     S = SFX.all_sfx()
     def fx(name, at, vol=1.0, maxdur=None):
         s = S[name]
         if maxdur: s = s[:int(maxdur * SR)]
         a = int(at * SR); n = min(len(s), N - a); out[a:a + n] += (s[:n] * vol)[:, None]
     fx('whoosh', 0.0, .5)
+    for p_ in PUNCH: fx('boom', p_, .9)
+    fx('scratch', 27.85, .6)
+    crk = SFX.crickets(LIE1 - LIE0); a_ = int(LIE0 * SR); out[a_:a_ + len(crk)] += (crk * .5)[:, None]
     fx('scratch', DARK, .8); fx('boom', GHOST, .9); fx('sting', GHOST, .6); fx('sting', 18.9, .7); fx('sting', 22.9, .6)
     fx('scratch', FRZ, .8); fx('shutter', FRZ + 0.05, .6)
     fx('rewind', REW - 0.05, .7)
